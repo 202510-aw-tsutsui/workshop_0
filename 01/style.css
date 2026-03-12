@@ -143,19 +143,27 @@ ul {
 .gnav {
     background: rgba(255, 255, 255, 0.88);
     border-radius: 2px;
-    padding: 12px 20px;
+    width: 100%;
+    padding: 0;
 }
 
 .gnav ul {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0;
+    width: 100%;
 }
 
 .gnav a {
-    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 80px;
+    font-size: 1.3rem;
     font-weight: 500;
+    line-height: 1.2;
 }
 
 /* hero */
@@ -832,7 +840,13 @@ ul {
     }
 
     .gnav ul {
-        gap: 14px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .gnav a {
+        min-height: 56px;
+        font-size: 1rem;
     }
 
     .hero,
