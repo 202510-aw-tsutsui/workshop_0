@@ -57,50 +57,60 @@
     const reviewPages = [
         [
             {
+                nickname: "ゆり",
                 text: "初めての調香でしたが、スタッフの方が丁寧に説明してくださり、安心して体験できました。香りの組み合わせを考える時間もとても楽しく、思い出に残りました。",
                 meta: "★★★★★<br>女性 / 20代"
             },
             {
+                nickname: "mika",
                 text: "たくさんの香りから好きなものを選べるのが魅力的でした。恋人と一緒に参加して、良い記念日になりました。",
                 meta: "★★★★★<br>女性 / 10代"
             }
         ],
         [
             {
+                nickname: "hana",
                 text: "店内の雰囲気が落ち着いていて、ゆっくり香りを選べました。初心者でも分かりやすかったです。",
                 meta: "★★★★★<br>女性 / 30代"
             },
             {
+                nickname: "kei",
                 text: "友人と一緒に参加しましたが、それぞれ違う香りになって面白かったです。",
                 meta: "★★★★★<br>男性 / 20代"
             }
         ],
         [
             {
+                nickname: "saya",
                 text: "説明がわかりやすく、香料の違いをしっかり体感できました。完成後の香りにも満足です。",
                 meta: "★★★★★<br>女性 / 20代"
             },
             {
+                nickname: "rina",
                 text: "旅行の思い出として参加しました。短時間で体験できるのに内容が濃くてよかったです。",
                 meta: "★★★★★<br>女性 / 20代"
             }
         ],
         [
             {
+                nickname: "momo",
                 text: "香りの調整が細かくできて、選ぶ時間そのものが楽しかったです。仕上がりにもとても満足しています。",
                 meta: "★★★★★<br>女性 / 40代"
             },
             {
+                nickname: "eri",
                 text: "接客が丁寧で心地よく過ごせました。次は別の香りでもう一度作ってみたいです。",
                 meta: "★★★★★<br>女性 / 30代"
             }
         ],
         [
             {
+                nickname: "noa",
                 text: "予約後の連絡もスムーズで安心できました。体験中のサポートも十分で良かったです。",
                 meta: "★★★★★<br>女性 / 20代"
             },
             {
+                nickname: "aki",
                 text: "親子で参加しましたが、日程も調整しやすく、説明も丁寧で安心して楽しめました。",
                 meta: "★★★★★<br>女性 / 30代"
             }
@@ -110,7 +120,15 @@
     function createReviewCard(review) {
         return `
       <article class="review-card">
-        <div class="review-icon">★</div>
+        <div class="review-user">
+          <div class="review-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
+            </svg>
+          </div>
+          <p class="review-nickname">${review.nickname}</p>
+        </div>
         <div class="review-body">
           <p class="review-text">${review.text}</p>
           <p class="review-meta">${review.meta}</p>

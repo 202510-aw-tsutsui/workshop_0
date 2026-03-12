@@ -593,9 +593,34 @@ ul {
     gap: 18px;
 }
 
+.review-user {
+    width: 90px;
+    text-align: center;
+}
+
 .review-icon {
-    font-size: 2rem;
-    line-height: 1;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    background: #eadfd8;
+    display: grid;
+    place-items: center;
+}
+
+.review-icon svg {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: #6b5244;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.review-nickname {
+    font-size: 0.8rem;
+    color: #5c4b40;
 }
 
 .review-text {
