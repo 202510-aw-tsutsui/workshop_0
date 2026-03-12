@@ -308,6 +308,10 @@ ul {
 }
 
 /* price */
+.price-section .inner {
+    width: min(1120px, 96%);
+}
+
 .price-content {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
@@ -340,6 +344,11 @@ ul {
     flex: 1;
     padding-top: 6px;
     font-size: 0.98rem;
+}
+
+.price-note {
+    white-space: nowrap;
+    font-size: 0.72rem;
 }
 
 .price-value strong {
