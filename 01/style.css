@@ -255,8 +255,8 @@ ul {
 }
 
 .section-title-box {
-    width: min(740px, 92%);
-    min-height: 96px;
+    width: min(660px, 88%);
+    min-height: 78px;
     margin: 0;
     display: flex;
     align-items: center;
@@ -265,8 +265,8 @@ ul {
     background: #ead4c9;
     border: 1px solid #b89687;
     border-radius: 999px;
-    padding: 26px 24px;
-    font-size: 2.4rem;
+    padding: 18px 20px;
+    font-size: 2rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     line-height: 1;
@@ -578,7 +578,10 @@ ul {
 
 .calendar-reserve-btn {
     margin-top: 14px;
-    min-width: 260px;
+    min-width: 320px;
+    min-height: 62px;
+    padding: 14px 24px;
+    font-size: 1.05rem;
 }
 
 .calendar-reserve-btn[aria-disabled="true"] {
@@ -591,6 +594,11 @@ ul {
     padding: 20px;
     font-size: 0.85rem;
     color: #4a403b;
+    max-width: 620px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 /* photos */
@@ -679,19 +687,26 @@ ul {
     border: 1px solid #d8c6bd;
     background: #f9f7f6;
     padding: 24px;
-    display: flex;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    column-gap: 18px;
+    align-items: start;
 }
 
 .review-user {
-    width: 90px;
+    width: 120px;
     text-align: center;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    justify-items: center;
+    row-gap: 6px;
+    align-self: start;
 }
 
 .review-icon {
     width: 56px;
     height: 56px;
-    margin: 0 auto 8px;
+    margin: 0;
     border-radius: 50%;
     background: #eadfd8;
     display: grid;
@@ -711,6 +726,8 @@ ul {
 .review-nickname {
     font-size: 0.8rem;
     color: #5c4b40;
+    line-height: 1.2;
+    margin: 0;
 }
 
 .review-text {
@@ -718,9 +735,26 @@ ul {
     font-size: 0.95rem;
 }
 
+.review-rating {
+    color: #d9a441;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+}
+
+.review-body {
+    align-self: start;
+}
+
 .review-meta {
     font-size: 0.82rem;
-    line-height: 1.5;
+    line-height: 1.2;
+    color: #5d514a;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
+    margin: 0;
 }
 
 .pagination {
@@ -767,6 +801,21 @@ ul {
 .form-group label span {
     color: #d33;
     font-size: 0.78rem;
+}
+
+.policy-agree-label {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+#cancel-policy-agree {
+    width: auto;
+    margin: 0;
+    accent-color: #6d5b55;
 }
 
 .form-group input,
