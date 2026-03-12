@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inori | ご予約（決済）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-top">
+      <div class="sns-icons">
+        <a href="#" class="sns-icon" aria-label="LINE">
+          <img src="https://cdn.simpleicons.org/line/06C755" alt="LINE" />
+        </a>
+        <a href="#" class="sns-icon" aria-label="Instagram">
+          <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" />
+        </a>
+        <button type="button" class="lang-btn">JP/EN</button>
+      </div>
+
+      <div class="logo-group">
+        <div class="logo-image-wrap" aria-hidden="true">
+          <img src="inori-logo.png" alt="inori logo" class="logo-image" />
+        </div>
+        <h1 class="logo">inori</h1>
+      </div>
+
+      <div class="header-actions">
+        <a href="#" class="pill-btn white">予約</a>
+        <a href="#" class="pill-btn orange">じゃらん</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-image" aria-label="トップ画像"></div>
+    </section>
+
+    <section class="reserve-title-wrap">
+      <div class="reserve-title">ご予約</div>
+    </section>
+
+    <section class="section payment-section">
+      <div class="stepper" aria-label="予約ステップ">
+        <span class="step">①入力</span>
+        <span class="step active">②決済</span>
+        <span class="step">③確認</span>
+        <span class="step">④完了</span>
+      </div>
+
+      <div class="heading-wrap">
+        <h2 class="section-heading">お支払</h2>
+      </div>
+
+      <form id="payment-form" class="payment-form">
+        <label class="payment-row">
+          <input type="radio" name="payment" value="amazon-pay" />
+          <span class="payment-name">Amazon Pay</span>
+          <span class="payment-logo" aria-hidden="true">
+            <img src="amazon-pay-logo.svg" alt="Amazon Pay" />
+          </span>
+        </label>
+
+        <label class="payment-row">
+          <input type="radio" name="payment" value="paypay" />
+          <span class="payment-name">Pay Pay</span>
+          <span class="payment-logo" aria-hidden="true">
+            <img src="paypay-logo.svg" alt="PayPay" />
+          </span>
+        </label>
+
+        <label class="payment-row">
+          <input type="radio" name="payment" value="credit-card" />
+          <span class="payment-name">クレジットカード</span>
+          <span class="payment-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+          </span>
+        </label>
+
+        <div class="credit-fields" id="credit-fields" hidden>
+          <div class="credit-group">
+            <label for="cc-number">カード<span class="required">必須</span></label>
+            <input id="cc-number" type="text" inputmode="numeric" placeholder="0123 4567 8901 2345" />
+          </div>
+          <div class="credit-grid">
+            <div class="credit-group">
+              <label for="cc-exp">有効期限<span class="required">必須</span></label>
+              <input id="cc-exp" type="text" placeholder="年/月" />
+            </div>
+            <div class="credit-group">
+              <label for="cc-cvc">CVC番号<span class="required">必須</span></label>
+              <input id="cc-cvc" type="text" inputmode="numeric" placeholder="CVC" />
+            </div>
+          </div>
+          <div class="credit-group">
+            <label for="cc-name">名前<span class="required">必須</span></label>
+            <input id="cc-name" type="text" placeholder="TARO YAMADA" />
+          </div>
+        </div>
+
+        <label class="payment-row">
+          <input type="radio" name="payment" value="bank-transfer" />
+          <span class="payment-name">銀行振込（前払）</span>
+          <span class="payment-logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <polygon points="12,3 3,8 21,8"></polygon>
+              <line x1="5" y1="10" x2="5" y2="18"></line>
+              <line x1="9" y1="10" x2="9" y2="18"></line>
+              <line x1="15" y1="10" x2="15" y2="18"></line>
+              <line x1="19" y1="10" x2="19" y2="18"></line>
+              <line x1="3" y1="20" x2="21" y2="20"></line>
+            </svg>
+          </span>
+        </label>
+
+        <div class="submit-wrap">
+          <button type="submit" class="next-btn">次へ</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="#">ワークショップ</a>
+        <a href="#">アクセス</a>
+        <a href="#">お問い合わせ</a>
+        <a href="#">ご予約</a>
+        <a href="#">よくあるご質問</a>
+        <a href="#">inoriについて</a>
+      </div>
+
+      <div class="footer-logo logo-group">
+        <div class="logo-image-wrap" aria-hidden="true">
+          <img src="inori-logo.png" alt="inori logo" class="logo-image" />
+        </div>
+        <span>inori</span>
+      </div>
+
+      <div class="footer-actions">
+        <a href="#" class="pill-btn white">予約</a>
+        <a href="#" class="pill-btn orange">お問い合わせ</a>
+      </div>
+    </div>
+
+    <p class="copyright">香りをつくる特別な体験を。Discover Your Signature Scent at inori</p>
+  </footer>
+</body>
+
+</html>

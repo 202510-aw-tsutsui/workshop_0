@@ -29,7 +29,6 @@ a {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin-bottom: 14px;
 }
 
 .sns-icons {
@@ -43,7 +42,7 @@ a {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid #333;
   display: grid;
   place-items: center;
@@ -59,7 +58,7 @@ a {
   height: 32px;
   border: 1px solid #333;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.86);
   padding: 0 12px;
   font-size: 0.78rem;
 }
@@ -116,7 +115,7 @@ a {
 }
 
 .pill-btn.white {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .pill-btn.orange {
@@ -127,18 +126,10 @@ a {
   width: 100%;
 }
 
-.hero-image-placeholder {
+.hero-image {
   min-height: 600px;
   border-radius: 0 0 42px 42px;
   background: url("hero-top.png") center 30% / cover no-repeat;
-  position: relative;
-}
-
-.hero-image-placeholder::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.04);
 }
 
 .reserve-title-wrap {
@@ -171,11 +162,11 @@ a {
 }
 
 .section {
-  padding: 50px 0 90px;
+  padding: 56px 0 120px;
 }
 
-.reserve-section {
-  width: min(980px, 92%);
+.confirm-section {
+  width: min(980px, 94%);
   margin: 0 auto;
 }
 
@@ -183,130 +174,72 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  width: min(680px, 100%);
-  margin: 0 auto 70px;
+  width: min(700px, 100%);
+  margin: 0 auto 76px;
 }
 
 .step {
   text-align: center;
   border-radius: 999px;
-  background: #d0d0d0;
+  background: #cfd0d1;
   padding: 10px 8px;
-  font-size: 1.7rem;
+  font-size: 1.45rem;
   font-weight: 700;
 }
 
 .step.active {
-  background: #e6ddd9;
+  background: #e8ddd7;
 }
 
 .heading-wrap {
   text-align: center;
-  margin-bottom: 26px;
+  margin-bottom: 34px;
 }
 
-.reserve-heading {
+.section-heading {
   display: inline-block;
-  font-size: 2rem;
+  font-size: 1.7rem;
   border-bottom: 2px solid #444;
-  padding: 0 22px 6px;
+  padding: 0 120px 6px;
 }
 
-.reserve-form {
-  width: min(700px, 100%);
+.confirm-card {
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  padding: 56px 0;
+}
+
+.confirm-grid {
+  width: min(520px, 90%);
   margin: 0 auto;
-  border: 1px solid #777;
-  background: #f6f6f6;
-  padding: 18px 18px 22px;
-}
-
-.field-group {
-  margin-bottom: 12px;
-}
-
-.field-group label {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.required,
-.optional {
-  display: inline-block;
-  margin-left: 8px;
-  border-radius: 999px;
-  padding: 2px 6px;
-  font-size: 0.72rem;
-  line-height: 1;
-  vertical-align: middle;
-}
-
-.required {
-  color: #fff;
-  background: #f25c5c;
-}
-
-.optional {
-  color: #222;
-  background: #d3d3d3;
-}
-
-.grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  row-gap: 14px;
+  column-gap: 24px;
+  font-size: 1.6rem;
+  font-weight: 500;
 }
 
-.mini-label {
-  font-size: 1rem;
-  margin-bottom: 3px;
-  font-weight: 700;
+.confirm-grid dt {
+  color: #4e4a48;
 }
 
-input,
-textarea {
-  width: 100%;
-  border: 1px solid #777;
-  background: #fff;
-  font-size: 1rem;
-  padding: 5px 8px;
-}
-
-.policy-text {
-  margin-top: 12px;
-  text-align: center;
-  font-size: 0.78rem;
-  line-height: 1.6;
-}
-
-.policy-agree {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  margin: 8px 0 0;
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.policy-agree input {
-  width: auto;
+.confirm-grid dd {
+  margin: 0;
 }
 
 .submit-wrap {
   text-align: center;
-  margin-top: 18px;
+  margin-top: 58px;
 }
 
 .next-btn {
-  min-width: 130px;
+  min-width: 180px;
   border-radius: 999px;
   border: 1px solid #555;
   background: #e9ddd6;
-  padding: 8px 18px;
-  font-size: 1rem;
+  padding: 10px 18px;
+  font-size: 1.4rem;
 }
 
 .footer {
@@ -362,34 +295,31 @@ textarea {
     font-size: 42px;
   }
 
-  .hero-image-placeholder {
+  .hero-image {
     min-height: 420px;
-  }
-
-  .reserve-title {
-    font-size: 2rem;
   }
 
   .step {
     font-size: 1rem;
   }
 
-  .reserve-heading {
-    font-size: 2.2rem;
+  .section-heading {
+    font-size: 1.5rem;
+    padding: 0 42px 6px;
   }
 
-  .field-group label {
-    font-size: 1.2rem;
-  }
-
-  .mini-label,
-  input,
-  textarea {
-    font-size: 1rem;
-  }
-
-  .grid-2 {
+  .confirm-grid {
     grid-template-columns: 1fr;
+    font-size: 1.1rem;
+    row-gap: 6px;
+  }
+
+  .confirm-grid dd {
+    margin-bottom: 8px;
+  }
+
+  .next-btn {
+    font-size: 1rem;
   }
 
   .footer-inner {
