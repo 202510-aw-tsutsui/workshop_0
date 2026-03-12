@@ -514,12 +514,29 @@ ul {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto 16px;
+    background: #ddd center center / cover no-repeat;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.photo-slider::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(18px) brightness(0.85);
+    transform: scale(1.08);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .main-photo {
+    position: relative;
+    z-index: 1;
     width: 100%;
     aspect-ratio: 16 / 7;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center center;
 }
 
 .slider-arrow {
@@ -533,6 +550,7 @@ ul {
     background: rgba(255, 255, 255, 0.75);
     font-size: 1.8rem;
     cursor: pointer;
+    z-index: 2;
 }
 
 .slider-arrow.left {
@@ -545,15 +563,18 @@ ul {
 
 .thumbnail-row {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 6px;
     max-width: 1200px;
     margin: 0 auto;
+    justify-items: center;
 }
 
 .thumbnail-row img {
+    width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
+    object-position: center center;
 }
 
 /* reviews */

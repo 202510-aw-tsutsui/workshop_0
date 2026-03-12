@@ -1,19 +1,19 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     // Photos slider
     const mainPhoto = document.querySelector(".main-photo");
+    const photoSlider = document.querySelector(".photo-slider");
     const leftArrow = document.querySelector(".slider-arrow.left");
     const rightArrow = document.querySelector(".slider-arrow.right");
     const thumbnails = document.querySelectorAll(".thumbnail-row img");
 
     const photoList = [
-        "images/main-photo.jpg",
-        "images/thumb01.jpg",
-        "images/thumb02.jpg",
-        "images/thumb03.jpg",
-        "images/thumb04.jpg",
-        "images/thumb05.jpg",
-        "images/thumb06.jpg",
-        "images/thumb07.jpg"
+        "photo-main.png",
+        "photo-thumb1.png",
+        "photo-thumb2.png",
+        "photo-thumb3.png",
+        "photo-thumb4.png",
+        "photo-thumb5.png",
+        "photo-thumb6.png"
     ];
 
     let currentPhotoIndex = 0;
@@ -21,6 +21,9 @@
     function updateMainPhoto() {
         if (!mainPhoto) return;
         mainPhoto.src = photoList[currentPhotoIndex];
+        if (photoSlider) {
+            photoSlider.style.backgroundImage = `url("${photoList[currentPhotoIndex]}")`;
+        }
     }
 
     if (leftArrow) {
@@ -44,6 +47,8 @@
             updateMainPhoto();
         });
     });
+
+    updateMainPhoto();
 
     // Reviews pagination
     const reviewList = document.querySelector(".review-list");
