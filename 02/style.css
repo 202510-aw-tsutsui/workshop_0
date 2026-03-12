@@ -241,12 +241,11 @@ a {
   position: relative;
 }
 
-.map-placeholder::after {
-  content: "Google Map 画像プレースホルダー";
-  position: absolute;
-  inset: auto 0 18px 0;
-  text-align: center;
-  color: #4f5c66;
+.map-placeholder iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .shop-info {
@@ -293,17 +292,9 @@ a {
   aspect-ratio: 16 / 10;
   border-radius: 999px;
   border: 1px solid #cabcb3;
-  background: linear-gradient(135deg, #d5cbc4, #c3b4a8);
-  position: relative;
-}
-
-.spot-image::after {
-  content: "画像プレースホルダー";
-  position: absolute;
-  inset: auto 0 12px 0;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #5f5148;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 
 .spot-card h3 {
