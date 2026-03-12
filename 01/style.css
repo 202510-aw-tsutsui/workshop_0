@@ -57,8 +57,8 @@ ul {
 }
 
 .sns-icon {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.7);
     display: grid;
@@ -68,14 +68,14 @@ ul {
 }
 
 .sns-icon img {
-    width: 44px;
-    height: 44px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
 }
 
 .logo {
     font-family: "Josefin Sans", sans-serif;
-    font-size: 82px;
+    font-size: 48px;
     font-weight: 600;
     letter-spacing: 0.15em;
     background: rgba(255, 255, 255, 0.85);
@@ -94,7 +94,7 @@ ul {
 }
 
 .logo-image-wrap {
-    width: 108px;
+    width: 72px;
     aspect-ratio: 1 / 1;
     border-radius: 8px;
     overflow: hidden;
@@ -121,9 +121,9 @@ ul {
 
 .pill-btn {
     display: inline-block;
-    min-width: 172px;
+    min-width: 150px;
     text-align: center;
-    padding: 18px 36px;
+    padding: 12px 24px;
     border-radius: 999px;
     font-size: 0.9rem;
     border: 1px solid #333;
@@ -160,21 +160,21 @@ ul {
     justify-content: center;
     width: 100%;
     min-width: 0;
-    min-height: 80px;
-    font-size: 1.3rem;
+    min-height: 56px;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.2;
 }
 
 /* hero */
 .hero {
-    min-height: 850px;
+    min-height: 720px;
     background: url("inori_bottom_right.png") center center / cover no-repeat;
     position: relative;
 }
 
 .hero-overlay {
-    min-height: 850px;
+    min-height: 720px;
     background: rgba(255, 255, 255, 0.18);
     display: flex;
     align-items: center;
@@ -183,7 +183,7 @@ ul {
 .hero-content {
     padding-top: 120px;
     padding-bottom: 80px;
-    transform: translateX(-500px);
+    transform: translateX(-80px);
 }
 
 .hero-catch {
@@ -195,7 +195,7 @@ ul {
 }
 
 .hero-text {
-    font-size: calc(1rem + 20px);
+    font-size: 1.35rem;
     margin-bottom: 40px;
 }
 
@@ -203,8 +203,8 @@ ul {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 700px;
-    min-height: 100px;
+    min-width: 420px;
+    min-height: 78px;
     text-align: center;
     padding: 24px 32px;
     background: #ec7d7d;
@@ -212,7 +212,7 @@ ul {
     border: 2px solid #333;
     border-radius: 999px;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.35rem;
     line-height: 1.2;
     box-shadow: 0 3px 0 #333;
 }
@@ -895,17 +895,19 @@ ul {
 
     .hero,
     .hero-overlay {
-        min-height: 520px;
+        min-height: 620px;
     }
 
     .hero-content {
         padding-top: 60px;
-        text-align: left;
-        transform: translateX(-500px);
+        text-align: center;
+        transform: none;
     }
 
     .hero-btn {
-        min-width: 240px;
+        min-width: 280px;
+        min-height: 64px;
+        font-size: 1.05rem;
     }
 
     .section {
