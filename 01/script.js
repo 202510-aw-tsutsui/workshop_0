@@ -21,6 +21,7 @@
     function updateMainPhoto() {
         if (!mainPhoto) return;
         mainPhoto.src = photoList[currentPhotoIndex];
+        mainPhoto.classList.toggle("zoom-out-image", currentPhotoIndex > 0 && thumbnails[currentPhotoIndex - 1]?.classList.contains("zoom-out-image"));
         if (photoSlider) {
             photoSlider.style.backgroundImage = `url("${photoList[currentPhotoIndex]}")`;
         }
