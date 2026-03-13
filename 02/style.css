@@ -178,7 +178,7 @@ a {
 
 .hero-image-placeholder {
   border-radius: 0;
-  min-height: 86vh;
+  min-height: 620px;
   background: url("hero-top.png") center center / cover no-repeat;
   position: relative;
   overflow: hidden;
@@ -405,6 +405,10 @@ a {
 
   .logo-image-wrap {
     width: 56px;
+  }
+
+  .hero-image-placeholder {
+    min-height: 480px;
   }
 
   .access-title {

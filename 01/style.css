@@ -168,13 +168,13 @@ ul {
 
 /* hero */
 .hero {
-    min-height: 720px;
+    min-height: 620px;
     background: url("inori_bottom_right.png") center center / cover no-repeat;
     position: relative;
 }
 
 .hero-overlay {
-    min-height: 720px;
+    min-height: 620px;
     background: rgba(255, 255, 255, 0.18);
     display: flex;
     align-items: center;
@@ -944,7 +944,7 @@ ul {
 
     .hero,
     .hero-overlay {
-        min-height: 620px;
+        min-height: 480px;
     }
 
     .hero-content {

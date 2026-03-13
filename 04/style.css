@@ -127,7 +127,7 @@ a {
 }
 
 .hero-image {
-  min-height: 600px;
+  min-height: 620px;
   border-radius: 0 0 42px 42px;
   background: url("hero-top.png") center 30% / cover no-repeat;
 }
@@ -326,7 +326,7 @@ a {
   }
 
   .hero-image {
-    min-height: 420px;
+    min-height: 480px;
   }
 
   .step {

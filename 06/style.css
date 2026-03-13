@@ -127,7 +127,7 @@ a {
 }
 
 .hero-image-placeholder {
-  min-height: 600px;
+  min-height: 620px;
   border-radius: 0 0 42px 42px;
   background: url("hero-top.png") center center / cover no-repeat;
   position: relative;
@@ -341,7 +341,7 @@ textarea {
   }
 
   .hero-image-placeholder {
-    min-height: 420px;
+    min-height: 480px;
   }
 
   .grid-2 {

@@ -126,7 +126,7 @@ a {
 }
 
 .hero-image {
-  min-height: 520px;
+  min-height: 620px;
   border-radius: 0 0 42px 42px;
   background: url("hero-top.png") center center / cover no-repeat;
 }
@@ -351,7 +351,7 @@ a {
   }
 
   .hero-image {
-    min-height: 380px;
+    min-height: 480px;
   }
 
   .section-heading.en {
