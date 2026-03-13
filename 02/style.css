@@ -328,8 +328,8 @@ a {
 
 .footer {
   background: #e7cdbf;
-  padding: 30px 20px 18px;
-  margin-top: 80px;
+  padding: 34px 20px 18px;
+  margin-top: 40px;
 }
 
 .footer-inner {
@@ -342,10 +342,10 @@ a {
 }
 
 .footer-links {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  font-size: 0.88rem;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 2px 16px;
+  font-size: 1.15rem;
 }
 
 .footer-logo {
@@ -362,11 +362,11 @@ a {
   gap: 10px;
 }
 
-.footer-copy,
 .copyright {
-  margin-top: 18px;
+  margin-top: 20px;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 980px) {
