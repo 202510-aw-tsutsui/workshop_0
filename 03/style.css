@@ -6,7 +6,7 @@
 
 body {
   font-family: "Noto Sans JP", sans-serif;
-  background: #efefef;
+  background: #ececec;
   color: #2f2a28;
 }
 
@@ -44,7 +44,6 @@ a {
   height: 48px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.7);
-  border: 1px solid #333;
   display: grid;
   place-items: center;
 }
@@ -53,15 +52,6 @@ a {
   width: 30px;
   height: 30px;
   object-fit: contain;
-}
-
-.lang-btn {
-  height: 32px;
-  border: 1px solid #333;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 0 12px;
-  font-size: 0.78rem;
 }
 
 .logo-group {
@@ -75,7 +65,7 @@ a {
 .logo-image-wrap {
   width: 72px;
   aspect-ratio: 1 / 1;
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.85);
   padding: 4px;
@@ -85,16 +75,19 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
 }
 
 .logo {
   font-family: "Josefin Sans", sans-serif;
-  font-size: 64px;
-  letter-spacing: 0.12em;
-  font-weight: 500;
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   background: rgba(255, 255, 255, 0.85);
-  padding: 4px 18px;
-  line-height: 1;
+  padding: 2px 28px;
+  border-radius: 2px;
+  color: #6e584c;
+  line-height: 1.05;
 }
 
 .header-actions,
@@ -106,12 +99,12 @@ a {
 
 .pill-btn {
   display: inline-block;
-  min-width: 140px;
+  min-width: 150px;
   text-align: center;
+  padding: 12px 24px;
   border-radius: 999px;
+  font-size: 0.9rem;
   border: 1px solid #333;
-  padding: 8px 18px;
-  font-size: 0.82rem;
   line-height: 1;
 }
 
@@ -120,25 +113,56 @@ a {
 }
 
 .pill-btn.orange {
-  background: #ee9d3f;
+  background: #f4a14d;
+  color: #fff;
+  border-color: #f4a14d;
+}
+
+.gnav {
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 2px;
+  width: 100%;
+  padding: 0;
+}
+
+.gnav ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  width: 100%;
+}
+
+.gnav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 .hero {
   width: 100%;
+  margin: 0;
+  padding-top: 0;
 }
 
 .hero-image-placeholder {
   min-height: 620px;
-  border-radius: 0 0 42px 42px;
-  background: url("hero-top.png") center 30% / cover no-repeat;
+  border-radius: 0;
+  background: url("hero-top.png") center 18% / cover no-repeat;
   position: relative;
+  overflow: hidden;
 }
 
 .hero-image-placeholder::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .reserve-title-wrap {
@@ -157,15 +181,15 @@ a {
 }
 
 .reserve-title {
-  width: min(700px, 88%);
-  min-height: 86px;
+  width: min(560px, 88%);
+  min-height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   border: 1px solid #7c6759;
   background: #ddc5b8;
-  font-size: 2rem;
+  font-size: 1.9rem;
   font-weight: 700;
   line-height: 1;
 }
@@ -350,16 +374,31 @@ textarea {
   .header {
     position: static;
     background: #f4efe9;
+    padding: 14px;
   }
 
   .header-top {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
+  }
+
+  .gnav ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .gnav a {
+    min-height: 56px;
+    font-size: 1rem;
   }
 
   .logo {
-    font-size: 42px;
+    font-size: 36px;
+  }
+
+  .logo-image-wrap {
+    width: 56px;
   }
 
   .hero-image-placeholder {
