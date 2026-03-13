@@ -332,21 +332,233 @@ ul {
     line-height: 1.7;
 }
 
-.calendar-preview {
+.schedule-legend {
     width: min(760px, 92%);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    border-top: 1px solid #666;
-    border-bottom: 1px solid #666;
-    padding: 18px 0;
+    margin: 0 auto 18px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 0.86rem;
 }
 
-.calendar-preview img {
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    background: #ddd;
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.legend-dot.available {
+    background: #8ebf8a;
+}
+
+.legend-dot.few {
+    background: #efb35d;
+}
+
+.legend-dot.full {
+    background: #d78181;
+}
+
+.calendar-toolbar {
+    width: min(760px, 92%);
+    margin: 0 auto 14px;
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 12px;
+}
+
+.calendar-current {
+    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.06em;
+}
+
+.calendar-nav {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #777;
+    border-radius: 50%;
+    background: #f7f2ee;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.booking-calendar {
+    width: min(760px, 92%);
+    margin: 0 auto;
+    border: 1px solid #666;
+    background: #fbf8f6;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-weekdays {
+    background: #eadfd8;
+    border-bottom: 1px solid #666;
+}
+
+.calendar-weekdays span {
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.calendar-day {
+    min-height: 108px;
+    padding: 8px 8px 10px;
+    border-right: 1px solid #ddd0c8;
+    border-bottom: 1px solid #ddd0c8;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fff;
+}
+
+.calendar-day:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-day.is-empty {
+    background: #f4efeb;
+}
+
+.calendar-day.is-disabled {
+    background: #f4efeb;
+    color: #9d948e;
+}
+
+.calendar-day.is-selectable {
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.calendar-day.is-selectable:hover {
+    background: #fff6ef;
+    transform: translateY(-1px);
+}
+
+.calendar-day.is-selected {
+    outline: 2px solid #6e584c;
+    outline-offset: -2px;
+    background: #fff6ef;
+}
+
+.calendar-date {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.calendar-status {
+    align-self: flex-start;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 0.72rem;
+    line-height: 1;
+    color: #fff;
+}
+
+.calendar-status.available {
+    background: #8ebf8a;
+}
+
+.calendar-status.few {
+    background: #efb35d;
+}
+
+.calendar-status.full {
+    background: #d78181;
+}
+
+.calendar-note {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #6e6158;
+}
+
+.timeslot-panel {
+    width: min(760px, 92%);
+    margin: 18px auto 0;
+    padding: 20px 22px;
+    border: 1px solid #cdbfb7;
+    background: #f8f3ef;
+}
+
+.timeslot-title {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+}
+
+.timeslot-copy {
+    font-size: 0.9rem;
+    color: #6e6158;
+}
+
+.timeslot-list {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.timeslot-btn {
+    border: 1px solid #7c6759;
+    border-radius: 18px;
+    background: #fff;
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.timeslot-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.timeslot-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.timeslot-btn strong {
+    display: block;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+
+.timeslot-btn span {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 0.72rem;
+    color: #fff;
+}
+
+.timeslot-btn .available {
+    background: #8ebf8a;
+}
+
+.timeslot-btn .few {
+    background: #efb35d;
+}
+
+.timeslot-btn .full {
+    background: #d78181;
 }
 
 .schedule-note {
@@ -674,7 +886,7 @@ ul {
     .flow-list,
     .price-content,
     .schedule-summary,
-    .calendar-preview,
+    .timeslot-list,
     .footer-inner,
     .grid-2 {
         grid-template-columns: 1fr;
@@ -727,6 +939,23 @@ ul {
     .flow-list,
     .thumbnail-row {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calendar-toolbar {
+        grid-template-columns: 38px 1fr 38px;
+    }
+
+    .calendar-current {
+        font-size: 1.2rem;
+    }
+
+    .booking-calendar {
+        font-size: 0.85rem;
+    }
+
+    .calendar-day {
+        min-height: 90px;
+        padding: 6px;
     }
 
     .footer-links {

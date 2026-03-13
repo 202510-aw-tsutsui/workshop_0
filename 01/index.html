@@ -137,9 +137,26 @@
                 <div class="schedule-box">所要時間<br>約1時間</div>
             </div>
 
-            <div class="calendar-preview">
-                <img src="photo-thumb5.png" alt="予約カレンダーイメージ1" />
-                <img src="photo-thumb6.png" alt="予約カレンダーイメージ2" />
+            <div class="schedule-legend" aria-label="予約状況の凡例">
+                <span class="legend-item"><span class="legend-dot available"></span>空き</span>
+                <span class="legend-item"><span class="legend-dot few"></span>残り僅か</span>
+                <span class="legend-item"><span class="legend-dot full"></span>満席</span>
+            </div>
+
+            <div class="calendar-toolbar">
+                <button type="button" class="calendar-nav prev" aria-label="前の月">‹</button>
+                <p class="calendar-current" id="calendar-current">2026年3月</p>
+                <button type="button" class="calendar-nav next" aria-label="次の月">›</button>
+            </div>
+
+            <div class="booking-calendar" id="booking-calendar" aria-label="予約カレンダー"></div>
+
+            <div class="timeslot-panel" id="timeslot-panel" hidden>
+                <div class="timeslot-header">
+                    <h3 class="timeslot-title" id="timeslot-title">日付を選択してください</h3>
+                    <p class="timeslot-copy">ご希望の時間を選択すると予約フォームへ移動します。</p>
+                </div>
+                <div class="timeslot-list" id="timeslot-list"></div>
             </div>
 
             <div class="schedule-note">
@@ -245,11 +262,11 @@
                     <div class="grid-2">
                         <div>
                             <p class="mini-label">日程</p>
-                            <input type="text" placeholder="0000/00/00" />
+                            <input id="reservation-date" type="text" placeholder="0000/00/00" />
                         </div>
                         <div>
                             <p class="mini-label">時間</p>
-                            <input type="text" placeholder="00:00" />
+                            <input id="reservation-time" type="text" placeholder="00:00" />
                         </div>
                     </div>
                 </div>
