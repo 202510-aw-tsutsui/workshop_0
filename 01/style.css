@@ -805,96 +805,103 @@ ul {
     max-width: 880px;
 }
 
-.reservation-form {
-    margin-top: 30px;
-    background: #faf7f4;
-    border: 1px solid #2f2a28;
-    padding: 34px;
+.reserve-form {
+    width: min(700px, 100%);
+    margin: 30px auto 0;
+    border: 1px solid #777;
+    background: #f6f6f6;
+    padding: 18px 18px 22px;
 }
 
-.form-title {
-    text-align: center;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #777;
+.field-group {
+    margin-bottom: 12px;
 }
 
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
+.field-group label {
     display: block;
-    font-size: 0.95rem;
-    margin-bottom: 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.required,
+.optional {
+    display: inline-block;
+    margin-left: 8px;
+    border-radius: 999px;
+    padding: 2px 6px;
+    font-size: 0.72rem;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.required {
+    color: #fff;
+    background: #f25c5c;
+}
+
+.optional {
+    color: #222;
+    background: #d3d3d3;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.mini-label {
+    font-size: 1rem;
+    margin-bottom: 3px;
     font-weight: 700;
 }
 
-.form-group label span {
-    color: #d33;
-    font-size: 0.78rem;
-}
-
-.policy-agree-label {
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 auto;
-    width: fit-content;
-}
-
-#cancel-policy-agree {
-    width: auto;
-    margin: 0;
-    accent-color: #6d5b55;
-}
-
-.form-group input,
-.form-group textarea {
+.reserve-form input,
+.reserve-form textarea {
     width: 100%;
-    border: 0;
-    border-bottom: 2px solid #2f2a28;
+    border: 1px solid #777;
     background: #fff;
-    padding: 12px 10px;
-    font-size: 0.95rem;
-    outline: none;
+    font-size: 1rem;
+    padding: 5px 8px;
 }
 
-.form-group textarea {
-    border: 1px solid #d5c8c0;
-    resize: vertical;
-}
-
-.form-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.form-note {
+.policy-text {
+    margin-top: 12px;
     text-align: center;
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.policy-agree {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    margin: 8px 0 0;
     font-size: 0.9rem;
-    color: #555;
-    margin: 30px 0;
-    line-height: 1.8;
+    white-space: nowrap;
+}
+
+.policy-agree input {
+    width: auto;
 }
 
 .submit-wrap {
     text-align: center;
-    padding-top: 20px;
+    margin-top: 18px;
+    padding-top: 0;
 }
 
-.submit-btn {
-    min-width: 120px;
-    min-height: 42px;
-    padding: 10px 20px;
+.next-btn {
+    min-width: 130px;
     border-radius: 999px;
-    border: 1px solid #6d5b55;
-    background: #ead4c9;
+    border: 1px solid #555;
+    background: #e9ddd6;
+    padding: 8px 18px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 0.95rem;
 }
 
 /* footer */
@@ -1006,7 +1013,7 @@ ul {
     .flow-list,
     .schedule-info,
     .footer-inner,
-    .form-grid-2 {
+    .grid-2 {
         grid-template-columns: 1fr;
     }
 
@@ -1058,7 +1065,7 @@ ul {
         font-size: 0.95rem;
     }
 
-    .reservation-form {
+    .reserve-form {
         padding: 24px 18px;
     }
 }
