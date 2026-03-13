@@ -12,7 +12,6 @@ body {
     font-family: "Noto Sans JP", sans-serif;
     background: #ececec;
     color: #2f2a28;
-    line-height: 1.7;
 }
 
 img {
@@ -30,11 +29,10 @@ ul {
 }
 
 .inner {
-    width: min(1180px, 92%);
+    width: min(1120px, 92%);
     margin: 0 auto;
 }
 
-/* header */
 .header {
     position: absolute;
     top: 0;
@@ -62,10 +60,9 @@ ul {
     height: 48px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.7);
-    border: 1px solid #333;
     display: grid;
     place-items: center;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
 }
 
@@ -73,18 +70,6 @@ ul {
     width: 30px;
     height: 30px;
     object-fit: contain;
-}
-
-.logo {
-    font-family: "Josefin Sans", sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 2px 28px;
-    border-radius: 2px;
-    color: #6e584c;
-    line-height: 1.05;
 }
 
 .logo-group {
@@ -109,6 +94,23 @@ ul {
     height: 100%;
     object-fit: cover;
     object-position: center center;
+}
+
+.logo {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2px 28px;
+    border-radius: 2px;
+    color: #6e584c;
+    line-height: 1.05;
+}
+
+.logo-placeholder {
+    background: linear-gradient(135deg, #e9dfd9, #d8c7bd);
+    border: 1px dashed #8a7367;
 }
 
 .header-actions {
@@ -157,14 +159,12 @@ ul {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-width: 0;
     min-height: 56px;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.2;
 }
 
-/* hero */
 .hero {
     width: 100%;
     margin: 0;
@@ -186,83 +186,26 @@ ul {
     background: rgba(0, 0, 0, 0.05);
 }
 
-.hero-copy {
-    position: absolute;
-    left: 84px;
-    top: 248px;
-    z-index: 1;
-    color: #1f1f1f;
-}
-
-.hero-catch {
-    font-size: 2.8rem;
-    font-weight: 700;
-    line-height: 1.25;
-}
-
-.hero-text {
-    margin-top: 22px;
-    font-size: 1.35rem;
-    line-height: 1.7;
-}
-
-.hero-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 420px;
-    min-height: 78px;
-    text-align: center;
-    padding: 24px 32px;
-    margin-top: 76px;
-    border-radius: 999px;
-    font-size: 1.35rem;
-    font-weight: 700;
-    border: 2px solid #333;
-    line-height: 1;
-    background: #e78d97;
-    color: #111;
-    box-shadow: 0 3px 0 #333;
-}
-
-/* section common */
 .section {
     padding: 64px 0;
 }
 
-.heading-wrap {
-    text-align: center;
-    margin-bottom: 42px;
-}
-
-.section-heading.en {
-    font-family: "Josefin Sans", sans-serif;
-    font-size: clamp(2rem, 3vw, 3rem);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-}
-
-.section-sub {
-    font-size: 1rem;
-    margin-top: 6px;
-}
-
-.section-title-wrap {
+.access-title-wrap {
     padding: 70px 0 30px;
     display: flex;
     align-items: center;
     gap: 0;
 }
 
-.section-title-wrap::before,
-.section-title-wrap::after {
+.access-title-wrap::before,
+.access-title-wrap::after {
     content: "";
     flex: 1;
     height: calc(4px + 3mm);
     background: #e7dfdb;
 }
 
-.section-title-box {
+.access-title {
     width: min(560px, 88%);
     min-height: 68px;
     margin: 0;
@@ -280,341 +223,134 @@ ul {
     line-height: 1;
 }
 
-/* flow */
-.flow-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
+.heading-wrap {
+    text-align: center;
+    margin-bottom: 42px;
 }
 
-.flow-card {
-    text-align: center;
-    background: #f8f5f2;
-    border: 1px solid #d9ccc4;
-    padding: 14px;
+.section-heading.en {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    letter-spacing: 0.06em;
+}
+
+.section-sub {
+    margin-top: 6px;
+    font-size: 1.2rem;
+}
+
+.flow-list {
+    width: min(1180px, 92%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
 }
 
 .flow-card img {
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    object-position: center center;
-    margin: 0 auto 10px;
-}
-
-.flow-title {
-    font-size: 0.98rem;
-    font-weight: 700;
-    margin-bottom: 6px;
-    line-height: 1.4;
+    margin-bottom: 8px;
 }
 
 .flow-text {
-    font-size: 0.92rem;
-    font-weight: 400;
-    line-height: 1.7;
+    font-size: 0.84rem;
+    line-height: 1.55;
 }
 
-/* price */
 .price-content {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 36px;
+    grid-template-columns: 1fr 320px;
+    gap: 34px;
     align-items: center;
 }
 
 .price-table {
-    background: #f8f5f2;
-    border: 1px solid #d9ccc4;
-    padding: 28px;
+    display: grid;
+    gap: 10px;
 }
 
 .price-row {
     display: grid;
-    grid-template-columns: 140px 1fr;
-    align-items: flex-start;
-    gap: 18px;
-    margin-bottom: 0;
-    padding: 14px 0;
-    border-bottom: 1px solid #e3d9d4;
-}
-
-.price-row:last-child {
-    border-bottom: 0;
+    grid-template-columns: 126px 1fr;
+    gap: 12px;
+    align-items: center;
 }
 
 .price-label {
-    min-width: 0;
-    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 32px;
     background: #eadfd8;
     border-radius: 999px;
-    padding: 8px 14px;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.85rem;
 }
 
 .price-value {
-    padding-top: 4px;
-    font-size: 1rem;
-}
-
-.price-note {
-    white-space: normal;
-    font-size: 0.78rem;
+    font-size: 0.95rem;
 }
 
 .price-value strong {
-    color: #e66d6d;
-    font-size: 1.8rem;
-    letter-spacing: 0.08em;
     margin-left: 10px;
     font-family: "Josefin Sans", sans-serif;
+    font-size: 1.8rem;
+    color: #e25f6d;
+    letter-spacing: 0.12em;
 }
 
-.price-image img {
-    border-radius: 6px;
+.price-image-wrap {
+    width: 100%;
+}
+
+.price-image {
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    border-radius: 10px;
 }
 
-/* schedule */
-.schedule-inner {
-    max-width: 1180px;
-}
-
-.schedule-info {
+.schedule-summary {
+    width: min(760px, 92%);
+    margin: 0 auto 26px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-bottom: 28px;
-    text-align: center;
+    border: 1px solid #777;
 }
 
 .schedule-box {
-    background: #f8f5f2;
-    border: 1px solid #d9ccc4;
-    padding: 20px;
-    font-size: 0.95rem;
-    min-height: 150px;
-}
-
-.booking-calendar {
-    width: min(860px, 100%);
-    margin: 0 auto 24px;
-    border: 1px solid #d9ccc4;
-    border-radius: 6px;
-    background: #f8f5f2;
-    padding: 18px;
-}
-
-.calendar-toolbar {
-    display: grid;
-    grid-template-columns: 44px 1fr 44px;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.calendar-month {
-    text-align: center;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: #5a463b;
-}
-
-.calendar-nav {
-    width: 44px;
-    height: 44px;
-    border: 1px solid #ceb8ab;
-    border-radius: 10px;
-    background: #fff;
-    font-size: 1.4rem;
-    color: #765a4a;
-    cursor: pointer;
-}
-
-.calendar-weekdays,
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-}
-
-.calendar-weekdays {
-    margin-bottom: 8px;
-}
-
-.calendar-weekdays span {
-    text-align: center;
-    font-size: 0.84rem;
-    color: #6e5a4f;
-}
-
-.calendar-day {
-    border: 1px solid #e1d4cd;
-    border-radius: 10px;
-    padding: 8px 4px 6px;
-    background: #fff;
-    min-height: 68px;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.calendar-day:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px rgba(53, 34, 24, 0.08);
-}
-
-.calendar-day.empty {
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.calendar-day.past {
-    opacity: 0.4;
-    cursor: default;
-}
-
-.calendar-day .date {
-    display: block;
+    padding: 14px 12px;
     text-align: center;
     font-size: 0.9rem;
-    margin-bottom: 4px;
+    line-height: 1.7;
 }
 
-.calendar-day .status {
-    display: block;
-    text-align: center;
-    font-size: 0.72rem;
-    font-weight: 500;
-    border-radius: 999px;
-    padding: 2px 5px;
-}
-
-.calendar-day.available .status {
-    background: #dff4e2;
-    color: #226f36;
-}
-
-.calendar-day.limited .status {
-    background: #fff0d6;
-    color: #9a6406;
-}
-
-.calendar-day.full .status {
-    background: #f8dddd;
-    color: #8e2b2b;
-}
-
-.calendar-day.selected {
-    border-color: #8f6f5f;
-    box-shadow: 0 0 0 2px rgba(143, 111, 95, 0.2);
-}
-
-.calendar-legend {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
+.calendar-preview {
+    width: min(760px, 92%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 6px;
-    font-size: 0.8rem;
-    color: #624d42;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+    padding: 18px 0;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.dot.available {
-    background: #44a25f;
-}
-
-.dot.limited {
-    background: #e0a236;
-}
-
-.dot.full {
-    background: #d26464;
-}
-
-.calendar-selection {
-    margin-top: 14px;
-    text-align: center;
-}
-
-.calendar-selection p {
-    font-size: 0.88rem;
-}
-
-.calendar-selection p + p {
-    margin-top: 4px;
-    color: #6d5a50;
-}
-
-.time-slots {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 12px;
-}
-
-.time-slot-btn {
-    border: 1px solid #cbb8ac;
-    border-radius: 999px;
-    background: #fff;
-    padding: 7px 12px;
-    font-size: 0.8rem;
-    color: #664f43;
-    cursor: pointer;
-}
-
-.time-slot-btn[disabled] {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.time-slot-btn.selected {
-    background: #6e584c;
-    color: #fff;
-    border-color: #6e584c;
-}
-
-.calendar-reserve-btn {
-    margin-top: 14px;
-    min-width: 300px;
-    min-height: 60px;
-    padding: 14px 24px;
-    font-size: 1rem;
-}
-
-.calendar-reserve-btn[aria-disabled="true"] {
-    opacity: 0.45;
-    pointer-events: none;
+.calendar-preview img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: #ddd;
 }
 
 .schedule-note {
-    background: #efe1d8;
-    border: 1px solid #c9b7ac;
-    padding: 18px 20px;
-    font-size: 0.9rem;
-    color: #4a403b;
-    max-width: 720px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    width: min(520px, 92%);
+    margin: 20px auto 0;
+    padding: 18px 22px;
+    background: #eadfd8;
+    border: 1px solid #cdbfb7;
+    font-size: 0.78rem;
+    line-height: 1.7;
 }
 
-/* photos */
 .photos-section {
     padding-left: 0;
     padding-right: 0;
@@ -623,27 +359,12 @@ ul {
 .photo-slider {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 16px;
-    background: #ddd center center / cover no-repeat;
-    border-radius: 4px;
+    margin: 0 auto 12px;
     overflow: hidden;
-}
-
-.photo-slider::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: inherit;
-    filter: blur(18px) brightness(0.85);
-    transform: scale(1.08);
-    z-index: 0;
-    pointer-events: none;
+    background: #ddd;
 }
 
 .main-photo {
-    position: relative;
-    z-index: 1;
     width: 100%;
     aspect-ratio: 16 / 7;
     object-fit: cover;
@@ -658,157 +379,125 @@ ul {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    border: 1px solid #333;
-    background: rgba(255, 255, 255, 0.75);
-    font-size: 1.5rem;
+    border: 1px solid #777;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 1.25rem;
     cursor: pointer;
-    z-index: 2;
 }
 
 .slider-arrow.left {
-    left: 14px;
+    left: 18px;
 }
 
 .slider-arrow.right {
-    right: 14px;
+    right: 18px;
 }
 
 .thumbnail-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 6px;
-    max-width: 1200px;
+    width: min(1280px, 100%);
     margin: 0 auto;
-    justify-items: center;
 }
 
 .thumbnail-row img {
-    width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
-    object-position: center center;
+    cursor: pointer;
     border: 2px solid transparent;
 }
 
+.thumbnail-row img.is-active,
 .thumbnail-row img:hover {
     border-color: #6e584c;
 }
 
-/* reviews */
 .review-list {
-    display: grid;
-    gap: 18px;
-    max-width: 880px;
+    width: min(880px, 92%);
     margin: 0 auto;
+    display: grid;
+    gap: 14px;
 }
 
 .review-card {
-    border: 1px solid #d8c6bd;
-    background: #faf7f4;
+    background: #fbf8f6;
+    border: 1px solid #decfc6;
     padding: 18px;
     display: grid;
     grid-template-columns: 120px 1fr;
-    column-gap: 18px;
-    align-items: start;
+    gap: 16px;
 }
 
 .review-user {
-    width: 120px;
     text-align: center;
-    display: grid;
-    grid-template-rows: auto auto auto;
-    justify-items: center;
-    row-gap: 6px;
-    align-self: start;
 }
 
 .review-icon {
     width: 42px;
     height: 42px;
-    margin: 0;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
+    margin: 0 auto 8px;
 }
 
 .review-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 100%;
+    height: 100%;
     fill: none;
-    stroke: #6b5244;
+    stroke: currentColor;
     stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }
 
 .review-nickname {
-    font-size: 1rem;
-    color: #5c4b40;
-    line-height: 1.2;
-    margin: 0;
     font-weight: 700;
-}
-
-.review-text {
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    line-height: 1.8;
-}
-
-.review-rating {
-    color: #d9a441;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 8px;
-    letter-spacing: 0.08em;
-}
-
-.review-body {
-    align-self: start;
 }
 
 .review-meta {
-    font-size: 0.85rem;
-    line-height: 1.2;
-    color: #5d514a;
-    white-space: nowrap;
-    width: 100%;
-    text-align: center;
-    margin: 0;
+    font-size: 0.82rem;
+    margin-top: 6px;
+}
+
+.review-rating {
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.review-text {
+    font-size: 0.92rem;
+    line-height: 1.8;
 }
 
 .pagination {
-    margin-top: 28px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
+    gap: 8px;
+    margin-top: 20px;
 }
 
-.pagination a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1px solid #b7a59a;
-    background: #fff;
-    font-weight: 600;
+.page-dot {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }
 
-/* reservation */
-.reservation-inner {
-    max-width: 880px;
+.page-dot.active {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.reserve-heading {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
 }
 
 .reserve-form {
-    width: min(700px, 100%);
-    margin: 30px auto 0;
+    width: min(700px, 92%);
+    margin: 0 auto;
     border: 1px solid #777;
     background: #f6f6f6;
     padding: 18px 18px 22px;
@@ -820,7 +509,7 @@ ul {
 
 .field-group label {
     display: block;
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
     margin-bottom: 4px;
 }
@@ -833,7 +522,6 @@ ul {
     padding: 2px 6px;
     font-size: 0.72rem;
     line-height: 1;
-    vertical-align: middle;
 }
 
 .required {
@@ -853,7 +541,7 @@ ul {
 }
 
 .mini-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 3px;
     font-weight: 700;
 }
@@ -879,10 +567,8 @@ ul {
     justify-content: center;
     align-items: center;
     gap: 6px;
-    width: 100%;
-    margin: 8px 0 0;
+    margin-top: 10px;
     font-size: 0.9rem;
-    white-space: nowrap;
 }
 
 .policy-agree input {
@@ -892,7 +578,6 @@ ul {
 .submit-wrap {
     text-align: center;
     margin-top: 18px;
-    padding-top: 0;
 }
 
 .next-btn {
@@ -905,7 +590,6 @@ ul {
     cursor: pointer;
 }
 
-/* footer */
 .footer {
     background: #e7cdbf;
     padding: 34px 20px 18px;
@@ -938,7 +622,7 @@ ul {
 
 .footer-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-self: end;
     gap: 10px;
 }
 
@@ -949,22 +633,7 @@ ul {
     letter-spacing: 0.04em;
 }
 
-/* responsive */
-@media (max-width: 1024px) {
-    .flow-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .price-content {
-        grid-template-columns: 1fr;
-    }
-
-    .thumbnail-row {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 980px) {
     .header {
         position: static;
         background: #f4efe9;
@@ -982,49 +651,25 @@ ul {
         gap: 8px;
     }
 
-    .gnav a {
+    .logo {
+        font-size: 36px;
+    }
+
+    .logo-image-wrap {
+        width: 56px;
     }
 
     .hero-image-placeholder {
         min-height: 480px;
     }
 
-    .hero-copy {
-        left: 24px;
-        top: 132px;
-        right: 24px;
-    }
-
-    .hero-btn {
-        min-width: 280px;
-        min-height: 64px;
-        padding: 18px 24px;
-        font-size: 1.05rem;
-        margin-top: 42px;
-        box-shadow: 0 3px 0 #333;
-    }
-
-    .section {
-        padding: 52px 0;
-    }
-
-    .section-title-box {
-        font-size: 1.5rem;
-    }
-
     .flow-list,
-    .schedule-info,
+    .price-content,
+    .schedule-summary,
+    .calendar-preview,
     .footer-inner,
     .grid-2 {
         grid-template-columns: 1fr;
-    }
-
-    .thumbnail-row {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .calendar-day {
-        min-height: 62px;
     }
 
     .review-card {
@@ -1035,39 +680,49 @@ ul {
     .footer-actions {
         justify-content: center;
     }
-
-    .footer-logo {
-        order: -1;
-    }
 }
 
 @media (max-width: 480px) {
-    .flow-list {
-        grid-template-columns: 1fr;
+    .header {
+        padding: 10px;
     }
 
+    .sns-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .sns-icon img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .pill-btn {
+        min-width: 116px;
+        padding: 10px 12px;
+        font-size: 0.72rem;
+    }
+
+    .hero-image-placeholder {
+        min-height: 420px;
+        background-position: center 40%;
+    }
+
+    .section {
+        padding: 56px 0;
+    }
+
+    .access-title {
+        font-size: 2.2rem;
+    }
+
+    .flow-list,
     .thumbnail-row {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .section-heading.en {
-        font-size: 1.8rem;
-    }
-
-    .hero-copy {
-        top: 124px;
-    }
-
-    .hero-catch {
-        font-size: 1.5rem;
-    }
-
-    .hero-text {
-        margin-top: 18px;
-        font-size: 0.95rem;
-    }
-
-    .reserve-form {
-        padding: 24px 18px;
+    .footer-links {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 }

@@ -7,8 +7,7 @@
     <title>inori | ワークショップ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Josefin+Sans:wght@400;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
@@ -42,9 +41,9 @@
         <nav class="gnav">
             <ul>
                 <li><a href="#workshop">ワークショップ</a></li>
-                <li><a href="#access">アクセス</a></li>
+                <li><a href="#schedule">アクセス</a></li>
                 <li><a href="#reservation">ご予約</a></li>
-                <li><a href="#faq">よくあるご質問</a></li>
+                <li><a href="#reviews">よくあるご質問</a></li>
                 <li><a href="#contact">お問い合わせ</a></li>
                 <li><a href="#about-inori">inoriについて</a></li>
             </ul>
@@ -53,142 +52,100 @@
 
     <main>
         <section class="hero">
-            <div class="hero-image-placeholder" aria-label="トップ画像プレースホルダー">
-                <div class="hero-copy">
-                    <p class="hero-catch">浅草で、世界にひとつの香りを。</p>
-                    <p class="hero-text">－浅草で叶える、わたしだけのオリジナル香水づくり－</p>
-                    <a href="#reservation" class="hero-btn">体験予約はこちら</a>
-                </div>
+            <div class="hero-image-placeholder" aria-label="トップ画像プレースホルダー"></div>
+        </section>
+
+        <section class="access-title-wrap" id="workshop">
+            <div class="access-title">ワークショップ</div>
+        </section>
+
+        <section class="section flow-section" id="about-inori">
+            <div class="heading-wrap">
+                <h2 class="section-heading en">Experience Flow</h2>
+                <p class="section-sub">ご体験の流れ</p>
             </div>
-        </section>
 
-        <section class="section-title-wrap" id="workshop">
-            <div class="section-title-box">ワークショップ</div>
-        </section>
-
-        <section class="section flow-section" id="about">
-            <div class="inner">
-                <div class="heading-wrap">
-                    <h2 class="section-heading en">Experience Flow</h2>
-                    <p class="section-sub">体験の流れ</p>
-                </div>
-
-                <div class="flow-list">
-                    <article class="flow-card">
-                        <img src="flow1.png" alt="流れ1" />
-                        <p class="flow-title">1. 集合・受付の様子</p>
-                        <p class="flow-text">レジカウンターにて受付をお願いします</p>
-                    </article>
-                    <article class="flow-card">
-                        <img src="flow2.png" alt="流れ2" />
-                        <p class="flow-title">2. 体験準備・移動</p>
-                        <p class="flow-text">数種類の香料からお好きな香りをセレクト</p>
-                    </article>
-                    <article class="flow-card">
-                        <img src="flow3.png" alt="流れ3" />
-                        <p class="flow-title">3. 体験中①</p>
-                        <p class="flow-text">選んだ香料をブレンド</p>
-                    </article>
-                    <article class="flow-card">
-                        <img src="flow4.png" alt="流れ4" />
-                        <p class="flow-title">4. 体験中②</p>
-                        <p class="flow-text">あなただけのオリジナル香水として<br>お持ち帰りいただけます</p>
-                    </article>
-                </div>
+            <div class="flow-list">
+                <article class="flow-card">
+                    <img src="flow1.png" alt="受付の様子" />
+                    <p class="flow-text">1. ご来店後に受付を行い、体験内容をご案内します。</p>
+                </article>
+                <article class="flow-card">
+                    <img src="flow2.png" alt="香料を選ぶ様子" />
+                    <p class="flow-text">2. 数種類の香料からお好きな香りを選びます。</p>
+                </article>
+                <article class="flow-card">
+                    <img src="flow3.png" alt="調香体験" />
+                    <p class="flow-text">3. スタッフと一緒に香りのバランスを整えます。</p>
+                </article>
+                <article class="flow-card">
+                    <img src="flow4.png" alt="完成した香水" />
+                    <p class="flow-text">4. 完成した香りはそのままお持ち帰りいただけます。</p>
+                </article>
             </div>
         </section>
 
         <section class="section price-section">
-            <div class="inner">
-                <div class="heading-wrap">
-                    <h2 class="section-heading en">Price</h2>
-                    <p class="section-sub">料金</p>
+            <div class="heading-wrap">
+                <h2 class="section-heading en">Price</h2>
+                <p class="section-sub">料金</p>
+            </div>
+
+            <div class="price-content inner">
+                <div class="price-table">
+                    <div class="price-row">
+                        <span class="price-label">料金</span>
+                        <span class="price-value">おひとりさま <strong>￥５５００</strong></span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">制作物</span>
+                        <span class="price-value">オードトワレ</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">当日持ち帰り</span>
+                        <span class="price-value">あり</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">レクチャー</span>
+                        <span class="price-value">あり</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">写真サービス</span>
+                        <span class="price-value">なし</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">制作個数</span>
+                        <span class="price-value">1個まで</span>
+                    </div>
                 </div>
 
-                <div class="price-content">
-                    <div class="price-table">
-                        <div class="price-row">
-                            <span class="price-label">料金</span>
-                            <span class="price-value">おひとりさま　<strong>￥５５００</strong></span>
-                        </div>
-                        <div class="price-row">
-                            <span class="price-label">制作物</span>
-                            <span class="price-value">オードトワレ</span>
-                        </div>
-                        <div class="price-row">
-                            <span class="price-label">当日持ち帰り</span>
-                            <span class="price-value">あり</span>
-                        </div>
-                        <div class="price-row">
-                            <span class="price-label">レクチャー</span>
-                            <span class="price-value">あり</span>
-                        </div>
-                        <div class="price-row">
-                            <span class="price-label">写真サービス</span>
-                            <span class="price-value">なし</span>
-                        </div>
-                        <div class="price-row">
-                            <span class="price-label">制作個数</span>
-                            <span class="price-value">１個まで <span class="price-note">（選んでいただいた4種の香料もお持ち帰りいただけます。）</span></span>
-                        </div>
-                    </div>
-
-                    <div class="price-image">
-                        <img src="price-image.png" alt="調香イメージ" />
-                    </div>
+                <div class="price-image-wrap">
+                    <img src="price-image.png" alt="調香イメージ" class="price-image" />
                 </div>
             </div>
         </section>
 
         <section class="section schedule-section" id="schedule">
-            <div class="inner schedule-inner">
-                <div class="heading-wrap">
-                    <h2 class="section-heading en">Schedule</h2>
-                    <p class="section-sub">日程</p>
-                </div>
+            <div class="heading-wrap">
+                <h2 class="section-heading en">Schedule</h2>
+                <p class="section-sub">日程</p>
+            </div>
 
-                <div class="schedule-info">
-                    <div class="schedule-box">開催日<br>土・日・祝</div>
-                    <div class="schedule-box">開始時間<br>①11:00〜<br>②13:00〜<br>③15:00〜</div>
-                    <div class="schedule-box">所要時間<br>約1時間</div>
-                </div>
+            <div class="schedule-summary">
+                <div class="schedule-box">ご体験日<br>土・日・祝</div>
+                <div class="schedule-box">ご予約時間<br>11:00 / 13:00 / 15:00</div>
+                <div class="schedule-box">所要時間<br>約1時間</div>
+            </div>
 
-                <div class="booking-calendar" aria-label="予約カレンダー">
-                    <div class="calendar-toolbar">
-                        <button type="button" class="calendar-nav" id="calendar-prev" aria-label="前の月">‹</button>
-                        <p class="calendar-month" id="calendar-month">2026年3月</p>
-                        <button type="button" class="calendar-nav" id="calendar-next" aria-label="次の月">›</button>
-                    </div>
-                    <div class="calendar-weekdays" aria-hidden="true">
-                        <span>日</span>
-                        <span>月</span>
-                        <span>火</span>
-                        <span>水</span>
-                        <span>木</span>
-                        <span>金</span>
-                        <span>土</span>
-                    </div>
-                    <div class="calendar-days" id="calendar-days"></div>
-                    <div class="calendar-legend">
-                        <span class="legend-item"><i class="dot available"></i>空きあり</span>
-                        <span class="legend-item"><i class="dot limited"></i>残りわずか</span>
-                        <span class="legend-item"><i class="dot full"></i>満席</span>
-                    </div>
-                    <div class="calendar-selection">
-                        <p id="selected-date-text">日付を選択してください</p>
-                        <p id="selected-date-status">空き状況がここに表示されます</p>
-                        <div class="time-slots" id="time-slots" aria-label="予約時間枠"></div>
-                        <a href="#reservation" class="hero-btn calendar-reserve-btn" id="calendar-reserve-btn"
-                            aria-disabled="true">この日で予約へ進む</a>
-                    </div>
-                </div>
+            <div class="calendar-preview">
+                <img src="photo-thumb5.png" alt="予約カレンダーイメージ1" />
+                <img src="photo-thumb6.png" alt="予約カレンダーイメージ2" />
+            </div>
 
-                <div class="schedule-note">
-                    ※10分前にはお店にて受付をお願いいたします。<br>
-                    お客様が揃っていなくても開始時間にはワークを始めます。<br><br>
-                    ※ワークショップ不参加での同伴はお席の都合上お断りしております。<br>
-                    予めご了承くださいませ。
-                </div>
+            <div class="schedule-note">
+                ※10分前にはお店にて受付をお願いいたします。<br>
+                お客様が揃っていなくても開始時間にはワークを始めます。<br><br>
+                ※ワークショップ不参加での同伴はお席の都合上お断りしております。
             </div>
         </section>
 
@@ -214,162 +171,117 @@
             </div>
         </section>
 
-        <section class="section reviews-section">
-            <div class="inner">
-                <div class="heading-wrap">
-                    <h2 class="section-heading en">Reviews</h2>
-                    <p class="section-sub">レビュー</p>
-                </div>
+        <section class="section reviews-section" id="reviews">
+            <div class="heading-wrap">
+                <h2 class="section-heading en">Reviews</h2>
+                <p class="section-sub">レビュー</p>
+            </div>
 
-                <div class="review-list">
-                    <article class="review-card">
-                        <div class="review-user">
-                            <div class="review-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" role="img">
-                                    <circle cx="12" cy="8" r="4"></circle>
-                                    <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
-                                </svg>
-                            </div>
-                            <p class="review-nickname">ゆり</p>
-                            <p class="review-meta">女性 / 20代</p>
-                        </div>
-                        <div class="review-body">
-                            <p class="review-rating">★★★★★</p>
-                            <p class="review-text">
-                                初めての調香でしたが、スタッフの方が丁寧に説明してくださり、安心して体験できました。
-                                香りの組み合わせを考える時間もとても楽しく、思い出に残りました。
-                            </p>
-                        </div>
-                    </article>
+            <div class="review-list"></div>
 
-                    <article class="review-card">
-                        <div class="review-user">
-                            <div class="review-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" role="img">
-                                    <circle cx="12" cy="8" r="4"></circle>
-                                    <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
-                                </svg>
-                            </div>
-                            <p class="review-nickname">mika</p>
-                            <p class="review-meta">女性 / 10代</p>
-                        </div>
-                        <div class="review-body">
-                            <p class="review-rating">★★★★★</p>
-                            <p class="review-text">
-                                たくさんの香りから好きなものを選べるのが魅力的でした。
-                                恋人と一緒に参加して、良い記念日になりました。
-                            </p>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="pagination">
-                    <span>前へ</span>
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <span>次へ</span>
-                </div>
+            <div class="pagination">
+                <button type="button" class="page-dot active" data-page="0">1</button>
+                <button type="button" class="page-dot" data-page="1">2</button>
+                <button type="button" class="page-dot" data-page="2">3</button>
+                <button type="button" class="page-dot" data-page="3">4</button>
+                <button type="button" class="page-dot" data-page="4">5</button>
             </div>
         </section>
 
         <section class="section reservation-section" id="reservation">
-            <div class="inner reservation-inner">
-                <div class="heading-wrap">
-                    <h2 class="section-heading en">Reservation</h2>
-                    <p class="section-sub">予約</p>
+            <div class="heading-wrap">
+                <h2 class="section-heading en">Reservation</h2>
+                <p class="section-sub">予約</p>
+            </div>
+
+            <h3 class="reserve-heading">予約フォーム</h3>
+
+            <form class="reserve-form" id="reserve-form">
+                <div class="field-group">
+                    <label>お名前（フリガナ）<span class="required">必須</span></label>
+                    <div class="grid-2">
+                        <div>
+                            <p class="mini-label">セイ</p>
+                            <input type="text" placeholder="ヤマダ" />
+                        </div>
+                        <div>
+                            <p class="mini-label">メイ</p>
+                            <input type="text" placeholder="タロウ" />
+                        </div>
+                    </div>
                 </div>
 
-                <form class="reserve-form" id="reserve-form">
-                    <div class="field-group">
-                        <label>お名前（フリガナ）<span class="required">必須</span></label>
-                        <div class="grid-2">
-                            <div>
-                                <p class="mini-label">セイ</p>
-                                <input type="text" placeholder="ヤマダ" />
-                            </div>
-                            <div>
-                                <p class="mini-label">メイ</p>
-                                <input type="text" placeholder="タロウ" />
-                            </div>
+                <div class="field-group">
+                    <label>お名前<span class="required">必須</span></label>
+                    <div class="grid-2">
+                        <div>
+                            <p class="mini-label">姓</p>
+                            <input type="text" placeholder="山田" />
+                        </div>
+                        <div>
+                            <p class="mini-label">名</p>
+                            <input type="text" placeholder="太郎" />
                         </div>
                     </div>
+                </div>
 
-                    <div class="field-group">
-                        <label>お名前<span class="required">必須</span></label>
-                        <div class="grid-2">
-                            <div>
-                                <p class="mini-label">姓</p>
-                                <input type="text" placeholder="山田" />
-                            </div>
-                            <div>
-                                <p class="mini-label">名</p>
-                                <input type="text" placeholder="太郎" />
-                            </div>
+                <div class="field-group">
+                    <label for="email">メールアドレス<span class="required">必須</span></label>
+                    <input id="email" type="email" placeholder="mail@example.com" />
+                </div>
+
+                <div class="field-group">
+                    <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
+                    <input id="email-confirm" type="email" placeholder="mail@example.com" />
+                </div>
+
+                <div class="field-group">
+                    <label for="tel">電話番号<span class="required">必須</span></label>
+                    <input id="tel" type="tel" placeholder="000-0000-0000" />
+                </div>
+
+                <div class="field-group">
+                    <label>日程選択<span class="required">必須</span></label>
+                    <div class="grid-2">
+                        <div>
+                            <p class="mini-label">日程</p>
+                            <input type="text" placeholder="0000/00/00" />
+                        </div>
+                        <div>
+                            <p class="mini-label">時間</p>
+                            <input type="text" placeholder="00:00" />
                         </div>
                     </div>
+                </div>
 
-                    <div class="field-group">
-                        <label for="email">メールアドレス<span class="required">必須</span></label>
-                        <input id="email" type="email" placeholder="mail@example.com" />
-                    </div>
+                <div class="field-group">
+                    <label for="people">参加人数<span class="required">必須</span></label>
+                    <input id="people" type="text" placeholder="〇人" />
+                </div>
 
-                    <div class="field-group">
-                        <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
-                        <input id="email-confirm" type="email" placeholder="mail@example.com" />
-                    </div>
+                <div class="field-group">
+                    <label for="note">備考欄<span class="optional">任意</span></label>
+                    <textarea id="note" rows="5"></textarea>
+                </div>
 
-                    <div class="field-group">
-                        <label for="tel">電話番号<span class="required">必須</span></label>
-                        <input id="tel" type="tel" placeholder="000-0000-0000" />
-                    </div>
+                <p class="policy-text">
+                    <strong>キャンセルポリシー</strong><br>
+                    多くのお客様に体験いただくため、以下の規定を設けております。<br>
+                    ・前日キャンセル：50％<br>
+                    ・当日キャンセル：100％<br>
+                    ・無断キャンセル：100％
+                </p>
 
-                    <div class="field-group">
-                        <label>日程選択<span class="required">必須</span></label>
-                        <div class="grid-2">
-                            <div>
-                                <p class="mini-label">日程</p>
-                                <input id="reservation-date" type="text" placeholder="0000/00/00" />
-                            </div>
-                            <div>
-                                <p class="mini-label">時間</p>
-                                <input id="reservation-time" type="text" placeholder="00:00" />
-                            </div>
-                        </div>
-                    </div>
+                <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
 
-                    <div class="field-group">
-                        <label for="people">参加人数<span class="required">必須</span></label>
-                        <input id="people" type="text" placeholder="〇人" />
-                    </div>
-
-                    <div class="field-group">
-                        <label for="note">備考欄<span class="optional">任意</span></label>
-                        <textarea id="note" rows="5"></textarea>
-                    </div>
-
-                    <p class="policy-text">
-                        <strong>キャンセルポリシー</strong><br>
-                        多くのお客様に体験いただくため、以下の規定を設けております。<br>
-                        ・前日キャンセル：50％<br>
-                        ・当日キャンセル：100％<br>
-                        ・無断キャンセル：100％<br>
-                        やむを得ない事情がある場合は、事前にご相談ください。
-                    </p>
-
-                    <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
-
-                    <div class="submit-wrap">
-                        <button class="next-btn" type="submit">次へ</button>
-                    </div>
-                </form>
-            </div>
+                <div class="submit-wrap">
+                    <button class="next-btn" type="submit">次へ</button>
+                </div>
+            </form>
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" id="contact">
         <div class="footer-inner">
             <div class="footer-links">
                 <a href="#">ワークショップ</a>
@@ -398,4 +310,3 @@
 </body>
 
 </html>
-
