@@ -104,7 +104,22 @@
       const raw = localStorage.getItem(storageKey);
       if (!raw) return [...fallback];
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed : [...fallback];
+      if (!Array.isArray(parsed)) {
+        return [...fallback];
+      }
+
+      const merged = [...fallback];
+      parsed.forEach((item) => {
+        if (!item || typeof item !== "object") return;
+        const index = merged.findIndex((fallbackItem) => fallbackItem.id === item.id);
+        if (index >= 0) {
+          merged[index] = { ...merged[index], ...item };
+        } else {
+          merged.unshift(item);
+        }
+      });
+
+      return merged;
     } catch {
       return [...fallback];
     }

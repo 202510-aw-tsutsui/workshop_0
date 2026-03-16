@@ -43,6 +43,7 @@
   const completePeople = document.querySelector("#complete-people");
   const completePayment = document.querySelector("#complete-payment");
   const searchParams = new URLSearchParams(window.location.search);
+  const adminReservationStorageKey = "inoriAdminReservations";
 
   if (!form) return;
 
@@ -125,6 +126,46 @@
     }
   }
 
+  function loadAdminReservations() {
+    try {
+      const raw = localStorage.getItem(adminReservationStorageKey);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveReservationToAdmin() {
+    const selected = paymentInputs.find((input) => input.checked);
+    const reservations = loadAdminReservations();
+    const noteParts = [];
+
+    if (fields.note.value.trim()) {
+      noteParts.push(fields.note.value.trim());
+    }
+
+    if (selected) {
+      noteParts.push(`支払方法: ${selected.value}`);
+    }
+
+    reservations.unshift({
+      id: Date.now(),
+      name: `${fields.lastName.value.trim()} ${fields.firstName.value.trim()}`.trim(),
+      email: fields.email.value.trim(),
+      phone: fields.tel.value.trim(),
+      date: fields.reservationDate.value,
+      time: fields.reservationTime.value,
+      people: Number(fields.people.value),
+      status: "予約確定",
+      note: noteParts.join(" / ") || "Web予約"
+    });
+
+    localStorage.setItem(adminReservationStorageKey, JSON.stringify(reservations));
+    sessionStorage.removeItem("inoriReservationDraft");
+  }
+
   function applyReservationDraft() {
     const draftRaw = sessionStorage.getItem("inoriReservationDraft");
     if (!draftRaw) {
@@ -185,6 +226,7 @@
   });
 
   completeButton?.addEventListener("click", () => {
+    saveReservationToAdmin();
     goToStep(4);
   });
 
