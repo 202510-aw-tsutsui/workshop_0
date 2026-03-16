@@ -186,6 +186,51 @@ ul {
     background: rgba(0, 0, 0, 0.05);
 }
 
+.hero-copy,
+.hero-cta {
+    position: absolute;
+    z-index: 1;
+}
+
+.hero-copy {
+    left: clamp(52px, 8vw, 96px);
+    bottom: 170px;
+    max-width: 920px;
+    color: #2f2a28;
+}
+
+.hero-heading {
+    font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.hero-subcopy {
+    margin-top: 26px;
+    font-size: clamp(0.95rem, 1.45vw, 1.4rem);
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+    white-space: nowrap;
+}
+
+.hero-cta {
+    right: clamp(44px, 7vw, 92px);
+    bottom: 44px;
+    min-width: 310px;
+    padding: 12px 22px;
+    border: 2px solid #333;
+    border-radius: 999px;
+    background: #f2979e;
+    color: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    box-shadow: 0 4px 0 #333;
+}
+
 .section {
     padding: 64px 0;
 }
