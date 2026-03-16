@@ -751,4 +751,13 @@ textarea {
   .field-group label {
     font-size: 1rem;
   }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .footer-actions {
+    justify-self: center;
+  }
 }

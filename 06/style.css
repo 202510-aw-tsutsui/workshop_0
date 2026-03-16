@@ -393,6 +393,10 @@ textarea {
     justify-items: center;
   }
 
+  .footer-links {
+    justify-content: center;
+  }
+
   .footer-actions {
     justify-self: center;
   }

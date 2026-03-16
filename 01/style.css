@@ -970,7 +970,6 @@ ul {
     .price-content,
     .schedule-summary,
     .timeslot-list,
-    .footer-inner,
     .grid-2 {
         grid-template-columns: 1fr;
     }
@@ -979,9 +978,13 @@ ul {
         grid-template-columns: 1fr;
     }
 
-    .footer-links,
+    .footer-inner {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
     .footer-actions {
-        justify-content: center;
+        justify-self: center;
     }
 }
 
