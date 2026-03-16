@@ -268,8 +268,9 @@ ul {
 
 .price-content {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 34px;
+    grid-template-columns: max-content 320px;
+    justify-content: center;
+    gap: 20px;
     align-items: center;
 }
 

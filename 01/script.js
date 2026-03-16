@@ -394,6 +394,33 @@
         }
     });
 
+    bookingForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const policyCheck = bookingForm.querySelector("#policy-check");
+        if (policyCheck && !policyCheck.checked) {
+            alert("キャンセルポリシーに同意してください。");
+            return;
+        }
+
+        const reservationDraft = {
+            lastNameKana: document.querySelector("#last-name-kana")?.value.trim() ?? "",
+            firstNameKana: document.querySelector("#first-name-kana")?.value.trim() ?? "",
+            lastName: document.querySelector("#last-name")?.value.trim() ?? "",
+            firstName: document.querySelector("#first-name")?.value.trim() ?? "",
+            email: document.querySelector("#email")?.value.trim() ?? "",
+            emailConfirm: document.querySelector("#email-confirm")?.value.trim() ?? "",
+            tel: document.querySelector("#tel")?.value.trim() ?? "",
+            reservationDate: document.querySelector("#reservation-date")?.value.trim() ?? "",
+            reservationTime: document.querySelector("#reservation-time")?.value.trim() ?? "",
+            people: document.querySelector("#people")?.value.trim() ?? "",
+            note: document.querySelector("#note")?.value.trim() ?? ""
+        };
+
+        sessionStorage.setItem("inoriReservationDraft", JSON.stringify(reservationDraft));
+        window.location.href = "../03/index.html?step=2";
+    });
+
     calendarPrev?.addEventListener("click", () => {
         currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
         renderCalendar();

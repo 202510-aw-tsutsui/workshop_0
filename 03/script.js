@@ -42,6 +42,7 @@
   const completeDate = document.querySelector("#complete-date");
   const completePeople = document.querySelector("#complete-people");
   const completePayment = document.querySelector("#complete-payment");
+  const searchParams = new URLSearchParams(window.location.search);
 
   if (!form) return;
 
@@ -124,6 +125,26 @@
     }
   }
 
+  function applyReservationDraft() {
+    const draftRaw = sessionStorage.getItem("inoriReservationDraft");
+    if (!draftRaw) {
+      return false;
+    }
+
+    try {
+      const draft = JSON.parse(draftRaw);
+      Object.entries(fields).forEach(([key, field]) => {
+        if (field && typeof draft[key] === "string") {
+          field.value = draft[key];
+        }
+      });
+      updatePaymentSummary();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -168,5 +189,6 @@
   });
 
   syncPaymentDetails();
-  goToStep(1);
+  const hasDraft = applyReservationDraft();
+  goToStep(hasDraft && searchParams.get("step") === "2" ? 2 : 1);
 });
