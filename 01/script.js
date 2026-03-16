@@ -1,4 +1,5 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
+    const i18n = window.InoriI18n;
     const mainPhoto = document.querySelector(".main-photo");
     const leftArrow = document.querySelector(".slider-arrow.left");
     const rightArrow = document.querySelector(".slider-arrow.right");
@@ -29,78 +30,152 @@
         "photo-thumb6.png"
     ];
 
-    const reviewPages = [
-        [
-            {
-                nickname: "ゆり",
-                text: "初めての調香でしたが、スタッフの方が丁寧に説明してくださり、安心して体験できました。香りの組み合わせを考える時間もとても楽しく、思い出に残りました。",
-                rating: "★★★★★",
-                meta: "女性 / 20代"
-            },
-            {
-                nickname: "mika",
-                text: "たくさんの香りから好きなものを選べるのが魅力的でした。恋人と一緒に参加して、良い記念日になりました。",
-                rating: "★★★★★",
-                meta: "女性 / 10代"
-            }
+    const reviewPages = {
+        ja: [
+            [
+                {
+                    nickname: "ゆり",
+                    text: "初めての調香でしたが、スタッフの方が丁寧に説明してくださり、安心して体験できました。香りの組み合わせを考える時間もとても楽しく、思い出に残りました。",
+                    rating: "★★★★★",
+                    meta: "女性 / 20代"
+                },
+                {
+                    nickname: "mika",
+                    text: "たくさんの香りから好きなものを選べるのが魅力的でした。恋人と一緒に参加して、良い記念日になりました。",
+                    rating: "★★★★★",
+                    meta: "女性 / 10代"
+                }
+            ],
+            [
+                {
+                    nickname: "hana",
+                    text: "店内の雰囲気が落ち着いていて、ゆっくり香りを選べました。初心者でも分かりやすかったです。",
+                    rating: "★★★★★",
+                    meta: "女性 / 30代"
+                },
+                {
+                    nickname: "kei",
+                    text: "友人と一緒に参加しましたが、それぞれ違う香りになって面白かったです。",
+                    rating: "★★★★★",
+                    meta: "男性 / 20代"
+                }
+            ],
+            [
+                {
+                    nickname: "saya",
+                    text: "説明がわかりやすく、香料の違いをしっかり体感できました。完成後の香りにも満足です。",
+                    rating: "★★★★★",
+                    meta: "女性 / 20代"
+                },
+                {
+                    nickname: "rina",
+                    text: "旅行の思い出として参加しました。短時間で体験できるのに内容が濃くてよかったです。",
+                    rating: "★★★★★",
+                    meta: "女性 / 20代"
+                }
+            ],
+            [
+                {
+                    nickname: "momo",
+                    text: "香りの調整が細かくできて、選ぶ時間そのものが楽しかったです。仕上がりにもとても満足しています。",
+                    rating: "★★★★★",
+                    meta: "女性 / 40代"
+                },
+                {
+                    nickname: "eri",
+                    text: "接客が丁寧で心地よく過ごせました。次は別の香りでもう一度作ってみたいです。",
+                    rating: "★★★★★",
+                    meta: "女性 / 30代"
+                }
+            ],
+            [
+                {
+                    nickname: "noa",
+                    text: "予約後の連絡もスムーズで安心できました。体験中のサポートも十分で良かったです。",
+                    rating: "★★★★★",
+                    meta: "女性 / 20代"
+                },
+                {
+                    nickname: "aki",
+                    text: "親子で参加しましたが、日程も調整しやすく、説明も丁寧で安心して楽しめました。",
+                    rating: "★★★★★",
+                    meta: "女性 / 30代"
+                }
+            ]
         ],
-        [
-            {
-                nickname: "hana",
-                text: "店内の雰囲気が落ち着いていて、ゆっくり香りを選べました。初心者でも分かりやすかったです。",
-                rating: "★★★★★",
-                meta: "女性 / 30代"
-            },
-            {
-                nickname: "kei",
-                text: "友人と一緒に参加しましたが、それぞれ違う香りになって面白かったです。",
-                rating: "★★★★★",
-                meta: "男性 / 20代"
-            }
-        ],
-        [
-            {
-                nickname: "saya",
-                text: "説明がわかりやすく、香料の違いをしっかり体感できました。完成後の香りにも満足です。",
-                rating: "★★★★★",
-                meta: "女性 / 20代"
-            },
-            {
-                nickname: "rina",
-                text: "旅行の思い出として参加しました。短時間で体験できるのに内容が濃くてよかったです。",
-                rating: "★★★★★",
-                meta: "女性 / 20代"
-            }
-        ],
-        [
-            {
-                nickname: "momo",
-                text: "香りの調整が細かくできて、選ぶ時間そのものが楽しかったです。仕上がりにもとても満足しています。",
-                rating: "★★★★★",
-                meta: "女性 / 40代"
-            },
-            {
-                nickname: "eri",
-                text: "接客が丁寧で心地よく過ごせました。次は別の香りでもう一度作ってみたいです。",
-                rating: "★★★★★",
-                meta: "女性 / 30代"
-            }
-        ],
-        [
-            {
-                nickname: "noa",
-                text: "予約後の連絡もスムーズで安心できました。体験中のサポートも十分で良かったです。",
-                rating: "★★★★★",
-                meta: "女性 / 20代"
-            },
-            {
-                nickname: "aki",
-                text: "親子で参加しましたが、日程も調整しやすく、説明も丁寧で安心して楽しめました。",
-                rating: "★★★★★",
-                meta: "女性 / 30代"
-            }
+        en: [
+            [
+                {
+                    nickname: "Yuri",
+                    text: "It was my first time blending fragrances, but the staff explained everything so kindly that I felt at ease. Thinking about the combinations was so much fun and became a wonderful memory.",
+                    rating: "★★★★★",
+                    meta: "Female / 20s"
+                },
+                {
+                    nickname: "mika",
+                    text: "I loved being able to choose from so many scents. I joined with my partner and it turned into such a nice anniversary experience.",
+                    rating: "★★★★★",
+                    meta: "Female / Teens"
+                }
+            ],
+            [
+                {
+                    nickname: "hana",
+                    text: "The atmosphere in the shop was calm, so I could take my time choosing scents. It was easy to understand even as a beginner.",
+                    rating: "★★★★★",
+                    meta: "Female / 30s"
+                },
+                {
+                    nickname: "kei",
+                    text: "I joined with a friend, and it was fun to see how different our final scents turned out.",
+                    rating: "★★★★★",
+                    meta: "Male / 20s"
+                }
+            ],
+            [
+                {
+                    nickname: "saya",
+                    text: "The explanations were clear, and I could really feel the differences between the fragrance materials. I was very happy with the final scent.",
+                    rating: "★★★★★",
+                    meta: "Female / 20s"
+                },
+                {
+                    nickname: "rina",
+                    text: "I joined as part of my trip to Asakusa. It was short enough to fit into the day, but still felt rich and memorable.",
+                    rating: "★★★★★",
+                    meta: "Female / 20s"
+                }
+            ],
+            [
+                {
+                    nickname: "momo",
+                    text: "I enjoyed being able to fine-tune the fragrance in detail. Even the process of choosing was exciting, and I loved the result.",
+                    rating: "★★★★★",
+                    meta: "Female / 40s"
+                },
+                {
+                    nickname: "eri",
+                    text: "The service was very thoughtful and made the whole experience comfortable. I want to come back and make another scent next time.",
+                    rating: "★★★★★",
+                    meta: "Female / 30s"
+                }
+            ],
+            [
+                {
+                    nickname: "noa",
+                    text: "The communication after booking was smooth, and I felt reassured from start to finish. The support during the workshop was also excellent.",
+                    rating: "★★★★★",
+                    meta: "Female / 20s"
+                },
+                {
+                    nickname: "aki",
+                    text: "I joined with my child, and the schedule was easy to arrange. The explanations were kind and easy to follow, so we could enjoy it with confidence.",
+                    rating: "★★★★★",
+                    meta: "Female / 30s"
+                }
+            ]
         ]
-    ];
+    };
 
     const slotTimes = ["11:00", "13:00", "15:00"];
     const holidayDates = new Set([
@@ -125,13 +200,35 @@
         "2027-03-20"
     ]);
 
-    const monthFormatter = new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "long" });
-    const dateFormatter = new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "numeric", day: "numeric", weekday: "short" });
     const today = new Date();
     let currentPhotoIndex = 0;
     let currentReviewPage = 0;
     let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     let selectedDateKey = "";
+
+    function getLanguage() {
+        return i18n?.getLanguage?.() === "en" ? "en" : "ja";
+    }
+
+    function getMonthFormatter() {
+        return new Intl.DateTimeFormat(getLanguage() === "en" ? "en-US" : "ja-JP", {
+            year: "numeric",
+            month: "long"
+        });
+    }
+
+    function getDateFormatter() {
+        return new Intl.DateTimeFormat(getLanguage() === "en" ? "en-US" : "ja-JP", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            weekday: "short"
+        });
+    }
+
+    function t(ja, en) {
+        return i18n?.t?.(ja, en) ?? ja;
+    }
 
     function formatDateKey(date) {
         const year = date.getFullYear();
@@ -216,7 +313,7 @@
         if (!reviewList) return;
 
         currentReviewPage = pageIndex;
-        reviewList.innerHTML = reviewPages[pageIndex].map(createReviewCard).join("");
+        reviewList.innerHTML = reviewPages[getLanguage()][pageIndex].map(createReviewCard).join("");
         pageDots.forEach((dot, index) => {
             dot.classList.toggle("active", index === pageIndex);
         });
@@ -224,7 +321,7 @@
             reviewPrev.disabled = pageIndex === 0;
         }
         if (reviewNext) {
-            reviewNext.disabled = pageIndex === reviewPages.length - 1;
+            reviewNext.disabled = pageIndex === reviewPages[getLanguage()].length - 1;
         }
     }
 
@@ -252,13 +349,13 @@
 
         if (!isReservableDate(date)) {
             dayButton.classList.add("is-disabled");
-            dayButton.innerHTML += `<span class="calendar-note">対象外</span>`;
+            dayButton.innerHTML += `<span class="calendar-note">${t("対象外", "Closed")}</span>`;
             dayButton.disabled = true;
             return dayButton;
         }
 
         const dayStatus = getDayStatus(date);
-        const dayLabel = dayStatus === "available" ? "空き" : dayStatus === "few" ? "残り僅か" : "満席";
+        const dayLabel = dayStatus === "available" ? t("空き", "Available") : dayStatus === "few" ? t("残り僅か", "Few left") : t("満席", "Full");
 
         dayButton.classList.add("is-selectable");
         if (selectedDateKey === dateKey) {
@@ -302,16 +399,11 @@
             dayCells.push(createEmptyDay());
         }
 
-        calendarCurrent.textContent = monthFormatter.format(currentMonth);
+        const weekdays = getLanguage() === "en" ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] : ["日", "月", "火", "水", "木", "金", "土"];
+        calendarCurrent.textContent = getMonthFormatter().format(currentMonth);
         calendarRoot.innerHTML = `
             <div class="calendar-weekdays">
-                <span>日</span>
-                <span>月</span>
-                <span>火</span>
-                <span>水</span>
-                <span>木</span>
-                <span>金</span>
-                <span>土</span>
+                ${weekdays.map((day) => `<span>${day}</span>`).join("")}
             </div>
         `;
 
@@ -328,10 +420,10 @@
 
         const dateKey = formatDateKey(date);
         timeslotPanel.hidden = false;
-        timeslotTitle.textContent = `${dateFormatter.format(date)} の予約枠`;
+        timeslotTitle.textContent = getLanguage() === "en" ? `${getDateFormatter().format(date)} Availability` : `${getDateFormatter().format(date)} の予約枠`;
         timeslotList.innerHTML = slotTimes.map((time, index) => {
             const status = getSlotStatus(dateKey, index);
-            const label = status === "available" ? "空き" : status === "few" ? "残り僅か" : "満席";
+            const label = status === "available" ? t("空き", "Available") : status === "few" ? t("残り僅か", "Few left") : t("満席", "Full");
 
             return `
                 <button type="button" class="timeslot-btn" data-date="${dateKey}" data-time="${time}" ${status === "full" ? "disabled" : ""}>
@@ -353,7 +445,7 @@
 
                 reservationSection?.scrollIntoView({ behavior: "smooth", block: "start" });
                 window.setTimeout(() => {
-                    bookingForm?.querySelector("input, textarea")?.focus();
+                    bookingForm?.querySelector("input, textarea, select")?.focus();
                 }, 500);
             });
         });
@@ -389,7 +481,7 @@
     });
 
     reviewNext?.addEventListener("click", () => {
-        if (currentReviewPage < reviewPages.length - 1) {
+        if (currentReviewPage < reviewPages[getLanguage()].length - 1) {
             renderReviewPage(currentReviewPage + 1);
         }
     });
@@ -399,7 +491,7 @@
 
         const policyCheck = bookingForm.querySelector("#policy-check");
         if (policyCheck && !policyCheck.checked) {
-            alert("キャンセルポリシーに同意してください。");
+            alert(t("キャンセルポリシーに同意してください。", "Please agree to the cancellation policy."));
             return;
         }
 
@@ -429,6 +521,14 @@
     calendarNext?.addEventListener("click", () => {
         currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
         renderCalendar();
+    });
+
+    document.addEventListener("inori-language-change", () => {
+        renderReviewPage(currentReviewPage);
+        renderCalendar();
+        if (selectedDateKey) {
+            renderTimeslots(new Date(`${selectedDateKey}T00:00:00`));
+        }
     });
 
     updateMainPhoto();
