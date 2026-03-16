@@ -31,13 +31,14 @@
   const closeReservationModal = document.querySelector("#close-reservation-modal");
   const reservationForm = document.querySelector("#reservation-form");
   const reservationModalTitle = document.querySelector("#reservation-modal-title");
-  const cancelReservationBtn = document.querySelector("#cancel-reservation-btn");
+  const completeReservationBtn = document.querySelector("#complete-reservation-btn");
   const deleteReservationBtn = document.querySelector("#delete-reservation-btn");
 
   const inquiryModal = document.querySelector("#inquiry-modal");
   const closeInquiryModal = document.querySelector("#close-inquiry-modal");
   const inquiryForm = document.querySelector("#inquiry-form");
   const inquiryModalTitle = document.querySelector("#inquiry-modal-title");
+  const completeInquiryBtn = document.querySelector("#complete-inquiry-btn");
   const deleteInquiryBtn = document.querySelector("#delete-inquiry-btn");
 
   const reservationFields = {
@@ -63,7 +64,7 @@
     message: document.querySelector("#inquiry-message")
   };
 
-  const reservations = [
+  const reservationSeed = [
     { id: 1, name: "山田 花", email: "hana@example.com", phone: "090-1111-2222", date: "2026-03-18", time: "11:00", people: 2, status: "予約確定", note: "記念日利用。写真撮影希望。" },
     { id: 2, name: "佐藤 健太", email: "kenta@example.com", phone: "080-4321-8765", date: "2026-03-18", time: "13:00", people: 3, status: "仮予約", note: "PayPay予定。" },
     { id: 3, name: "鈴木 美咲", email: "misaki@example.com", phone: "070-9988-2211", date: "2026-03-19", time: "15:00", people: 2, status: "予約確定", note: "香り相談あり。" },
@@ -76,7 +77,7 @@
     { id: 10, name: "吉田 直人", email: "naoto@example.com", phone: "090-7788-9900", date: "2026-03-23", time: "15:00", people: 2, status: "予約確定", note: "銀行振込。" }
   ];
 
-  const inquiries = [
+  const inquirySeed = [
     { id: 1, name: "山田 花", email: "hana@example.com", phone: "090-1111-2222", date: "2026-03-18", subject: "予約変更について", status: "未対応", message: "開始時間を13時へ変更したいです。" },
     { id: 2, name: "佐藤 健太", email: "kenta@example.com", phone: "080-4321-8765", date: "2026-03-18", subject: "支払方法について", status: "対応中", message: "PayPay決済の流れを教えてください。" },
     { id: 3, name: "鈴木 美咲", email: "misaki@example.com", phone: "070-9988-2211", date: "2026-03-19", subject: "香りの持ち帰り", status: "完了", message: "当日持ち帰り可能か確認したいです。" },
@@ -85,12 +86,34 @@
     { id: 6, name: "山口 みゆ", email: "miyu@example.com", phone: "080-1010-4545", date: "2026-03-22", subject: "英語対応", status: "完了", message: "英語での案内が可能か確認したいです。" }
   ];
 
+  const storageKeys = {
+    reservations: "inoriAdminReservations",
+    inquiries: "inoriAdminInquiries"
+  };
+  const reservations = loadCollection(storageKeys.reservations, reservationSeed);
+  const inquiries = loadCollection(storageKeys.inquiries, inquirySeed);
   const pageSize = 5;
   let currentReservationPage = 1;
   let currentInquiryPage = 1;
   let currentReservationId = null;
   let currentInquiryId = null;
   let currentView = "reservations";
+
+  function loadCollection(storageKey, fallback) {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return [...fallback];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [...fallback];
+    } catch {
+      return [...fallback];
+    }
+  }
+
+  function persistCollections() {
+    localStorage.setItem(storageKeys.reservations, JSON.stringify(reservations));
+    localStorage.setItem(storageKeys.inquiries, JSON.stringify(inquiries));
+  }
 
   function formatDate(dateValue) {
     const [year, month, day] = dateValue.split("-");
@@ -268,7 +291,7 @@
     reservationFields.people.value = item?.people ?? 1;
     reservationFields.status.value = item?.status ?? "仮予約";
     reservationFields.note.value = item?.note ?? "";
-    cancelReservationBtn.disabled = mode === "new";
+    completeReservationBtn.disabled = mode === "new";
     deleteReservationBtn.disabled = mode === "new";
   }
 
@@ -290,6 +313,7 @@
     inquiryFields.subject.value = item?.subject ?? "";
     inquiryFields.status.value = item?.status ?? "未対応";
     inquiryFields.message.value = item?.message ?? "";
+    completeInquiryBtn.disabled = mode === "new";
     deleteInquiryBtn.disabled = mode === "new";
   }
 
@@ -383,6 +407,7 @@
 
     if (target.dataset.reservationAction === "cancel") {
       item.status = "キャンセル";
+      persistCollections();
       renderReservations();
     }
   });
@@ -401,6 +426,7 @@
     if (target.dataset.inquiryAction === "delete") {
       const index = inquiries.findIndex((inquiry) => inquiry.id === id);
       inquiries.splice(index, 1);
+      persistCollections();
       renderInquiries();
     }
   });
@@ -415,10 +441,12 @@
     if (event.target === inquiryModal) closeInquiry();
   });
 
-  cancelReservationBtn.addEventListener("click", () => {
+  completeReservationBtn.addEventListener("click", () => {
     const item = reservations.find((reservation) => reservation.id === currentReservationId);
     if (!item) return;
-    item.status = "キャンセル";
+    item.status = "来店済み";
+    reservationFields.status.value = "来店済み";
+    persistCollections();
     closeReservation();
     renderReservations();
   });
@@ -427,6 +455,7 @@
     const index = reservations.findIndex((reservation) => reservation.id === currentReservationId);
     if (index < 0) return;
     reservations.splice(index, 1);
+    persistCollections();
     closeReservation();
     renderReservations();
   });
@@ -435,6 +464,17 @@
     const index = inquiries.findIndex((inquiry) => inquiry.id === currentInquiryId);
     if (index < 0) return;
     inquiries.splice(index, 1);
+    persistCollections();
+    closeInquiry();
+    renderInquiries();
+  });
+
+  completeInquiryBtn.addEventListener("click", () => {
+    const item = inquiries.find((inquiry) => inquiry.id === currentInquiryId);
+    if (!item) return;
+    item.status = "完了";
+    inquiryFields.status.value = "完了";
+    persistCollections();
     closeInquiry();
     renderInquiries();
   });
@@ -465,6 +505,7 @@
       reservations.unshift(payload);
     }
 
+    persistCollections();
     closeReservation();
     currentReservationPage = 1;
     renderReservations();
@@ -495,6 +536,7 @@
       inquiries.unshift(payload);
     }
 
+    persistCollections();
     closeInquiry();
     currentInquiryPage = 1;
     renderInquiries();

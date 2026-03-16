@@ -378,10 +378,12 @@ button {
 
 .modal-panel {
   width: min(920px, 100%);
+  max-height: calc(100vh - 60px);
   background: #fffaf6;
   border-radius: 28px;
   padding: 28px;
   box-shadow: 0 24px 48px rgba(43, 35, 31, 0.18);
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -420,9 +422,15 @@ button {
   align-items: center;
   margin-top: 24px;
   gap: 18px;
+  position: sticky;
+  bottom: 0;
+  padding-top: 16px;
+  background: linear-gradient(180deg, rgba(255, 250, 246, 0) 0%, #fffaf6 20%);
 }
 
 .modal-submit {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
