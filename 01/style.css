@@ -194,9 +194,33 @@ ul {
 
 .hero-copy {
     left: clamp(52px, 8vw, 96px);
-    bottom: 170px;
+    bottom: 110px;
     max-width: 920px;
     color: #2f2a28;
+}
+
+.hero-mark {
+    width: clamp(140px, 16vw, 200px);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    padding: 0;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 20px rgba(47, 42, 40, 0.08);
+    overflow: hidden;
+}
+
+.hero-mark-image {
+    width: 150%;
+    height: 150%;
+    display: block;
+    object-fit: contain;
+    object-position: center 63%;
+    flex-shrink: 0;
 }
 
 .hero-heading {
