@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <header class="header">
+  <header class="header" id="top">
     <div class="header-top">
       <div class="sns-icons">
         <a href="#" class="sns-icon" aria-label="LINE">
@@ -55,109 +55,337 @@
       <div class="hero-image-placeholder" aria-label="トップ画像プレースホルダー"></div>
     </section>
 
-    <section class="reserve-title-wrap">
+    <section class="reserve-title-wrap" id="reservation">
       <div class="reserve-title">ご予約</div>
     </section>
 
     <section class="section reserve-section">
       <div class="stepper" aria-label="予約ステップ">
-        <span class="step active">①入力</span>
-        <span class="step">②決済</span>
-        <span class="step">③確認</span>
-        <span class="step">④完了</span>
+        <span class="step active" data-step="1">①入力</span>
+        <span class="step" data-step="2">②決済</span>
+        <span class="step" data-step="3">③確認</span>
+        <span class="step" data-step="4">④完了</span>
       </div>
 
-      <div class="heading-wrap">
-        <h2 class="reserve-heading">予約フォーム</h2>
-      </div>
-
-      <form class="reserve-form" id="reserve-form">
-        <div class="field-group">
-          <label>お名前（フリガナ）<span class="required">必須</span></label>
-          <div class="grid-2">
-            <div>
-              <p class="mini-label">セイ</p>
-              <input type="text" placeholder="ヤマダ" />
-            </div>
-            <div>
-              <p class="mini-label">メイ</p>
-              <input type="text" placeholder="タロウ" />
-            </div>
-          </div>
+      <section class="flow-panel is-active" data-panel="1">
+        <div class="heading-wrap">
+          <h2 class="reserve-heading">予約フォーム</h2>
         </div>
 
-        <div class="field-group">
-          <label>お名前<span class="required">必須</span></label>
-          <div class="grid-2">
-            <div>
-              <p class="mini-label">姓</p>
-              <input type="text" placeholder="山田" />
-            </div>
-            <div>
-              <p class="mini-label">名</p>
-              <input type="text" placeholder="太郎" />
+        <form class="reserve-form" id="reserve-form">
+          <div class="field-group">
+            <label>お名前（フリガナ）<span class="required">必須</span></label>
+            <div class="grid-2">
+              <div>
+                <p class="mini-label">セイ</p>
+                <input type="text" id="last-name-kana" placeholder="ヤマダ" />
+              </div>
+              <div>
+                <p class="mini-label">メイ</p>
+                <input type="text" id="first-name-kana" placeholder="タロウ" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="field-group">
-          <label for="email">メールアドレス<span class="required">必須</span></label>
-          <input id="email" type="email" placeholder="mail@example.com" />
-        </div>
+          <div class="field-group">
+            <label>お名前<span class="required">必須</span></label>
+            <div class="grid-2">
+              <div>
+                <p class="mini-label">姓</p>
+                <input type="text" id="last-name" placeholder="山田" />
+              </div>
+              <div>
+                <p class="mini-label">名</p>
+                <input type="text" id="first-name" placeholder="太郎" />
+              </div>
+            </div>
+          </div>
 
-        <div class="field-group">
-          <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
-          <input id="email-confirm" type="email" placeholder="mail@example.com" />
-        </div>
+          <div class="field-group">
+            <label for="email">メールアドレス<span class="required">必須</span></label>
+            <input id="email" type="email" placeholder="mail@example.com" />
+          </div>
 
-        <div class="field-group">
-          <label for="tel">電話番号<span class="required">必須</span></label>
-          <input id="tel" type="tel" placeholder="000-0000-0000" />
-        </div>
+          <div class="field-group">
+            <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
+            <input id="email-confirm" type="email" placeholder="mail@example.com" />
+          </div>
 
-        <div class="field-group">
-          <label>日程選択<span class="required">必須</span></label>
+          <div class="field-group">
+            <label for="tel">電話番号<span class="required">必須</span></label>
+            <input id="tel" type="tel" placeholder="000-0000-0000" />
+          </div>
+
+          <div class="field-group">
+            <label>日程選択<span class="required">必須</span></label>
           <div class="grid-2">
             <div>
               <p class="mini-label">日程</p>
-              <input type="text" placeholder="0000/00/00" />
+              <input type="date" id="reservation-date" />
             </div>
             <div>
               <p class="mini-label">時間</p>
-              <input type="text" placeholder="00:00" />
+              <select id="reservation-time">
+                <option value="">選択してください</option>
+                <option value="11:00">11:00</option>
+                <option value="13:00">13:00</option>
+                <option value="15:00">15:00</option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="field-group">
-          <label for="people">参加人数<span class="required">必須</span></label>
-          <input id="people" type="text" placeholder="〇人" />
+          <div class="field-group">
+            <label for="people">参加人数<span class="required">必須</span></label>
+            <input id="people" type="text" placeholder="〇人" />
+          </div>
+
+          <div class="field-group">
+            <label for="note">備考欄<span class="optional">任意</span></label>
+            <textarea id="note" rows="5"></textarea>
+          </div>
+
+          <p class="policy-text">
+            <strong>キャンセルポリシー</strong><br>
+            多くのお客様に体験いただくため、以下の規定を設けております。<br>
+            ・前日キャンセル：50％<br>
+            ・当日キャンセル：100％<br>
+            ・無断キャンセル：100％<br>
+            やむを得ない事情がある場合は、事前にご相談ください。
+          </p>
+
+          <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
+
+          <div class="submit-wrap">
+            <button class="next-btn" type="submit">次へ</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="flow-panel" data-panel="2">
+        <div class="heading-wrap">
+          <h2 class="reserve-heading">お支払方法</h2>
         </div>
 
-        <div class="field-group">
-          <label for="note">備考欄<span class="optional">任意</span></label>
-          <textarea id="note" rows="5"></textarea>
+        <div class="payment-layout">
+          <form id="payment-form" class="payment-form">
+            <p class="panel-lead">予約内容を確認しながら、お支払方法を選択してください。確定前に最終確認画面でもう一度見直せます。</p>
+
+            <label class="payment-row">
+              <input type="radio" name="payment" value="Amazon Pay" />
+              <span class="payment-copy">
+                <span class="payment-name">Amazon Pay</span>
+                <span class="payment-note">次の画面でAmazon Payへ遷移してお支払い</span>
+              </span>
+              <span class="payment-logo" aria-hidden="true">A</span>
+            </label>
+
+            <label class="payment-row">
+              <input type="radio" name="payment" value="PayPay" />
+              <span class="payment-copy">
+                <span class="payment-name">PayPay</span>
+                <span class="payment-note">次の画面でPayPayアプリへ遷移してお支払い</span>
+              </span>
+              <span class="payment-logo" aria-hidden="true">P</span>
+            </label>
+
+            <label class="payment-row">
+              <input type="radio" name="payment" value="クレジットカード" />
+              <span class="payment-copy">
+                <span class="payment-name">クレジットカード</span>
+                <span class="payment-note">オンラインで即時決済。主要ブランド対応</span>
+              </span>
+              <span class="payment-logo" aria-hidden="true">C</span>
+            </label>
+            <div class="payment-detail" data-payment-detail="クレジットカード">
+              <div class="payment-detail-grid">
+                <div class="payment-detail-wide">
+                  <label for="card-number">カード番号</label>
+                  <input type="text" id="card-number" placeholder="1234 5678 9012 3456" />
+                </div>
+                <div>
+                  <label for="card-name">カード名義</label>
+                  <input type="text" id="card-name" placeholder="TARO YAMADA" />
+                </div>
+                <div>
+                  <label>有効期限</label>
+                  <div class="card-expiry-selects">
+                    <select id="card-expiry-month">
+                      <option value="">月</option>
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+                      <option value="03">03</option>
+                      <option value="04">04</option>
+                      <option value="05">05</option>
+                      <option value="06">06</option>
+                      <option value="07">07</option>
+                      <option value="08">08</option>
+                      <option value="09">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select id="card-expiry-year">
+                      <option value="">年</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                      <option value="2028">2028</option>
+                      <option value="2029">2029</option>
+                      <option value="2030">2030</option>
+                      <option value="2031">2031</option>
+                      <option value="2032">2032</option>
+                      <option value="2033">2033</option>
+                      <option value="2034">2034</option>
+                      <option value="2035">2035</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label for="card-cvc">セキュリティコード</label>
+                  <input type="text" id="card-cvc" placeholder="123" />
+                </div>
+              </div>
+            </div>
+
+            <label class="payment-row">
+              <input type="radio" name="payment" value="銀行振込" />
+              <span class="payment-copy">
+                <span class="payment-name">銀行振込</span>
+                <span class="payment-note">事前入金の確認後に予約確定となります</span>
+              </span>
+              <span class="payment-logo" aria-hidden="true">B</span>
+            </label>
+            <div class="payment-detail" data-payment-detail="銀行振込">
+              <div class="payment-detail-grid">
+                <div>
+                  <label for="bank-name">振込名義</label>
+                  <input type="text" id="bank-name" placeholder="ヤマダ タロウ" />
+                </div>
+                <div>
+                  <label for="bank-account">口座番号</label>
+                  <input type="text" id="bank-account" placeholder="1234567" />
+                </div>
+                <div>
+                  <label for="bank-date">振込予定日</label>
+                  <input type="text" id="bank-date" placeholder="2026/04/01" />
+                </div>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="back-btn" data-back-step="1">戻る</button>
+              <button type="submit" class="next-btn">次へ</button>
+            </div>
+          </form>
+
+          <aside class="payment-side-card">
+            <p class="side-eyebrow">Reservation Summary</p>
+            <h3>今回のご予約</h3>
+            <dl class="mini-summary">
+              <div><dt>体験日時</dt><dd id="payment-summary-date">未入力</dd></div>
+              <div><dt>参加人数</dt><dd id="payment-summary-people">未入力</dd></div>
+              <div><dt>ご連絡先</dt><dd id="payment-summary-email">未入力</dd></div>
+            </dl>
+            <p class="payment-tip">決済方法に応じたご案内を、ご登録メールアドレス宛にお送りします。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="flow-panel" data-panel="3">
+        <div class="heading-wrap">
+          <h2 class="reserve-heading">最終確認画面</h2>
         </div>
 
-        <p class="policy-text">
-          <strong>キャンセルポリシー</strong><br>
-          多くのお客様に体験いただくため、以下の規定を設けております。<br>
-          ・前日キャンセル：50％<br>
-          ・当日キャンセル：100％<br>
-          ・無断キャンセル：100％<br>
-          やむを得ない事情がある場合は、事前にご相談ください。
-        </p>
+        <div class="confirm-layout">
+          <div class="confirm-card">
+            <p class="panel-lead">以下の内容でご予約を確定します。日時・人数・お支払方法にお間違いがないかご確認ください。</p>
 
-        <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
+            <dl class="confirm-list">
+              <div class="confirm-row">
+                <dt>お名前（フリガナ）</dt>
+                <dd id="confirm-name-kana"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>お名前</dt>
+                <dd id="confirm-name"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>メールアドレス</dt>
+                <dd id="confirm-email"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>電話番号</dt>
+                <dd id="confirm-tel"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>日程</dt>
+                <dd id="confirm-date"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>参加人数</dt>
+                <dd id="confirm-people"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>お支払方法</dt>
+                <dd id="confirm-payment"></dd>
+              </div>
+              <div class="confirm-row">
+                <dt>備考欄</dt>
+                <dd id="confirm-note"></dd>
+              </div>
+            </dl>
 
-        <div class="submit-wrap">
-          <button class="next-btn" type="submit">次へ</button>
+            <div class="button-row">
+              <button type="button" class="back-btn" data-back-step="2">戻る</button>
+              <button type="button" class="next-btn" id="complete-btn">予約を確定する</button>
+            </div>
+          </div>
+
+          <aside class="confirm-side-card">
+            <p class="side-eyebrow">Check Point</p>
+            <h3>確定前のご案内</h3>
+            <ul class="check-list">
+              <li>確認メールを受信できるアドレスかご確認ください。</li>
+              <li>銀行振込は入金確認後に正式確定となります。</li>
+              <li>修正が必要な場合は戻るボタンから編集できます。</li>
+            </ul>
+            <div class="status-pill" id="confirm-payment-pill">支払方法 未選択</div>
+          </aside>
         </div>
-      </form>
+      </section>
+
+      <section class="flow-panel" data-panel="4">
+        <div class="heading-wrap">
+          <h2 class="reserve-heading">ご予約完了画面</h2>
+        </div>
+
+        <div class="complete-card">
+          <div class="complete-badge">Reservation Confirmed</div>
+          <p class="complete-message">ご予約ありがとうございました。<br>内容を受け付けました。</p>
+          <p class="complete-sub">確認メールを順次お送りしますので、しばらくお待ちください。</p>
+          <div class="complete-summary">
+            <div>
+              <span>ご予約日時</span>
+              <strong id="complete-date">未入力</strong>
+            </div>
+            <div>
+              <span>人数</span>
+              <strong id="complete-people">未入力</strong>
+            </div>
+            <div>
+              <span>お支払方法</span>
+              <strong id="complete-payment">未入力</strong>
+            </div>
+          </div>
+          <div class="submit-wrap">
+            <a href="../01/index.html" class="next-btn top-link-btn">トップへ戻る</a>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" id="contact">
     <div class="footer-inner">
       <div class="footer-links">
         <a href="#">ワークショップ</a>
