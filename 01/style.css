@@ -780,6 +780,7 @@ ul {
 }
 
 .reserve-form input,
+.reserve-form select,
 .reserve-form textarea {
     width: 100%;
     border: 1px solid #777;

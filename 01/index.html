@@ -264,11 +264,16 @@
                     <div class="grid-2">
                         <div>
                             <p class="mini-label">日程</p>
-                            <input id="reservation-date" type="text" placeholder="0000/00/00" />
+                            <input id="reservation-date" type="date" />
                         </div>
                         <div>
                             <p class="mini-label">時間</p>
-                            <input id="reservation-time" type="text" placeholder="00:00" />
+                            <select id="reservation-time">
+                                <option value="">選択してください</option>
+                                <option value="11:00">11:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="15:00">15:00</option>
+                            </select>
                         </div>
                     </div>
                 </div>
