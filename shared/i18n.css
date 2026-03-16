@@ -25,3 +25,18 @@ body[data-lang="en"] .reserve-btn,
 body[data-lang="en"] .hero-cta {
   font-size: 0.88rem;
 }
+
+body[data-lang="en"] .stepper {
+  width: min(760px, 100%);
+}
+
+body[data-lang="en"] .step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  padding: 10px 6px;
+  font-size: 1rem;
+  line-height: 1.15;
+  white-space: nowrap;
+}

@@ -154,6 +154,19 @@
     document.title = text("inori | アクセス", "inori | Access");
     setText(".access-title", "アクセス", "Access");
     setHtml(".shop-info h3", text("inori 浅草店", "inori Asakusa"), text("inori 浅草店", "inori Asakusa"));
+    setTextList(".shop-info p",
+      [
+        "〒111-0032 東京都台東区浅草2丁目1-5",
+        "東京メトロ銀座線「浅草駅」から徒歩2分",
+        "営業時間：10:30-18:30 ※月曜日定休日",
+        "☎TEL：000-0000-0000"
+      ],
+      [
+        "2-1-5 Asakusa, Taito-ku, Tokyo 111-0032",
+        "2-minute walk from Asakusa Station on the Tokyo Metro Ginza Line",
+        "Hours: 10:30-18:30, Closed on Mondays",
+        "TEL: 000-0000-0000"
+      ]);
     setText(".attractions .section-sub", "周辺観光スポット", "Nearby Attractions");
     setText(".map-open-btn", "Google Mapを開く", "Open Google Maps");
   }
