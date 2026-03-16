@@ -692,16 +692,28 @@ ul {
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 8px;
     margin-top: 20px;
 }
 
+.page-arrow,
 .page-dot {
     width: 28px;
     height: 28px;
     border: none;
     background: transparent;
     cursor: pointer;
+}
+
+.page-arrow {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.page-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
 }
 
 .page-dot.active {

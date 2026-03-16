@@ -4,6 +4,8 @@
     const rightArrow = document.querySelector(".slider-arrow.right");
     const thumbnails = Array.from(document.querySelectorAll(".thumbnail-row img"));
     const pageDots = Array.from(document.querySelectorAll(".page-dot"));
+    const reviewPrev = document.querySelector(".page-arrow.prev");
+    const reviewNext = document.querySelector(".page-arrow.next");
     const reviewList = document.querySelector(".review-list");
     const calendarRoot = document.querySelector("#booking-calendar");
     const calendarCurrent = document.querySelector("#calendar-current");
@@ -127,6 +129,7 @@
     const dateFormatter = new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "numeric", day: "numeric", weekday: "short" });
     const today = new Date();
     let currentPhotoIndex = 0;
+    let currentReviewPage = 0;
     let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     let selectedDateKey = "";
 
@@ -212,10 +215,17 @@
     function renderReviewPage(pageIndex) {
         if (!reviewList) return;
 
+        currentReviewPage = pageIndex;
         reviewList.innerHTML = reviewPages[pageIndex].map(createReviewCard).join("");
         pageDots.forEach((dot, index) => {
             dot.classList.toggle("active", index === pageIndex);
         });
+        if (reviewPrev) {
+            reviewPrev.disabled = pageIndex === 0;
+        }
+        if (reviewNext) {
+            reviewNext.disabled = pageIndex === reviewPages.length - 1;
+        }
     }
 
     function createEmptyDay() {
@@ -370,6 +380,18 @@
         dot.addEventListener("click", () => {
             renderReviewPage(index);
         });
+    });
+
+    reviewPrev?.addEventListener("click", () => {
+        if (currentReviewPage > 0) {
+            renderReviewPage(currentReviewPage - 1);
+        }
+    });
+
+    reviewNext?.addEventListener("click", () => {
+        if (currentReviewPage < reviewPages.length - 1) {
+            renderReviewPage(currentReviewPage + 1);
+        }
     });
 
     calendarPrev?.addEventListener("click", () => {

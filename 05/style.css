@@ -263,6 +263,13 @@ a {
   background: transparent;
   font-size: 1.4rem;
   color: #777;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pager-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .pager .active {
