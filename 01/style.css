@@ -198,7 +198,7 @@ ul {
 
 .hero-copy {
     left: clamp(52px, 8vw, 96px);
-    bottom: 110px;
+    bottom: 88px;
     max-width: 920px;
     width: min(920px, calc(100% - 120px));
     color: #2f2a28;
@@ -234,6 +234,12 @@ ul {
     letter-spacing: 0.05em;
     line-height: 1.35;
     white-space: nowrap;
+    text-shadow:
+        -0.25px -0.25px 0 rgba(255, 255, 255, 0.5),
+        0.25px -0.25px 0 rgba(255, 255, 255, 0.5),
+        -0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
+        0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
+        0 6px 16px rgba(47, 42, 40, 0.24);
 }
 
 .hero-subcopy {
@@ -242,6 +248,12 @@ ul {
     letter-spacing: 0.08em;
     line-height: 1.7;
     white-space: nowrap;
+    text-shadow:
+        -0.25px -0.25px 0 rgba(255, 255, 255, 0.5),
+        0.25px -0.25px 0 rgba(255, 255, 255, 0.5),
+        -0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
+        0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
+        0 5px 14px rgba(47, 42, 40, 0.2);
 }
 
 .hero-cta {
@@ -974,7 +986,7 @@ ul {
 
     .hero-copy {
         left: 32px;
-        bottom: 108px;
+        bottom: 96px;
         width: calc(100% - 64px);
     }
 
@@ -1039,7 +1051,7 @@ ul {
     .hero-copy {
         left: 16px;
         right: 16px;
-        bottom: 92px;
+        bottom: 82px;
         width: auto;
     }
 
