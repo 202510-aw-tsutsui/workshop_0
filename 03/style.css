@@ -59,6 +59,9 @@ a {
   justify-content: center;
   gap: 12px;
   justify-self: center;
+  padding: 4px 14px 4px 6px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .logo-image-wrap {
@@ -66,7 +69,6 @@ a {
   aspect-ratio: 1 / 1;
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.85);
   padding: 4px;
 }
 
@@ -82,9 +84,7 @@ a {
   font-size: 48px;
   font-weight: 600;
   letter-spacing: 0.15em;
-  background: rgba(255, 255, 255, 0.85);
   padding: 2px 28px;
-  border-radius: 2px;
   color: #6e584c;
   line-height: 1.05;
 }
