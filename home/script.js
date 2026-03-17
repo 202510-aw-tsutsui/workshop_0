@@ -40,6 +40,7 @@
   const inquiryModalTitle = document.querySelector("#inquiry-modal-title");
   const completeInquiryBtn = document.querySelector("#complete-inquiry-btn");
   const deleteInquiryBtn = document.querySelector("#delete-inquiry-btn");
+  const replyInquiryBtn = document.querySelector("#reply-inquiry-btn");
 
   const reservationFields = {
     id: document.querySelector("#reservation-id"),
@@ -61,7 +62,9 @@
     date: document.querySelector("#inquiry-date"),
     subject: document.querySelector("#inquiry-subject"),
     status: document.querySelector("#inquiry-status"),
-    message: document.querySelector("#inquiry-message")
+    message: document.querySelector("#inquiry-message"),
+    replySubject: document.querySelector("#inquiry-reply-subject"),
+    replyMessage: document.querySelector("#inquiry-reply-message")
   };
 
   const reservationSeed = [
@@ -98,6 +101,29 @@
   let currentReservationId = null;
   let currentInquiryId = null;
   let currentView = "reservations";
+
+  function buildInquiryReplyTemplate(item) {
+    const customerName = item?.name ?? "○○";
+    const subject = item?.subject ?? "○○";
+    return `${customerName}様
+
+この度はお問い合わせいただきありがとうございます。
+お問い合わせいただきました${subject}につきまして、○○でございます。
+
+
+ご不明点などございましたら、お気軽にお問い合わせください。
+${customerName}様のご来店を心よりお待ちしております。
+
+ーーーーーーーーーーーーーーーーーーー
+inori 浅草店
+〒111-0032 東京都台東区浅草2丁目1-5
+
+東京メトロ銀座線「浅草駅」から徒歩2分
+
+営業時間：10:30-18:30 ※月曜日定休日
+
+☎TEL：000-0000-0000`;
+  }
 
   function loadCollection(storageKey, fallback) {
     try {
@@ -328,8 +354,11 @@
     inquiryFields.subject.value = item?.subject ?? "";
     inquiryFields.status.value = item?.status ?? "未対応";
     inquiryFields.message.value = item?.message ?? "";
+    inquiryFields.replySubject.value = item?.replySubject ?? (item?.subject ? `Re: ${item.subject}` : "Re: お問い合わせありがとうございます");
+    inquiryFields.replyMessage.value = item?.replyMessage ?? buildInquiryReplyTemplate(item);
     completeInquiryBtn.disabled = mode === "new";
     deleteInquiryBtn.disabled = mode === "new";
+    replyInquiryBtn.disabled = mode === "new";
   }
 
   function closeInquiry() {
@@ -484,6 +513,37 @@
     renderInquiries();
   });
 
+  replyInquiryBtn.addEventListener("click", () => {
+    const item = inquiries.find((inquiry) => inquiry.id === currentInquiryId);
+    const email = inquiryFields.email.value.trim();
+    const subject = inquiryFields.replySubject.value.trim();
+    const message = inquiryFields.replyMessage.value.trim();
+
+    if (!item) return;
+
+    if (!email) {
+      alert("返信先メールアドレスがありません。");
+      return;
+    }
+
+    if (!subject || !message) {
+      alert("返信件名と返信内容を入力してください。");
+      return;
+    }
+
+    item.replySubject = subject;
+    item.replyMessage = message;
+    if (item.status === "未対応") {
+      item.status = "対応中";
+      inquiryFields.status.value = "対応中";
+    }
+    persistCollections();
+    renderInquiries();
+
+    const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailtoUrl;
+  });
+
   completeInquiryBtn.addEventListener("click", () => {
     const item = inquiries.find((inquiry) => inquiry.id === currentInquiryId);
     if (!item) return;
@@ -536,7 +596,9 @@
       date: inquiryFields.date.value,
       subject: inquiryFields.subject.value.trim(),
       status: inquiryFields.status.value,
-      message: inquiryFields.message.value.trim()
+      message: inquiryFields.message.value.trim(),
+      replySubject: inquiryFields.replySubject.value.trim(),
+      replyMessage: inquiryFields.replyMessage.value.trim()
     };
 
     if (!payload.name || !payload.date || !payload.subject) {

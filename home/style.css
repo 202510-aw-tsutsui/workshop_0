@@ -213,6 +213,12 @@ button {
   color: #635851;
 }
 
+.field-note {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #7b6f67;
+}
+
 .toolbar-field input,
 .toolbar-field select,
 .modal-field input,

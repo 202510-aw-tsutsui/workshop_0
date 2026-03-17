@@ -287,11 +287,21 @@
             <label for="inquiry-message">お問い合わせ内容</label>
             <textarea id="inquiry-message" rows="5"></textarea>
           </div>
+          <div class="modal-field modal-field-wide">
+            <label for="inquiry-reply-subject">返信件名</label>
+            <input type="text" id="inquiry-reply-subject" placeholder="Re: お問い合わせありがとうございます" />
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label for="inquiry-reply-message">返信内容</label>
+            <textarea id="inquiry-reply-message" rows="6" placeholder="お問い合わせへの返信内容を入力してください。"></textarea>
+            <p class="field-note">「メール作成」を押すと、既定のメールアプリで宛先・件名・本文を入れた状態で開きます。</p>
+          </div>
         </div>
 
         <div class="modal-actions">
           <div></div>
           <div class="modal-submit">
+            <button type="button" class="secondary-btn" id="reply-inquiry-btn">メール作成</button>
             <button type="button" class="secondary-btn" id="complete-inquiry-btn">完了</button>
             <button type="button" class="secondary-btn" id="delete-inquiry-btn">削除</button>
             <button type="submit" class="primary-btn">保存する</button>
