@@ -72,6 +72,10 @@ ul {
     object-fit: contain;
 }
 
+.sns-icons .lang-toggle {
+    margin-top: 8px;
+}
+
 .logo-group {
     display: flex;
     align-items: center;
