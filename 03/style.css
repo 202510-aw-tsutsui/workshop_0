@@ -118,9 +118,10 @@ a {
 }
 
 .gnav {
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 2px;
-  width: 100%;
+  background: rgba(255, 255, 255, 0.74);
+  border-radius: 0;
+  width: calc(100% + 40px);
+  margin-left: -20px;
   padding: 0;
 }
 
@@ -703,6 +704,11 @@ textarea {
   .gnav ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .gnav {
+    width: calc(100% + 28px);
+    margin-left: -14px;
   }
 
   .gnav a {
