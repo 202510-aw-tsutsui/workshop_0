@@ -24,7 +24,7 @@
         "photo-main.png",
         "photo-thumb1.png",
         "photo-thumb2.png",
-        "photo-thumb3.png",
+        "photo-thumb3.jpg",
         "photo-thumb4.png",
         "photo-thumb5.png",
         "photo-thumb6.png"
