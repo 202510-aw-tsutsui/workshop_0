@@ -215,8 +215,8 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  width: min(680px, 100%);
-  margin: 0 auto 70px;
+  width: min(620px, 100%);
+  margin: 0 auto 56px;
 }
 
 .step {
@@ -224,8 +224,8 @@ a {
   border-radius: 999px;
   background: #e6dfdb;
   color: #7d6e66;
-  padding: 10px 8px;
-  font-size: 1.7rem;
+  padding: 8px 6px;
+  font-size: 1.5rem;
   font-weight: 700;
   transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
