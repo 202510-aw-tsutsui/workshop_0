@@ -496,7 +496,11 @@ a {
   }
 
   .hero-image-placeholder {
-    min-height: 480px;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
   }
 
   .faq-title {
