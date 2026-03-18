@@ -66,31 +66,33 @@
         <h2 class="section-heading">お問い合わせフォーム</h2>
       </div>
 
-      <form id="contact-form" class="contact-form">
+      <form id="contact-form" class="contact-form" autocomplete="off">
+        <input type="text" name="fake-user" autocomplete="username" tabindex="-1" hidden />
+        <input type="password" name="fake-pass" autocomplete="current-password" tabindex="-1" hidden />
         <div class="contact-inputs" id="contact-inputs">
           <div class="field-group">
             <label for="name-kana">お名前（フリガナ）<span class="optional">任意</span></label>
-            <input type="text" id="name-kana" placeholder="ヤマダ タロウ" />
+            <input type="text" id="name-kana" name="contact_kana_field" placeholder="ヤマダ タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" />
           </div>
 
           <div class="field-group">
             <label for="name">お名前<span class="required">必須</span></label>
-            <input type="text" id="name" placeholder="山田 太郎" />
+            <input type="text" id="name" name="contact_name_field" placeholder="山田 太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
           </div>
 
           <div class="field-group">
             <label for="email">メールアドレス<span class="required">必須</span></label>
-            <input id="email" type="email" placeholder="mail@example.com" />
+            <input id="email" type="email" name="contact_email_field" placeholder="mail@example.com" autocomplete="off" spellcheck="false" autocapitalize="off" />
           </div>
 
           <div class="field-group">
             <label for="tel">電話番号<span class="required">必須</span></label>
-            <input id="tel" type="tel" placeholder="000-0000-0000" />
+            <input id="tel" type="tel" name="contact_tel_field" placeholder="000-0000-0000" autocomplete="off" />
           </div>
 
           <div class="field-group">
             <label for="message">お問い合わせ内容<span class="optional">任意</span></label>
-            <textarea id="message" rows="5"></textarea>
+            <textarea id="message" name="contact_message_field" rows="5" autocomplete="off" spellcheck="false"></textarea>
           </div>
         </div>
 

@@ -8,14 +8,13 @@
   const panels = Array.from(document.querySelectorAll(".flow-panel"));
   const backButtons = Array.from(document.querySelectorAll("[data-back-step]"));
   const completeButton = document.querySelector("#complete-btn");
+  const dateStatusMessage = document.querySelector("#date-status-message");
+  const timeStatusMessage = document.querySelector("#time-status-message");
 
   const fields = {
-    lastNameKana: document.querySelector("#last-name-kana"),
-    firstNameKana: document.querySelector("#first-name-kana"),
-    lastName: document.querySelector("#last-name"),
-    firstName: document.querySelector("#first-name"),
+    nameKana: document.querySelector("#name-kana"),
+    name: document.querySelector("#name"),
     email: document.querySelector("#email"),
-    emailConfirm: document.querySelector("#email-confirm"),
     tel: document.querySelector("#tel"),
     reservationDate: document.querySelector("#reservation-date"),
     reservationTime: document.querySelector("#reservation-time"),
@@ -44,6 +43,28 @@
   const completePayment = document.querySelector("#complete-payment");
   const searchParams = new URLSearchParams(window.location.search);
   const adminReservationStorageKey = "inoriAdminReservations";
+  const slotTimes = ["11:00", "13:00", "15:00"];
+  const holidayDates = new Set([
+    "2026-03-20",
+    "2026-04-29",
+    "2026-05-03",
+    "2026-05-04",
+    "2026-05-05",
+    "2026-05-06",
+    "2026-07-20",
+    "2026-08-11",
+    "2026-09-21",
+    "2026-09-22",
+    "2026-09-23",
+    "2026-10-12",
+    "2026-11-03",
+    "2026-11-23",
+    "2027-01-01",
+    "2027-01-11",
+    "2027-02-11",
+    "2027-02-23",
+    "2027-03-20"
+  ]);
 
   if (!form) return;
 
@@ -57,6 +78,133 @@
     panels.forEach((panel) => {
       panel.classList.toggle("is-active", Number(panel.dataset.panel) === stepNumber);
     });
+  }
+
+  function formatDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function isHoliday(date) {
+    return holidayDates.has(formatDateKey(date));
+  }
+
+  function isReservableDate(date) {
+    const day = date.getDay();
+    return day === 0 || day === 6 || isHoliday(date);
+  }
+
+  function getSlotStatus(dateKey, slotIndex) {
+    const seed = Array.from(`${dateKey}-${slotIndex}`).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const statusIndex = seed % 6;
+
+    if (statusIndex === 0) {
+      return "full";
+    }
+
+    if (statusIndex <= 2) {
+      return "few";
+    }
+
+    return "available";
+  }
+
+  function syncReservationAvailability() {
+    if (!fields.reservationDate || !fields.reservationTime) return;
+
+    const dateValue = fields.reservationDate.value;
+    const previousValue = fields.reservationTime.value;
+    fields.reservationTime.innerHTML = '<option value="">選択してください</option>';
+
+    if (dateStatusMessage) {
+      dateStatusMessage.textContent = "";
+    }
+    if (timeStatusMessage) {
+      timeStatusMessage.textContent = "";
+    }
+
+    if (!dateValue) {
+      fields.reservationTime.disabled = true;
+      return;
+    }
+
+    const date = new Date(`${dateValue}T00:00:00`);
+    if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+      if (dateStatusMessage) {
+        dateStatusMessage.textContent = "この日は予約対象外です。サイトのスケジュールから空き日をご確認ください。";
+      }
+      if (timeStatusMessage) {
+        timeStatusMessage.textContent = "予約可能な日付を選択すると時間を表示します。";
+      }
+      fields.reservationTime.disabled = true;
+      return;
+    }
+
+    const statuses = slotTimes.map((time, index) => ({ time, status: getSlotStatus(dateValue, index) }));
+    const availableSlots = statuses.filter((slot) => slot.status !== "full");
+
+    if (availableSlots.length === 0) {
+      if (dateStatusMessage) {
+        dateStatusMessage.textContent = "この日は空きがありません。別の日程を選択してください。";
+      }
+      if (timeStatusMessage) {
+        timeStatusMessage.textContent = "空きのある時間がありません。";
+      }
+      fields.reservationTime.disabled = true;
+      return;
+    }
+
+    fields.reservationTime.disabled = false;
+    statuses.forEach((slot) => {
+      const option = document.createElement("option");
+      option.value = slot.time;
+      option.textContent = slot.status === "few" ? `${slot.time}（残り僅か）` : slot.time;
+      option.disabled = slot.status === "full";
+      if (slot.time === previousValue) {
+        option.selected = true;
+      }
+      fields.reservationTime.appendChild(option);
+    });
+
+    const hasMatchingAvailableTime = availableSlots.some((slot) => slot.time === previousValue);
+    if (!hasMatchingAvailableTime) {
+      fields.reservationTime.value = "";
+    }
+
+    if (dateStatusMessage) {
+      dateStatusMessage.textContent = availableSlots.length === slotTimes.length
+        ? ""
+        : "一部の時間帯は満席、または残り僅かです。";
+    }
+  }
+
+  function validateStepOne() {
+    if (!fields.name.value.trim() || !fields.email.value.trim() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
+      alert("お名前、メールアドレス、日程、時間、参加人数を入力してください。");
+      return false;
+    }
+
+    const date = new Date(`${fields.reservationDate.value}T00:00:00`);
+    if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+      if (dateStatusMessage) {
+        dateStatusMessage.textContent = "この日は予約対象外です。";
+      }
+      alert("予約可能な日付を選択してください。");
+      return false;
+    }
+
+    const selectedTimeIndex = slotTimes.indexOf(fields.reservationTime.value);
+    if (selectedTimeIndex < 0 || getSlotStatus(fields.reservationDate.value, selectedTimeIndex) === "full") {
+      if (timeStatusMessage) {
+        timeStatusMessage.textContent = "選択した時間は空きがありません。";
+      }
+      alert("空きのある時間を選択してください。");
+      return false;
+    }
+
+    return true;
   }
 
   function updatePaymentSummary() {
@@ -103,10 +251,10 @@
   function updateConfirmation() {
     const selected = paymentInputs.find((input) => input.checked);
 
-    confirmFields.nameKana.textContent = `${fields.lastNameKana.value.trim()} ${fields.firstNameKana.value.trim()}`;
-    confirmFields.name.textContent = `${fields.lastName.value.trim()} ${fields.firstName.value.trim()}`;
+    confirmFields.nameKana.textContent = fields.nameKana.value.trim() || "なし";
+    confirmFields.name.textContent = fields.name.value.trim();
     confirmFields.email.textContent = fields.email.value.trim();
-    confirmFields.tel.textContent = fields.tel.value.trim();
+    confirmFields.tel.textContent = fields.tel.value.trim() || "なし";
     confirmFields.date.textContent = `${fields.reservationDate.value.trim()} ${fields.reservationTime.value.trim()}`;
     confirmFields.people.textContent = fields.people.value.trim();
     confirmFields.payment.textContent = selected ? selected.value : "";
@@ -152,7 +300,7 @@
 
     reservations.unshift({
       id: Date.now(),
-      name: `${fields.lastName.value.trim()} ${fields.firstName.value.trim()}`.trim(),
+      name: fields.name.value.trim(),
       email: fields.email.value.trim(),
       phone: fields.tel.value.trim(),
       date: fields.reservationDate.value,
@@ -194,6 +342,10 @@
       return;
     }
 
+    if (!validateStepOne()) {
+      return;
+    }
+
     updatePaymentSummary();
     goToStep(2);
   });
@@ -230,7 +382,17 @@
     goToStep(4);
   });
 
+  fields.reservationDate?.addEventListener("change", syncReservationAvailability);
+  fields.reservationTime?.addEventListener("change", () => {
+    if (!fields.reservationDate.value || !fields.reservationTime.value || !timeStatusMessage) return;
+    const timeIndex = slotTimes.indexOf(fields.reservationTime.value);
+    timeStatusMessage.textContent = timeIndex >= 0 && getSlotStatus(fields.reservationDate.value, timeIndex) === "few"
+      ? "この時間は残り僅かです。"
+      : "";
+  });
+
   syncPaymentDetails();
   const hasDraft = applyReservationDraft();
+  syncReservationAvailability();
   goToStep(hasDraft && searchParams.get("step") === "2" ? 2 : 1);
 });

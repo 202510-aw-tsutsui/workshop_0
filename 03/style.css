@@ -312,6 +312,13 @@ a {
   font-weight: 700;
 }
 
+.field-message {
+  min-height: 1.4em;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  color: #7a4d37;
+}
+
 input,
 select,
 textarea {
