@@ -53,6 +53,17 @@ a {
   object-fit: contain;
 }
 
+.sns-icon {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+.sns-icon:hover,
+.sns-icon:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.04);
+}
+
 .logo-group {
   display: flex;
   align-items: center;
@@ -415,6 +426,20 @@ a {
   font-size: 1.2rem;
   font-weight: 700;
   box-shadow: 0 4px 0 #333;
+}
+
+.pill-btn,
+.reserve-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:hover,
+.pill-btn:focus-visible,
+.reserve-btn:hover,
+.reserve-btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.03);
 }
 
 

@@ -54,6 +54,17 @@ a {
   object-fit: contain;
 }
 
+.sns-icon {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+.sns-icon:hover,
+.sns-icon:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.04);
+}
+
 .logo-group {
   display: flex;
   align-items: center;
@@ -124,6 +135,17 @@ a {
   background: #f4a14d;
   color: #fff;
   border-color: #f4a14d;
+}
+
+.pill-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:hover,
+.pill-btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.03);
 }
 
 .gnav {
@@ -294,6 +316,14 @@ a {
   font-weight: 700;
   cursor: pointer;
   padding: 20px 4px;
+  transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.faq-q:hover,
+.faq-q:focus-visible {
+  transform: translateY(-2px);
+  color: #9a4a58;
+  filter: brightness(1.02);
 }
 
 .faq-q-text {
@@ -311,6 +341,13 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 0.95rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.faq-q:hover .q-badge,
+.faq-q:focus-visible .q-badge {
+  background: #f2979e;
+  color: #fff;
 }
 
 .faq-icon {
@@ -325,7 +362,13 @@ a {
   font-size: 1.4rem;
   color: #6d5950;
   background: #fff;
-  transition: transform 180ms ease, background-color 180ms ease;
+  transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.faq-q:hover .faq-icon,
+.faq-q:focus-visible .faq-icon {
+  background: rgba(242, 151, 158, 0.18);
+  color: #9a4a58;
 }
 
 .faq-item.open .faq-icon {

@@ -72,6 +72,17 @@ ul {
     object-fit: contain;
 }
 
+.sns-icon {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+.sns-icon:hover,
+.sns-icon:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+    filter: brightness(1.04);
+}
+
 .sns-icons .lang-toggle {
     margin-top: 8px;
 }
@@ -978,6 +989,29 @@ ul {
     padding: 8px 18px;
     font-size: 1rem;
     cursor: pointer;
+}
+
+.pill-btn,
+.hero-cta,
+.calendar-nav,
+.timeslot-btn,
+.next-btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:hover,
+.pill-btn:focus-visible,
+.hero-cta:hover,
+.hero-cta:focus-visible,
+.calendar-nav:hover,
+.calendar-nav:focus-visible,
+.timeslot-btn:hover:not(:disabled),
+.timeslot-btn:focus-visible:not(:disabled),
+.next-btn:hover,
+.next-btn:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+    filter: brightness(1.03);
 }
 
 .footer {

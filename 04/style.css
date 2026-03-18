@@ -53,6 +53,17 @@ a {
   object-fit: contain;
 }
 
+.sns-icon {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease;
+}
+
+.sns-icon:hover,
+.sns-icon:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.04);
+}
+
 .logo-group {
   display: flex;
   align-items: center;
@@ -457,6 +468,26 @@ a {
 
 .back-btn {
   background: #f6f1ee;
+}
+
+.pill-btn,
+.back-btn,
+.next-btn,
+.top-link-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-btn:hover,
+.pill-btn:focus-visible,
+.back-btn:hover,
+.back-btn:focus-visible,
+.next-btn:hover,
+.next-btn:focus-visible,
+.top-link-btn:hover,
+.top-link-btn:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(60, 47, 41, 0.18);
+  filter: brightness(1.03);
 }
 
 .confirm-card,
