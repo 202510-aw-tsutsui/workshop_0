@@ -845,6 +845,20 @@ textarea {
     gap: 14px;
   }
 
+  .sns-icons,
+  .header-actions,
+  .footer-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .header-actions .pill-btn,
+  .footer-actions .pill-btn {
+    flex: 1 1 180px;
+    min-width: 0;
+  }
+
   .gnav ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -873,7 +887,10 @@ textarea {
   }
 
   .reserve-title {
-    font-size: 2rem;
+    min-height: 44px;
+    width: min(420px, 82%);
+    padding: 10px 14px;
+    font-size: 1.3rem;
   }
 
   .step {
@@ -922,6 +939,12 @@ textarea {
   .footer-inner {
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
   }
 
   .footer-actions {
