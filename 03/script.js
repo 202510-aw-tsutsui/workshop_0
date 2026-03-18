@@ -305,7 +305,7 @@
       phone: fields.tel.value.trim(),
       date: fields.reservationDate.value,
       time: fields.reservationTime.value,
-      people: Number(fields.people.value),
+      people: fields.people.value.trim(),
       status: "予約確定",
       note: noteParts.join(" / ") || "Web予約"
     });

@@ -17,6 +17,8 @@
     const timeslotList = document.querySelector("#timeslot-list");
     const reservationDate = document.querySelector("#reservation-date");
     const reservationTime = document.querySelector("#reservation-time");
+    const dateStatusMessage = document.querySelector("#date-status-message");
+    const timeStatusMessage = document.querySelector("#time-status-message");
     const reservationSection = document.querySelector("#reservation");
     const bookingForm = document.querySelector("#reserve-form");
 
@@ -276,6 +278,106 @@
         return "few";
     }
 
+    function syncReservationAvailability() {
+        if (!reservationDate || !reservationTime) return;
+
+        const dateValue = reservationDate.value;
+        const previousValue = reservationTime.value;
+        reservationTime.innerHTML = '<option value="">選択してください</option>';
+
+        if (dateStatusMessage) {
+            dateStatusMessage.textContent = "";
+        }
+        if (timeStatusMessage) {
+            timeStatusMessage.textContent = "";
+        }
+
+        if (!dateValue) {
+            reservationTime.disabled = true;
+            return;
+        }
+
+        const date = new Date(`${dateValue}T00:00:00`);
+        if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+            if (dateStatusMessage) {
+                dateStatusMessage.textContent = "この日は予約対象外です。サイトのスケジュールから空き日をご確認ください。";
+            }
+            if (timeStatusMessage) {
+                timeStatusMessage.textContent = "予約可能な日付を選択すると時間を表示します。";
+            }
+            reservationTime.disabled = true;
+            return;
+        }
+
+        const statuses = slotTimes.map((time, index) => ({ time, status: getSlotStatus(dateValue, index) }));
+        const availableSlots = statuses.filter((slot) => slot.status !== "full");
+
+        if (availableSlots.length === 0) {
+            if (dateStatusMessage) {
+                dateStatusMessage.textContent = "この日は空きがありません。別の日程を選択してください。";
+            }
+            if (timeStatusMessage) {
+                timeStatusMessage.textContent = "空きのある時間がありません。";
+            }
+            reservationTime.disabled = true;
+            return;
+        }
+
+        reservationTime.disabled = false;
+        statuses.forEach((slot) => {
+            const option = document.createElement("option");
+            option.value = slot.time;
+            option.textContent = slot.status === "few" ? `${slot.time}（残り僅か）` : slot.time;
+            option.disabled = slot.status === "full";
+            if (slot.time === previousValue) {
+                option.selected = true;
+            }
+            reservationTime.appendChild(option);
+        });
+
+        const hasMatchingAvailableTime = availableSlots.some((slot) => slot.time === previousValue);
+        if (!hasMatchingAvailableTime) {
+            reservationTime.value = "";
+        }
+
+        if (dateStatusMessage) {
+            dateStatusMessage.textContent = availableSlots.length === slotTimes.length
+                ? ""
+                : "一部の時間帯は満席、または残り僅かです。";
+        }
+    }
+
+    function validateReservationStep() {
+        const name = document.querySelector("#name")?.value.trim() ?? "";
+        const email = document.querySelector("#email")?.value.trim() ?? "";
+        const people = document.querySelector("#people")?.value.trim() ?? "";
+
+        if (!name || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
+            alert("お名前、メールアドレス、日程、時間、参加人数を入力してください。");
+            return false;
+        }
+
+        const date = new Date(`${reservationDate.value}T00:00:00`);
+        if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+            if (dateStatusMessage) {
+                dateStatusMessage.textContent = "この日は予約対象外です。";
+            }
+            alert("予約可能な日付を選択してください。");
+            return false;
+        }
+
+        const selectedTimeIndex = slotTimes.indexOf(reservationTime.value);
+        if (selectedTimeIndex < 0 || getSlotStatus(reservationDate.value, selectedTimeIndex) === "full") {
+            if (timeStatusMessage) {
+                timeStatusMessage.textContent = "選択した時間は空きがありません。";
+            }
+            alert("空きのある時間を選択してください。");
+            return false;
+        }
+
+        return true;
+    }
+
     function updateMainPhoto() {
         if (!mainPhoto) return;
 
@@ -439,6 +541,8 @@
                     reservationDate.value = button.dataset.date ?? "";
                 }
 
+                syncReservationAvailability();
+
                 if (reservationTime) {
                     reservationTime.value = button.dataset.time ?? "";
                 }
@@ -495,13 +599,14 @@
             return;
         }
 
+        if (!validateReservationStep()) {
+            return;
+        }
+
         const reservationDraft = {
-            lastNameKana: document.querySelector("#last-name-kana")?.value.trim() ?? "",
-            firstNameKana: document.querySelector("#first-name-kana")?.value.trim() ?? "",
-            lastName: document.querySelector("#last-name")?.value.trim() ?? "",
-            firstName: document.querySelector("#first-name")?.value.trim() ?? "",
+            nameKana: document.querySelector("#name-kana")?.value.trim() ?? "",
+            name: document.querySelector("#name")?.value.trim() ?? "",
             email: document.querySelector("#email")?.value.trim() ?? "",
-            emailConfirm: document.querySelector("#email-confirm")?.value.trim() ?? "",
             tel: document.querySelector("#tel")?.value.trim() ?? "",
             reservationDate: document.querySelector("#reservation-date")?.value.trim() ?? "",
             reservationTime: document.querySelector("#reservation-time")?.value.trim() ?? "",
@@ -523,6 +628,15 @@
         renderCalendar();
     });
 
+    reservationDate?.addEventListener("change", syncReservationAvailability);
+    reservationTime?.addEventListener("change", () => {
+        if (!reservationDate.value || !reservationTime.value || !timeStatusMessage) return;
+        const timeIndex = slotTimes.indexOf(reservationTime.value);
+        timeStatusMessage.textContent = timeIndex >= 0 && getSlotStatus(reservationDate.value, timeIndex) === "few"
+            ? "この時間は残り僅かです。"
+            : "";
+    });
+
     document.addEventListener("inori-language-change", () => {
         renderReviewPage(currentReviewPage);
         renderCalendar();
@@ -534,4 +648,5 @@
     updateMainPhoto();
     renderReviewPage(0);
     renderCalendar();
+    syncReservationAvailability();
 });

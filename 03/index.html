@@ -117,7 +117,15 @@
 
           <div class="field-group">
             <label for="people">参加人数<span class="required">必須</span></label>
-            <input id="people" type="text" name="booking_people_field" placeholder="〇人" autocomplete="off" />
+            <select id="people" name="booking_people_field">
+              <option value="">選択してください</option>
+              <option value="1名">1名</option>
+              <option value="2名">2名</option>
+              <option value="3名">3名</option>
+              <option value="4名">4名</option>
+              <option value="5名">5名</option>
+              <option value="6名">6名</option>
+            </select>
           </div>
 
           <div class="field-group">
@@ -325,7 +333,8 @@
             <p class="side-eyebrow">Check Point</p>
             <h3>確定前のご案内</h3>
             <ul class="check-list">
-              <li>確認メールを受信できるアドレスかご確認ください。</li>
+              <li>メールアドレスが正しいかご確認ください。誤りがあった場合は、お問い合わせフォームまたはお電話にてご連絡ください。</li>
+              <li>予約完了後に確認メールをお送りし、予約番号を発行します。</li>
               <li>銀行振込は入金確認後に正式確定となります。</li>
               <li>修正が必要な場合は戻るボタンから編集できます。</li>
             </ul>

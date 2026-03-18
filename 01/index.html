@@ -226,48 +226,27 @@
 
             <h3 class="reserve-heading">予約フォーム</h3>
 
-            <form class="reserve-form" id="reserve-form">
+            <form class="reserve-form" id="reserve-form" autocomplete="off">
+                <input type="text" name="fake-user" autocomplete="username" tabindex="-1" hidden />
+                <input type="password" name="fake-pass" autocomplete="current-password" tabindex="-1" hidden />
                 <div class="field-group">
-                    <label>お名前（フリガナ）<span class="required">必須</span></label>
-                    <div class="grid-2">
-                        <div>
-                            <p class="mini-label">セイ</p>
-                            <input id="last-name-kana" type="text" placeholder="ヤマダ" />
-                        </div>
-                        <div>
-                            <p class="mini-label">メイ</p>
-                            <input id="first-name-kana" type="text" placeholder="タロウ" />
-                        </div>
-                    </div>
+                    <label for="name-kana">お名前（フリガナ）<span class="optional">任意</span></label>
+                    <input id="name-kana" name="booking_kana_field" type="text" placeholder="ヤマダ タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" />
                 </div>
 
                 <div class="field-group">
-                    <label>お名前<span class="required">必須</span></label>
-                    <div class="grid-2">
-                        <div>
-                            <p class="mini-label">姓</p>
-                            <input id="last-name" type="text" placeholder="山田" />
-                        </div>
-                        <div>
-                            <p class="mini-label">名</p>
-                            <input id="first-name" type="text" placeholder="太郎" />
-                        </div>
-                    </div>
+                    <label for="name">お名前<span class="required">必須</span></label>
+                    <input id="name" name="booking_name_field" type="text" placeholder="山田 太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
                 </div>
 
                 <div class="field-group">
                     <label for="email">メールアドレス<span class="required">必須</span></label>
-                    <input id="email" type="email" placeholder="mail@example.com" />
+                    <input id="email" name="booking_email_field" type="email" placeholder="mail@example.com" autocomplete="off" spellcheck="false" autocapitalize="off" />
                 </div>
 
                 <div class="field-group">
-                    <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
-                    <input id="email-confirm" type="email" placeholder="mail@example.com" />
-                </div>
-
-                <div class="field-group">
-                    <label for="tel">電話番号<span class="required">必須</span></label>
-                    <input id="tel" type="tel" placeholder="000-0000-0000" />
+                    <label for="tel">電話番号<span class="optional">任意</span></label>
+                    <input id="tel" name="booking_tel_field" type="tel" placeholder="000-0000-0000" autocomplete="off" />
                 </div>
 
                 <div class="field-group">
@@ -275,28 +254,27 @@
                     <div class="grid-2">
                         <div>
                             <p class="mini-label">日程</p>
-                            <input id="reservation-date" type="date" />
+                            <input id="reservation-date" name="booking_date_field" type="date" autocomplete="off" />
+                            <p class="field-message" id="date-status-message" aria-live="polite"></p>
                         </div>
                         <div>
                             <p class="mini-label">時間</p>
-                            <select id="reservation-time">
+                            <select id="reservation-time" name="booking_time_field" disabled>
                                 <option value="">選択してください</option>
-                                <option value="11:00">11:00</option>
-                                <option value="13:00">13:00</option>
-                                <option value="15:00">15:00</option>
                             </select>
+                            <p class="field-message" id="time-status-message" aria-live="polite"></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <label for="people">参加人数<span class="required">必須</span></label>
-                    <input id="people" type="text" placeholder="〇人" />
+                    <input id="people" name="booking_people_field" type="text" placeholder="〇人" autocomplete="off" />
                 </div>
 
                 <div class="field-group">
                     <label for="note">備考欄<span class="optional">任意</span></label>
-                    <textarea id="note" rows="5"></textarea>
+                    <textarea id="note" name="booking_note_field" rows="5" autocomplete="off" spellcheck="false"></textarea>
                 </div>
 
                 <p class="policy-text">
