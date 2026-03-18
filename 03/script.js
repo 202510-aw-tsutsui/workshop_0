@@ -10,6 +10,24 @@
   const completeButton = document.querySelector("#complete-btn");
   const dateStatusMessage = document.querySelector("#date-status-message");
   const timeStatusMessage = document.querySelector("#time-status-message");
+  const lookupForm = document.querySelector("#lookup-form");
+  const lookupName = document.querySelector("#lookup-name");
+  const lookupEmailLocal = document.querySelector("#lookup-email-local");
+  const lookupEmailDomain = document.querySelector("#lookup-email-domain");
+  const lookupEmailDomainCustom = document.querySelector("#lookup-email-domain-custom");
+  const lookupTel = document.querySelector("#lookup-tel");
+  const lookupResult = document.querySelector("#lookup-result");
+  const lookupMessage = document.querySelector("#lookup-message");
+  const lookupResultFields = {
+    id: document.querySelector("#lookup-result-id"),
+    name: document.querySelector("#lookup-result-name"),
+    email: document.querySelector("#lookup-result-email"),
+    tel: document.querySelector("#lookup-result-tel"),
+    date: document.querySelector("#lookup-result-date"),
+    people: document.querySelector("#lookup-result-people"),
+    status: document.querySelector("#lookup-result-status"),
+    note: document.querySelector("#lookup-result-note")
+  };
 
   const fields = {
     nameKana: document.querySelector("#name-kana"),
@@ -93,6 +111,19 @@
   function syncEmailDomainInput() {
     if (!fields.emailDomain || !fields.emailDomainCustom) return;
     fields.emailDomainCustom.classList.toggle("hidden", fields.emailDomain.value !== "other");
+  }
+
+  function getLookupEmailValue() {
+    const local = lookupEmailLocal?.value.trim() || "";
+    const domain = lookupEmailDomain?.value === "other"
+      ? lookupEmailDomainCustom?.value.trim() || ""
+      : lookupEmailDomain?.value.trim() || "";
+    return local && domain ? `${local}@${domain}` : "";
+  }
+
+  function syncLookupEmailDomainInput() {
+    if (!lookupEmailDomain || !lookupEmailDomainCustom) return;
+    lookupEmailDomainCustom.classList.toggle("hidden", lookupEmailDomain.value !== "other");
   }
 
   function applyEmailToFields(email) {
@@ -328,6 +359,49 @@
     }
   }
 
+  function findReservationForLookup() {
+    const reservations = loadAdminReservations();
+    const name = lookupName?.value.trim() || "";
+    const email = getLookupEmailValue();
+    const tel = lookupTel?.value.trim() || "";
+
+    if (!name || (!email && !tel)) {
+      if (lookupMessage) {
+        lookupMessage.textContent = "お名前と、メールアドレスまたは電話番号を入力してください。";
+      }
+      lookupResult?.classList.add("hidden");
+      return;
+    }
+
+    const matched = reservations.find((item) => {
+      const sameName = (item.name || "").trim() === name;
+      const sameEmail = email && (item.email || "").trim() === email;
+      const sameTel = tel && (item.phone || "").trim() === tel;
+      return sameName && (sameEmail || sameTel);
+    });
+
+    if (!matched) {
+      if (lookupMessage) {
+        lookupMessage.textContent = "該当するご予約が見つかりませんでした。入力内容をご確認ください。";
+      }
+      lookupResult?.classList.add("hidden");
+      return;
+    }
+
+    lookupResultFields.id.textContent = String(matched.id ?? "");
+    lookupResultFields.name.textContent = matched.name || "未入力";
+    lookupResultFields.email.textContent = matched.email || "未入力";
+    lookupResultFields.tel.textContent = matched.phone || "未入力";
+    lookupResultFields.date.textContent = `${matched.date || ""} ${matched.time || ""}`.trim() || "未入力";
+    lookupResultFields.people.textContent = matched.people || "未入力";
+    lookupResultFields.status.textContent = matched.status || "未入力";
+    lookupResultFields.note.textContent = matched.note || "なし";
+    lookupResult?.classList.remove("hidden");
+    if (lookupMessage) {
+      lookupMessage.textContent = "";
+    }
+  }
+
   function saveReservationToAdmin() {
     const selected = paymentInputs.find((input) => input.checked);
     const reservations = loadAdminReservations();
@@ -431,6 +505,7 @@
 
   fields.reservationDate?.addEventListener("change", syncReservationAvailability);
   fields.emailDomain?.addEventListener("change", syncEmailDomainInput);
+  lookupEmailDomain?.addEventListener("change", syncLookupEmailDomainInput);
   fields.reservationTime?.addEventListener("change", () => {
     if (!fields.reservationDate.value || !fields.reservationTime.value || !timeStatusMessage) return;
     const timeIndex = slotTimes.indexOf(fields.reservationTime.value);
@@ -439,8 +514,14 @@
       : "";
   });
 
+  lookupForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    findReservationForLookup();
+  });
+
   syncPaymentDetails();
   syncEmailDomainInput();
+  syncLookupEmailDomainInput();
   const hasDraft = applyReservationDraft();
   syncReservationAvailability();
   goToStep(hasDraft && searchParams.get("step") === "2" ? 2 : 1);

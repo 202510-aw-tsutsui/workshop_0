@@ -180,6 +180,24 @@ a {
   background: #e8e0dc;
 }
 
+.lookup-entry {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 0;
+}
+
+.lookup-entry-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  border-radius: 999px;
+  border: 1px solid #6a5549;
+  background: #f5ece5;
+  padding: 10px 22px;
+  font-weight: 700;
+}
+
 .reserve-title {
   width: min(560px, 88%);
   min-height: 68px;
@@ -196,6 +214,12 @@ a {
 
 .section {
   padding: 50px 0 90px;
+}
+
+.lookup-section {
+  width: min(820px, 92%);
+  margin: 0 auto;
+  padding-bottom: 28px;
 }
 
 .reserve-section {
@@ -260,6 +284,10 @@ a {
   border: 1px solid #777;
   background: #f6f6f6;
   padding: 18px 18px 22px;
+}
+
+.hidden {
+  display: none;
 }
 
 .payment-form,
@@ -349,6 +377,23 @@ textarea {
   margin-bottom: 20px;
   color: #625954;
   line-height: 1.8;
+}
+
+.lookup-form {
+  margin-bottom: 22px;
+}
+
+.lookup-result {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.lookup-message {
+  min-height: 1.6em;
+  margin-top: 14px;
+  text-align: center;
+  color: #7a4d37;
+  font-weight: 700;
 }
 
 .policy-text {
