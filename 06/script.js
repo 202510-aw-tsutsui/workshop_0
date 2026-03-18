@@ -1,9 +1,21 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("#contact-form");
-  const policyCheck = document.querySelector("#policy-check");
+  const contactInputs = document.querySelector("#contact-inputs");
+  const confirmPanel = document.querySelector("#confirm-panel");
+  const confirmBtn = document.querySelector("#confirm-btn");
+  const backBtn = document.querySelector("#back-btn");
+  const submitBtn = document.querySelector("#submit-btn");
   const inquiryStorageKey = "inoriAdminInquiries";
 
   if (!form) return;
+
+  const confirmFields = {
+    nameKana: document.querySelector("#confirm-name-kana"),
+    name: document.querySelector("#confirm-name"),
+    email: document.querySelector("#confirm-email"),
+    tel: document.querySelector("#confirm-tel"),
+    message: document.querySelector("#confirm-message")
+  };
 
   function getToday() {
     const now = new Date();
@@ -24,45 +36,76 @@
     }
   }
 
+  function getPayload() {
+    return {
+      nameKana: document.querySelector("#name-kana")?.value.trim() || "",
+      name: document.querySelector("#name")?.value.trim() || "",
+      email: document.querySelector("#email")?.value.trim() || "",
+      tel: document.querySelector("#tel")?.value.trim() || "",
+      message: document.querySelector("#message")?.value.trim() || ""
+    };
+  }
+
+  function validatePayload(payload) {
+    if (!payload.name || !payload.email || !payload.tel) {
+      alert("\u304a\u540d\u524d\u3001\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3001\u96fb\u8a71\u756a\u53f7\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
+      return false;
+    }
+    return true;
+  }
+
+  function setConfirmMode(enabled, payload) {
+    contactInputs?.classList.toggle("hidden", enabled);
+    confirmPanel?.classList.toggle("hidden", !enabled);
+    confirmBtn?.classList.toggle("hidden", enabled);
+    backBtn?.classList.toggle("hidden", !enabled);
+    submitBtn?.classList.toggle("hidden", !enabled);
+
+    if (enabled && payload) {
+      confirmFields.nameKana.textContent = payload.nameKana || "\u672a\u5165\u529b";
+      confirmFields.name.textContent = payload.name || "\u672a\u5165\u529b";
+      confirmFields.email.textContent = payload.email || "\u672a\u5165\u529b";
+      confirmFields.tel.textContent = payload.tel || "\u672a\u5165\u529b";
+      confirmFields.message.textContent = payload.message || "\u672a\u5165\u529b";
+      window.scrollTo({ top: form.offsetTop - 40, behavior: "smooth" });
+    }
+  }
+
+  confirmBtn?.addEventListener("click", () => {
+    const payload = getPayload();
+    if (!validatePayload(payload)) return;
+    setConfirmMode(true, payload);
+  });
+
+  backBtn?.addEventListener("click", () => {
+    setConfirmMode(false);
+  });
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const lastName = document.querySelector("#last-name")?.value.trim() || "";
-    const firstName = document.querySelector("#first-name")?.value.trim() || "";
-    const email = document.querySelector("#email")?.value.trim() || "";
-    const emailConfirm = document.querySelector("#email-confirm")?.value.trim() || "";
-    const tel = document.querySelector("#tel")?.value.trim() || "";
-    const message = document.querySelector("#message")?.value.trim() || "";
-
-    if (!lastName || !firstName || !email || !emailConfirm || !tel) {
-      alert("お名前、メールアドレス、電話番号を入力してください。");
-      return;
-    }
-
-    if (email !== emailConfirm) {
-      alert("メールアドレスが一致しません。");
-      return;
-    }
-
-    if (policyCheck && !policyCheck.checked) {
-      alert("キャンセルポリシーに同意してください。");
+    const payload = getPayload();
+    if (!validatePayload(payload)) {
+      setConfirmMode(false);
       return;
     }
 
     const inquiries = loadInquiries();
     inquiries.unshift({
       id: Date.now(),
-      name: `${lastName} ${firstName}`.trim(),
-      email,
-      phone: tel,
+      name: payload.name,
+      nameKana: payload.nameKana,
+      email: payload.email,
+      phone: payload.tel,
       date: getToday(),
-      subject: "Webお問い合わせ",
-      status: "未対応",
-      message: message || "お問い合わせフォームから送信"
+      subject: "Web\u304a\u554f\u3044\u5408\u308f\u305b",
+      status: "\u672a\u5bfe\u5fdc",
+      message: payload.message || "\u304a\u554f\u3044\u5408\u308f\u305b\u30d5\u30a9\u30fc\u30e0\u304b\u3089\u9001\u4fe1"
     });
 
     localStorage.setItem(inquiryStorageKey, JSON.stringify(inquiries));
-    alert("お問い合わせを送信しました。");
+    alert("\u304a\u554f\u3044\u5408\u308f\u305b\u3092\u9001\u4fe1\u3057\u307e\u3057\u305f\u3002");
     form.reset();
+    setConfirmMode(false);
   });
 });

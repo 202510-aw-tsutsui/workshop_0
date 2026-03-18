@@ -619,7 +619,11 @@ inori 浅草店
     renderInquiries();
   });
 
-  switchView("reservations");
+  const initialView = new URLSearchParams(window.location.search).get("view") === "inquiries"
+    ? "inquiries"
+    : "reservations";
+
+  switchView(initialView);
   renderReservations();
   renderInquiries();
 });

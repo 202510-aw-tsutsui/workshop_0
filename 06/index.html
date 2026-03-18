@@ -67,67 +67,48 @@
       </div>
 
       <form id="contact-form" class="contact-form">
-        <div class="field-group">
-          <label>お名前（フリガナ）<span class="required">必須</span></label>
-          <div class="grid-2">
-            <div>
-              <p class="mini-label">セイ</p>
-              <input type="text" id="last-kana" placeholder="ヤマダ" />
-            </div>
-            <div>
-              <p class="mini-label">メイ</p>
-              <input type="text" id="first-kana" placeholder="タロウ" />
-            </div>
+        <div class="contact-inputs" id="contact-inputs">
+          <div class="field-group">
+            <label for="name-kana">お名前（フリガナ）<span class="optional">任意</span></label>
+            <input type="text" id="name-kana" placeholder="ヤマダ タロウ" />
+          </div>
+
+          <div class="field-group">
+            <label for="name">お名前<span class="required">必須</span></label>
+            <input type="text" id="name" placeholder="山田 太郎" />
+          </div>
+
+          <div class="field-group">
+            <label for="email">メールアドレス<span class="required">必須</span></label>
+            <input id="email" type="email" placeholder="mail@example.com" />
+          </div>
+
+          <div class="field-group">
+            <label for="tel">電話番号<span class="required">必須</span></label>
+            <input id="tel" type="tel" placeholder="000-0000-0000" />
+          </div>
+
+          <div class="field-group">
+            <label for="message">お問い合わせ内容<span class="optional">任意</span></label>
+            <textarea id="message" rows="5"></textarea>
           </div>
         </div>
 
-        <div class="field-group">
-          <label>お名前<span class="required">必須</span></label>
-          <div class="grid-2">
-            <div>
-              <p class="mini-label">姓</p>
-              <input type="text" id="last-name" placeholder="山田" />
-            </div>
-            <div>
-              <p class="mini-label">名</p>
-              <input type="text" id="first-name" placeholder="太郎" />
-            </div>
-          </div>
+        <div class="confirm-panel hidden" id="confirm-panel">
+          <p class="confirm-lead">以下の内容で送信します。内容をご確認ください。</p>
+          <dl class="confirm-list">
+            <div><dt>お名前（フリガナ）</dt><dd id="confirm-name-kana">未入力</dd></div>
+            <div><dt>お名前</dt><dd id="confirm-name">未入力</dd></div>
+            <div><dt>メールアドレス</dt><dd id="confirm-email">未入力</dd></div>
+            <div><dt>電話番号</dt><dd id="confirm-tel">未入力</dd></div>
+            <div><dt>お問い合わせ内容</dt><dd id="confirm-message">未入力</dd></div>
+          </dl>
         </div>
-
-        <div class="field-group">
-          <label for="email">メールアドレス<span class="required">必須</span></label>
-          <input id="email" type="email" placeholder="mail@example.com" />
-        </div>
-
-        <div class="field-group">
-          <label for="email-confirm">メールアドレス(確認のため再度ご入力ください)<span class="required">必須</span></label>
-          <input id="email-confirm" type="email" placeholder="mail@example.com" />
-        </div>
-
-        <div class="field-group">
-          <label for="tel">電話番号<span class="required">必須</span></label>
-          <input id="tel" type="tel" placeholder="000-0000-0000" />
-        </div>
-
-        <div class="field-group">
-          <label for="message">お問い合わせ内容<span class="optional">任意</span></label>
-          <textarea id="message" rows="5"></textarea>
-        </div>
-
-        <p class="policy-text">
-          <strong>キャンセルポリシー</strong><br>
-          多くのお客様に体験いただくため、以下の規定を設けております。<br>
-          ・前日キャンセル：50％<br>
-          ・当日キャンセル：100％<br>
-          ・無断キャンセル：100％<br>
-          やむを得ない事情がある場合は、事前にご相談ください。
-        </p>
-
-        <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
 
         <div class="submit-wrap">
-          <button class="send-btn" type="submit">送信</button>
+          <button class="send-btn" id="confirm-btn" type="button">確認</button>
+          <button class="send-btn secondary hidden" id="back-btn" type="button">戻る</button>
+          <button class="send-btn hidden" id="submit-btn" type="submit">送信</button>
         </div>
       </form>
     </section>

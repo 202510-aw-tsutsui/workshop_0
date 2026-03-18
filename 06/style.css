@@ -221,6 +221,10 @@ a {
   margin: 0 auto;
 }
 
+.hidden {
+  display: none;
+}
+
 .field-group {
   margin-bottom: 14px;
 }
@@ -301,7 +305,10 @@ textarea {
 }
 
 .submit-wrap {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
   margin-top: 20px;
 }
 
@@ -312,6 +319,52 @@ textarea {
   background: #e9ddd6;
   padding: 8px 16px;
   font-size: 1rem;
+  cursor: pointer;
+}
+
+.send-btn.secondary {
+  background: #f5f0eb;
+}
+
+.confirm-panel {
+  border: 1px solid #cdbfb6;
+  background: #f7f3ef;
+  border-radius: 18px;
+  padding: 18px 18px 14px;
+}
+
+.confirm-lead {
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  color: #5b514c;
+}
+
+.confirm-list {
+  display: grid;
+  gap: 10px;
+}
+
+.confirm-list div {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd1ca;
+}
+
+.confirm-list div:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.confirm-list dt {
+  font-weight: 700;
+}
+
+.confirm-list dd {
+  margin: 0;
+  line-height: 1.7;
+  white-space: pre-wrap;
 }
 
 .footer {
@@ -401,6 +454,11 @@ textarea {
 
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+
+  .confirm-list div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .footer-inner {
