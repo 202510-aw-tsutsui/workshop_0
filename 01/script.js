@@ -24,6 +24,7 @@
     const emailDomainCustom = document.querySelector("#email-domain-custom");
     const reservationSection = document.querySelector("#reservation");
     const bookingForm = document.querySelector("#reserve-form");
+    const heroCta = document.querySelector(".hero-cta");
 
     const photoList = [
         "photo-main.png",
@@ -210,6 +211,34 @@
     let currentReviewPage = 0;
     let currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     let selectedDateKey = "";
+    let heroCtaTriggerY = Number.POSITIVE_INFINITY;
+
+    function syncHeroCtaFloating() {
+        if (!heroCta) {
+            return;
+        }
+
+        heroCta.classList.toggle("is-floating", window.scrollY > heroCtaTriggerY);
+    }
+
+    function updateHeroCtaTrigger() {
+        if (!heroCta) {
+            heroCtaTriggerY = Number.POSITIVE_INFINITY;
+            return;
+        }
+
+        const wasFloating = heroCta.classList.contains("is-floating");
+        if (wasFloating) {
+            heroCta.classList.remove("is-floating");
+        }
+
+        const rect = heroCta.getBoundingClientRect();
+        heroCtaTriggerY = window.scrollY + rect.top - 16;
+
+        if (wasFloating) {
+            syncHeroCtaFloating();
+        }
+    }
 
     function getLanguage() {
         return i18n?.getLanguage?.() === "en" ? "en" : "ja";
@@ -660,6 +689,14 @@
         if (selectedDateKey) {
             renderTimeslots(new Date(`${selectedDateKey}T00:00:00`));
         }
+    });
+
+    updateHeroCtaTrigger();
+    syncHeroCtaFloating();
+    window.addEventListener("scroll", syncHeroCtaFloating, { passive: true });
+    window.addEventListener("resize", () => {
+        updateHeroCtaTrigger();
+        syncHeroCtaFloating();
     });
 
     updateMainPhoto();
