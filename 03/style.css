@@ -744,6 +744,10 @@ textarea {
   line-height: 1.8;
 }
 
+.complete-message-line {
+  display: block;
+}
+
 .complete-sub {
   margin-top: 18px;
   color: #5d5551;
@@ -901,6 +905,11 @@ textarea {
     font-size: 2.2rem;
   }
 
+  .flow-panel[data-panel="4"] .reserve-heading {
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+
   .floating-reserve-btn {
     top: auto;
     right: 14px;
@@ -926,6 +935,20 @@ textarea {
 
   .field-group label {
     font-size: 1rem;
+  }
+
+  .complete-message {
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+
+  .complete-message-line {
+    white-space: nowrap;
+  }
+
+  .complete-sub {
+    font-size: 0.92rem;
+    line-height: 1.7;
   }
 
   .email-field {

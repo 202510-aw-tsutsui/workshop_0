@@ -412,6 +412,10 @@ a {
   line-height: 1.6;
 }
 
+.note-line {
+  display: block;
+}
+
 .reserve-wrap {
   margin-top: 36px;
 }
@@ -561,11 +565,14 @@ a {
   }
 
   .intro-lead {
-    font-size: 1.3rem;
+    font-size: 1.05rem;
+    white-space: nowrap;
   }
 
   .intro-text {
-    font-size: 1rem;
+    font-size: 0.72rem;
+    line-height: 1.75;
+    white-space: nowrap;
   }
 
   .block-title {
@@ -593,6 +600,15 @@ a {
   .reserve-btn {
     min-width: 230px;
     font-size: 1.1rem;
+  }
+
+  .note {
+    font-size: 0.68rem;
+    line-height: 1.5;
+  }
+
+  .note-line {
+    white-space: nowrap;
   }
 
 

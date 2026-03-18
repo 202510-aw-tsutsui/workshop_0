@@ -515,6 +515,10 @@ a {
     font-size: 1.3rem;
   }
 
+  .shop-info p {
+    font-size: 1.1rem;
+  }
+
   .footer-inner {
     grid-template-columns: 1fr;
     justify-items: center;

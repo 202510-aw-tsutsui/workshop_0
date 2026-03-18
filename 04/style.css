@@ -785,6 +785,11 @@ a {
     padding: 0 42px 6px;
   }
 
+  .flow-panel[data-panel="4"] .section-heading {
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+
   .payment-name {
     font-size: 1rem;
   }
@@ -797,6 +802,30 @@ a {
   .confirm-layout,
   .complete-summary {
     grid-template-columns: 1fr;
+  }
+
+  .complete-message {
+    font-size: 0.96rem;
+    line-height: 1.65;
+    white-space: nowrap;
+  }
+
+  .complete-sub {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .complete-badge {
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+  }
+
+  .complete-summary span {
+    font-size: 0.76rem;
+  }
+
+  .complete-summary strong {
+    font-size: 0.95rem;
   }
 
   .back-btn,

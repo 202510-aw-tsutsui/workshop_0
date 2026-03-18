@@ -1266,6 +1266,26 @@ ul {
         font-size: 1.3rem;
     }
 
+    .price-row {
+        grid-template-columns: 108px 1fr;
+        gap: 8px;
+    }
+
+    .price-label {
+        font-size: 0.76rem;
+    }
+
+    .price-value {
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .price-value strong {
+        margin-left: 6px;
+        font-size: 1.3rem;
+        letter-spacing: 0.06em;
+    }
+
     .flow-list,
     .thumbnail-row {
         grid-template-columns: repeat(2, 1fr);
