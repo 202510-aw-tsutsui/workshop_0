@@ -36,11 +36,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const emailFields = {
+    local: document.querySelector("#email-local"),
+    domain: document.querySelector("#email-domain"),
+    custom: document.querySelector("#email-domain-custom")
+  };
+
+  function getEmailValue() {
+    const local = emailFields.local?.value.trim() || "";
+    const domain = emailFields.domain?.value === "other"
+      ? emailFields.custom?.value.trim() || ""
+      : emailFields.domain?.value.trim() || "";
+    return local && domain ? `${local}@${domain}` : "";
+  }
+
+  function syncEmailDomainInput() {
+    if (!emailFields.domain || !emailFields.custom) return;
+    emailFields.custom.classList.toggle("hidden", emailFields.domain.value !== "other");
+  }
+
   function getPayload() {
     return {
       nameKana: document.querySelector("#name-kana")?.value.trim() || "",
       name: document.querySelector("#name")?.value.trim() || "",
-      email: document.querySelector("#email")?.value.trim() || "",
+      email: getEmailValue(),
       tel: document.querySelector("#tel")?.value.trim() || "",
       message: document.querySelector("#message")?.value.trim() || ""
     };
@@ -81,6 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setConfirmMode(false);
   });
 
+  emailFields.domain?.addEventListener("change", syncEmailDomainInput);
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -106,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(inquiryStorageKey, JSON.stringify(inquiries));
     alert("\u304a\u554f\u3044\u5408\u308f\u305b\u3092\u9001\u4fe1\u3057\u307e\u3057\u305f\u3002");
     form.reset();
+    syncEmailDomainInput();
     setConfirmMode(false);
   });
+
+  syncEmailDomainInput();
 });

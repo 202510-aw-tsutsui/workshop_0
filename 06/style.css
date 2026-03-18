@@ -217,8 +217,11 @@ a {
 }
 
 .contact-form {
-  width: min(620px, 100%);
+  width: min(700px, 100%);
   margin: 0 auto;
+  border: 1px solid #777;
+  background: #f6f6f6;
+  padding: 18px 18px 22px;
 }
 
 .hidden {
@@ -226,12 +229,12 @@ a {
 }
 
 .field-group {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .field-group label {
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -241,8 +244,8 @@ a {
   display: inline-block;
   margin-left: 8px;
   border-radius: 999px;
-  padding: 1px 6px;
-  font-size: 0.68rem;
+  padding: 2px 6px;
+  font-size: 0.72rem;
   line-height: 1;
   vertical-align: middle;
 }
@@ -269,7 +272,24 @@ a {
   font-weight: 700;
 }
 
+.email-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(180px, 220px);
+  gap: 8px;
+  align-items: center;
+}
+
+.email-at {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.email-domain-custom {
+  margin-top: 8px;
+}
+
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid #777;
@@ -307,9 +327,9 @@ textarea {
 .submit-wrap {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .send-btn {
@@ -317,39 +337,39 @@ textarea {
   border-radius: 999px;
   border: 1px solid #555;
   background: #e9ddd6;
-  padding: 8px 16px;
+  padding: 8px 18px;
   font-size: 1rem;
+  text-align: center;
   cursor: pointer;
 }
 
 .send-btn.secondary {
-  background: #f5f0eb;
+  background: #f4efeb;
 }
 
 .confirm-panel {
-  border: 1px solid #cdbfb6;
-  background: #f7f3ef;
-  border-radius: 18px;
-  padding: 18px 18px 14px;
+  width: 100%;
+  border: 1px solid #777;
+  background: #fdfaf7;
+  padding: 24px 26px;
 }
 
 .confirm-lead {
-  margin-bottom: 14px;
-  font-size: 0.95rem;
-  color: #5b514c;
+  margin-bottom: 20px;
+  color: #625954;
+  line-height: 1.8;
 }
 
 .confirm-list {
   display: grid;
-  gap: 10px;
 }
 
 .confirm-list div {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd1ca;
+  grid-template-columns: 210px 1fr;
+  gap: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid #d7ccc5;
 }
 
 .confirm-list div:last-child {
@@ -456,9 +476,17 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .email-field {
+    grid-template-columns: 1fr;
+  }
+
+  .email-at {
+    display: none;
+  }
+
   .confirm-list div {
     grid-template-columns: 1fr;
-    gap: 4px;
+    gap: 6px;
   }
 
   .footer-inner {

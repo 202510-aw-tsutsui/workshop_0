@@ -872,6 +872,22 @@ ul {
     font-weight: 700;
 }
 
+.email-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(180px, 220px);
+    gap: 8px;
+    align-items: center;
+}
+
+.email-at {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.email-domain-custom {
+    margin-top: 8px;
+}
+
 .field-message {
     min-height: 1.4em;
     margin-top: 6px;
@@ -1032,6 +1048,14 @@ ul {
     .timeslot-list,
     .grid-2 {
         grid-template-columns: 1fr;
+    }
+
+    .email-field {
+        grid-template-columns: 1fr;
+    }
+
+    .email-at {
+        display: none;
     }
 
     .review-card {

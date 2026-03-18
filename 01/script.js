@@ -19,6 +19,9 @@
     const reservationTime = document.querySelector("#reservation-time");
     const dateStatusMessage = document.querySelector("#date-status-message");
     const timeStatusMessage = document.querySelector("#time-status-message");
+    const emailLocal = document.querySelector("#email-local");
+    const emailDomain = document.querySelector("#email-domain");
+    const emailDomainCustom = document.querySelector("#email-domain-custom");
     const reservationSection = document.querySelector("#reservation");
     const bookingForm = document.querySelector("#reserve-form");
 
@@ -278,6 +281,19 @@
         return "few";
     }
 
+    function getEmailValue() {
+        const local = emailLocal?.value.trim() || "";
+        const domain = emailDomain?.value === "other"
+            ? emailDomainCustom?.value.trim() || ""
+            : emailDomain?.value.trim() || "";
+        return local && domain ? `${local}@${domain}` : "";
+    }
+
+    function syncEmailDomainInput() {
+        if (!emailDomain || !emailDomainCustom) return;
+        emailDomainCustom.hidden = emailDomain.value !== "other";
+    }
+
     function syncReservationAvailability() {
         if (!reservationDate || !reservationTime) return;
 
@@ -349,7 +365,7 @@
 
     function validateReservationStep() {
         const name = document.querySelector("#name")?.value.trim() ?? "";
-        const email = document.querySelector("#email")?.value.trim() ?? "";
+        const email = getEmailValue();
         const people = document.querySelector("#people")?.value.trim() ?? "";
 
         if (!name || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
@@ -606,7 +622,7 @@
         const reservationDraft = {
             nameKana: document.querySelector("#name-kana")?.value.trim() ?? "",
             name: document.querySelector("#name")?.value.trim() ?? "",
-            email: document.querySelector("#email")?.value.trim() ?? "",
+            email: getEmailValue(),
             tel: document.querySelector("#tel")?.value.trim() ?? "",
             reservationDate: document.querySelector("#reservation-date")?.value.trim() ?? "",
             reservationTime: document.querySelector("#reservation-time")?.value.trim() ?? "",
@@ -629,6 +645,7 @@
     });
 
     reservationDate?.addEventListener("change", syncReservationAvailability);
+    emailDomain?.addEventListener("change", syncEmailDomainInput);
     reservationTime?.addEventListener("change", () => {
         if (!reservationDate.value || !reservationTime.value || !timeStatusMessage) return;
         const timeIndex = slotTimes.indexOf(reservationTime.value);
@@ -648,5 +665,6 @@
     updateMainPhoto();
     renderReviewPage(0);
     renderCalendar();
+    syncEmailDomainInput();
     syncReservationAvailability();
 });

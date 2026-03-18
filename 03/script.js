@@ -14,7 +14,9 @@
   const fields = {
     nameKana: document.querySelector("#name-kana"),
     name: document.querySelector("#name"),
-    email: document.querySelector("#email"),
+    emailLocal: document.querySelector("#email-local"),
+    emailDomain: document.querySelector("#email-domain"),
+    emailDomainCustom: document.querySelector("#email-domain-custom"),
     tel: document.querySelector("#tel"),
     reservationDate: document.querySelector("#reservation-date"),
     reservationTime: document.querySelector("#reservation-time"),
@@ -78,6 +80,47 @@
     panels.forEach((panel) => {
       panel.classList.toggle("is-active", Number(panel.dataset.panel) === stepNumber);
     });
+  }
+
+  function getEmailValue() {
+    const local = fields.emailLocal?.value.trim() || "";
+    const domain = fields.emailDomain?.value === "other"
+      ? fields.emailDomainCustom?.value.trim() || ""
+      : fields.emailDomain?.value.trim() || "";
+    return local && domain ? `${local}@${domain}` : "";
+  }
+
+  function syncEmailDomainInput() {
+    if (!fields.emailDomain || !fields.emailDomainCustom) return;
+    fields.emailDomainCustom.classList.toggle("hidden", fields.emailDomain.value !== "other");
+  }
+
+  function applyEmailToFields(email) {
+    if (!email || !fields.emailLocal || !fields.emailDomain || !fields.emailDomainCustom) return;
+
+    const atIndex = email.indexOf("@");
+    if (atIndex < 0) {
+      fields.emailLocal.value = email;
+      fields.emailDomain.value = "gmail.com";
+      fields.emailDomainCustom.value = "";
+      syncEmailDomainInput();
+      return;
+    }
+
+    const localPart = email.slice(0, atIndex);
+    const domainPart = email.slice(atIndex + 1);
+    const knownDomains = Array.from(fields.emailDomain.options).map((option) => option.value);
+
+    fields.emailLocal.value = localPart;
+    if (knownDomains.includes(domainPart)) {
+      fields.emailDomain.value = domainPart;
+      fields.emailDomainCustom.value = "";
+    } else {
+      fields.emailDomain.value = "other";
+      fields.emailDomainCustom.value = domainPart;
+    }
+
+    syncEmailDomainInput();
   }
 
   function formatDateKey(date) {
@@ -181,7 +224,7 @@
   }
 
   function validateStepOne() {
-    if (!fields.name.value.trim() || !fields.email.value.trim() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
+    if (!fields.name.value.trim() || !getEmailValue() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
       alert("お名前、メールアドレス、日程、時間、参加人数を入力してください。");
       return false;
     }
@@ -215,7 +258,7 @@
       paymentSummaryPeople.textContent = fields.people.value.trim() || "未入力";
     }
     if (paymentSummaryEmail) {
-      paymentSummaryEmail.textContent = fields.email.value.trim() || "未入力";
+      paymentSummaryEmail.textContent = getEmailValue() || "未入力";
     }
   }
 
@@ -253,7 +296,7 @@
 
     confirmFields.nameKana.textContent = fields.nameKana.value.trim() || "なし";
     confirmFields.name.textContent = fields.name.value.trim();
-    confirmFields.email.textContent = fields.email.value.trim();
+    confirmFields.email.textContent = getEmailValue();
     confirmFields.tel.textContent = fields.tel.value.trim() || "なし";
     confirmFields.date.textContent = `${fields.reservationDate.value.trim()} ${fields.reservationTime.value.trim()}`;
     confirmFields.people.textContent = fields.people.value.trim();
@@ -301,7 +344,7 @@
     reservations.unshift({
       id: Date.now(),
       name: fields.name.value.trim(),
-      email: fields.email.value.trim(),
+      email: getEmailValue(),
       phone: fields.tel.value.trim(),
       date: fields.reservationDate.value,
       time: fields.reservationTime.value,
@@ -323,10 +366,14 @@
     try {
       const draft = JSON.parse(draftRaw);
       Object.entries(fields).forEach(([key, field]) => {
+        if (key === "emailLocal" || key === "emailDomain" || key === "emailDomainCustom") return;
         if (field && typeof draft[key] === "string") {
           field.value = draft[key];
         }
       });
+      if (typeof draft.email === "string") {
+        applyEmailToFields(draft.email);
+      }
       updatePaymentSummary();
       return true;
     } catch {
@@ -383,6 +430,7 @@
   });
 
   fields.reservationDate?.addEventListener("change", syncReservationAvailability);
+  fields.emailDomain?.addEventListener("change", syncEmailDomainInput);
   fields.reservationTime?.addEventListener("change", () => {
     if (!fields.reservationDate.value || !fields.reservationTime.value || !timeStatusMessage) return;
     const timeIndex = slotTimes.indexOf(fields.reservationTime.value);
@@ -392,6 +440,7 @@
   });
 
   syncPaymentDetails();
+  syncEmailDomainInput();
   const hasDraft = applyReservationDraft();
   syncReservationAvailability();
   goToStep(hasDraft && searchParams.get("step") === "2" ? 2 : 1);
