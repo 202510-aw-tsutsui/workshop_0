@@ -176,6 +176,26 @@ ul {
     font-size: 1.08rem;
     font-weight: 500;
     line-height: 1.2;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gnav a:hover,
+.gnav a:focus-visible {
+    background: rgba(242, 151, 158, 0.22);
+    color: #7d3b46;
+    box-shadow: inset 0 -3px 0 #f2979e;
+}
+
+.footer-links a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+    color: #9a4a58;
+    opacity: 0.85;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
 }
 
 .hero {
@@ -186,7 +206,7 @@ ul {
 
 .hero-image-placeholder {
     border-radius: 0;
-    min-height: 620px;
+    min-height: 700px;
     background: url("inori_bottom_right.png") center center / cover no-repeat;
     position: relative;
     overflow: hidden;
@@ -1011,6 +1031,13 @@ ul {
     letter-spacing: 0.04em;
 }
 
+.copyright-year {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+}
+
 @media (max-width: 980px) {
     .header {
         position: static;
@@ -1043,7 +1070,7 @@ ul {
     }
 
     .hero-image-placeholder {
-        min-height: 480px;
+        min-height: 560px;
     }
 
     .hero-copy {
@@ -1130,7 +1157,7 @@ ul {
     }
 
     .hero-image-placeholder {
-        min-height: 420px;
+        min-height: 500px;
         background-position: center 40%;
     }
 
