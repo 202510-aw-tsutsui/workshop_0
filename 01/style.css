@@ -771,6 +771,7 @@ ul {
 .review-rating {
     font-weight: 700;
     margin-bottom: 6px;
+    color: #d4a437;
 }
 
 .review-text {
@@ -811,9 +812,13 @@ ul {
 }
 
 .reserve-heading {
+    display: block;
+    width: fit-content;
+    font-size: 2rem;
+    border-bottom: 2px solid #444;
+    padding: 0 22px 6px;
+    margin: 0 auto 30px;
     text-align: center;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
 }
 
 .reserve-form {

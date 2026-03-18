@@ -233,17 +233,51 @@ a {
 
 .block-title {
   margin: 24px 0 24px;
-  font-size: 2.6rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 8px 0 12px;
 }
 
 .block-title.second {
   margin-top: 66px;
 }
 
+.block-title-mark {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
 .accent {
   color: #e10000;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.95), 4px 4px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(0.18em);
+}
+
+.vertical-copy {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  color: #111;
+}
+
+.block-title-sub {
+  display: block;
+  margin-top: 0;
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
   font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #5a4b44;
 }
 
 .scent-grid {
@@ -453,7 +487,16 @@ a {
   }
 
   .block-title {
-    font-size: 1.5rem;
+    gap: 12px;
+    padding: 8px 0 10px;
+  }
+
+  .block-title-mark {
+    gap: 6px;
+  }
+
+  .block-title-sub {
+    font-size: 1rem;
   }
 
   .scent-grid {
