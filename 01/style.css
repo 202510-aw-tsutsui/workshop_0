@@ -1195,6 +1195,10 @@ ul {
 }
 
 @media (max-width: 480px) {
+    .footer {
+        padding-bottom: 88px;
+    }
+
     .header {
         padding: 10px;
     }
