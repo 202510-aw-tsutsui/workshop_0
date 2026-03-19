@@ -1,5 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
   const spotGrid = document.querySelector("#spot-grid");
+  const attractionsSection = document.querySelector(".attractions");
   const pagerLinks = Array.from(document.querySelectorAll(".pager a"));
   const pagerPrev = document.querySelector(".pager-btn.prev");
   const pagerNext = document.querySelector(".pager-btn.next");
@@ -103,10 +104,16 @@
     }
   }
 
+  function scrollToSectionTop(section, maxWidth) {
+    if (!section || window.innerWidth > maxWidth) return;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   pagerLinks.forEach((link, index) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       setActivePage(index);
+      scrollToSectionTop(attractionsSection, 768);
     });
   });
 
@@ -114,6 +121,7 @@
     const currentIndex = pagerLinks.findIndex((link) => link.classList.contains("active"));
     if (currentIndex > 0) {
       setActivePage(currentIndex - 1);
+      scrollToSectionTop(attractionsSection, 768);
     }
   });
 
@@ -121,6 +129,7 @@
     const currentIndex = pagerLinks.findIndex((link) => link.classList.contains("active"));
     if (currentIndex < pagerLinks.length - 1) {
       setActivePage(currentIndex + 1);
+      scrollToSectionTop(attractionsSection, 768);
     }
   });
 

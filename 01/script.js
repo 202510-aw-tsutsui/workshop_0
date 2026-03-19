@@ -8,6 +8,7 @@
     const reviewPrev = document.querySelector(".page-arrow.prev");
     const reviewNext = document.querySelector(".page-arrow.next");
     const reviewList = document.querySelector(".review-list");
+    const reviewsSection = document.querySelector(".reviews-section");
     const calendarRoot = document.querySelector("#booking-calendar");
     const calendarCurrent = document.querySelector("#calendar-current");
     const calendarPrev = document.querySelector(".calendar-nav.prev");
@@ -497,6 +498,14 @@
         }
     }
 
+    function scrollToSectionTop(section, maxWidth) {
+        if (!section || window.innerWidth > maxWidth) {
+            return;
+        }
+
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     function createEmptyDay() {
         const empty = document.createElement("button");
         empty.type = "button";
@@ -645,18 +654,21 @@
     pageDots.forEach((dot, index) => {
         dot.addEventListener("click", () => {
             renderReviewPage(index);
+            scrollToSectionTop(reviewsSection, 980);
         });
     });
 
     reviewPrev?.addEventListener("click", () => {
         if (currentReviewPage > 0) {
             renderReviewPage(currentReviewPage - 1);
+            scrollToSectionTop(reviewsSection, 980);
         }
     });
 
     reviewNext?.addEventListener("click", () => {
         if (currentReviewPage < reviewPages[getLanguage()].length - 1) {
             renderReviewPage(currentReviewPage + 1);
+            scrollToSectionTop(reviewsSection, 980);
         }
     });
 
