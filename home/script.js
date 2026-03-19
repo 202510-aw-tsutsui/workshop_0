@@ -8,6 +8,7 @@
   const reservationSearch = document.querySelector("#search-keyword");
   const reservationDate = document.querySelector("#filter-date");
   const reservationStatus = document.querySelector("#filter-status");
+  const reservationSort = document.querySelector("#filter-sort");
   const reservationReset = document.querySelector("#reset-filter-btn");
   const reservationBody = document.querySelector("#reservation-tbody");
   const reservationResultCount = document.querySelector("#reservation-result-count");
@@ -151,6 +152,15 @@ inori 浅草店
     }
   }
 
+  function replaceCollection(target, nextItems) {
+    target.splice(0, target.length, ...nextItems);
+  }
+
+  function syncCollectionsFromStorage() {
+    replaceCollection(reservations, loadCollection(storageKeys.reservations, reservationSeed));
+    replaceCollection(inquiries, loadCollection(storageKeys.inquiries, inquirySeed));
+  }
+
   function persistCollections() {
     localStorage.setItem(storageKeys.reservations, JSON.stringify(reservations));
     localStorage.setItem(storageKeys.inquiries, JSON.stringify(inquiries));
@@ -204,12 +214,21 @@ inori 浅草店
     const keyword = reservationSearch.value.trim().toLowerCase();
     const date = reservationDate.value;
     const status = reservationStatus.value;
+    const sort = reservationSort.value;
 
     return reservations.filter((item) => {
       const matchKeyword = !keyword || item.name.toLowerCase().includes(keyword) || item.email.toLowerCase().includes(keyword) || item.phone.toLowerCase().includes(keyword);
       const matchDate = !date || item.date === date;
       const matchStatus = !status || item.status === status;
       return matchKeyword && matchDate && matchStatus;
+    }).sort((a, b) => {
+      const aKey = `${a.date || ""}T${a.time || "00:00"}`;
+      const bKey = `${b.date || ""}T${b.time || "00:00"}`;
+      const compare = aKey.localeCompare(bKey) || Number(a.id || 0) - Number(b.id || 0);
+      if (sort === "oldest" || sort === "reservation-date-asc") {
+        return compare;
+      }
+      return -compare;
     });
   }
 
@@ -373,7 +392,7 @@ inori 浅草店
     });
   });
 
-  [reservationSearch, reservationDate, reservationStatus].forEach((el) => {
+  [reservationSearch, reservationDate, reservationStatus, reservationSort].forEach((el) => {
     el.addEventListener("input", () => {
       currentReservationPage = 1;
       renderReservations();
@@ -399,6 +418,7 @@ inori 浅草店
     reservationSearch.value = "";
     reservationDate.value = "";
     reservationStatus.value = "";
+    reservationSort.value = "newest";
     currentReservationPage = 1;
     renderReservations();
   });
@@ -617,6 +637,26 @@ inori 浅草店
     closeInquiry();
     currentInquiryPage = 1;
     renderInquiries();
+  });
+
+  function refreshFromStorage() {
+    syncCollectionsFromStorage();
+    renderReservations();
+    renderInquiries();
+  }
+
+  window.addEventListener("focus", refreshFromStorage);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      refreshFromStorage();
+    }
+  });
+
+  window.addEventListener("storage", (event) => {
+    if (event.key === storageKeys.reservations || event.key === storageKeys.inquiries) {
+      refreshFromStorage();
+    }
   });
 
   const initialView = new URLSearchParams(window.location.search).get("view") === "inquiries"
