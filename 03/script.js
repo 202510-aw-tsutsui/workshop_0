@@ -2,6 +2,7 @@
   const form = document.querySelector("#reserve-form");
   const policyCheck = document.querySelector("#policy-check");
   const paymentForm = document.querySelector("#payment-form");
+  const paymentPanel = document.querySelector('[data-panel="2"]');
   const paymentInputs = Array.from(document.querySelectorAll('input[name="payment"]'));
   const paymentDetails = Array.from(document.querySelectorAll("[data-payment-detail]"));
   const steps = Array.from(document.querySelectorAll(".step"));
@@ -98,6 +99,10 @@
     panels.forEach((panel) => {
       panel.classList.toggle("is-active", Number(panel.dataset.panel) === stepNumber);
     });
+
+    if (stepNumber === 2 && window.innerWidth <= 980) {
+      paymentPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   function getEmailValue() {
