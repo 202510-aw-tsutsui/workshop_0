@@ -107,6 +107,15 @@ a {
   justify-self: end;
 }
 
+.mobile-menu-toggle,
+.mobile-menu-panel {
+  display: none;
+}
+
+.mobile-menu-panel[hidden] {
+  display: none !important;
+}
+
 .pill-btn {
   display: inline-block;
   min-width: 150px;
@@ -720,26 +729,114 @@ a {
     position: static;
     background: #f4efe9;
     padding: 14px;
+    overflow: visible;
   }
 
   .header-top {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
     gap: 14px;
   }
 
   .sns-icons,
-  .header-actions,
   .footer-actions {
     width: 100%;
-    justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .sns-icons {
+    width: auto;
+    justify-content: flex-start;
+    justify-self: start;
+  }
+
+  .sns-icons > a {
+    display: none;
+  }
+
+  .logo-group {
+    grid-column: 2;
+    justify-self: center;
+    justify-content: center;
+  }
+
+  .mobile-menu-toggle {
+    display: grid;
+    grid-column: 3;
+    justify-self: end;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #2f2a28;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .header-actions,
+  .gnav {
+    display: none;
   }
 
   .header-actions .pill-btn,
   .footer-actions .pill-btn {
     flex: 1 1 180px;
     min-width: 0;
+  }
+
+  .mobile-menu-panel {
+    position: static;
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 18px;
+    border: 1px solid #d8c8bb;
+    border-radius: 20px;
+    background: rgba(255, 251, 247, 0.98);
+    box-shadow: 0 18px 36px rgba(60, 47, 41, 0.16);
+  }
+
+  .mobile-menu-nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-menu-nav a {
+    display: block;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.86);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .mobile-menu-social {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mobile-menu-actions {
+    display: grid;
+    gap: 8px;
+  }
+
+  .mobile-menu-actions .pill-btn {
+    min-width: 0;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+  }
+
+  .sns-icons .lang-toggle {
+    margin-top: 0;
+    min-width: 42px;
+    height: 24px;
+    font-size: 0.56rem;
+    letter-spacing: 0.02em;
   }
 
   .gnav ul {

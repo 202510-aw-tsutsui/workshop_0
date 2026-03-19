@@ -1,13 +1,13 @@
 .lang-toggle {
-  min-width: 74px;
-  height: 36px;
+  min-width: 62px;
+  height: 32px;
   border: 1px solid #333;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.88);
   color: #2f2a28;
   font-family: "Josefin Sans", sans-serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
   cursor: pointer;
 }
 

@@ -25,6 +25,10 @@
     const reservationSection = document.querySelector("#reservation");
     const bookingForm = document.querySelector("#reserve-form");
     const heroCta = document.querySelector(".hero-cta");
+    const header = document.querySelector(".header");
+    const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+    const mobileMenuPanel = document.querySelector("#mobile-menu-panel");
+    const mobileMenuLinks = Array.from(document.querySelectorAll(".mobile-menu-panel a"));
 
     const photoList = [
         "photo-main.png",
@@ -238,6 +242,27 @@
         if (wasFloating) {
             syncHeroCtaFloating();
         }
+    }
+
+    function closeMobileMenu() {
+        if (!mobileMenuToggle || !mobileMenuPanel || !header) {
+            return;
+        }
+
+        mobileMenuToggle.setAttribute("aria-expanded", "false");
+        mobileMenuPanel.hidden = true;
+        header.classList.remove("menu-open");
+    }
+
+    function toggleMobileMenu() {
+        if (!mobileMenuToggle || !mobileMenuPanel || !header) {
+            return;
+        }
+
+        const isOpen = mobileMenuToggle.getAttribute("aria-expanded") === "true";
+        mobileMenuToggle.setAttribute("aria-expanded", String(!isOpen));
+        mobileMenuPanel.hidden = isOpen;
+        header.classList.toggle("menu-open", !isOpen);
     }
 
     function getLanguage() {
@@ -691,10 +716,38 @@
         }
     });
 
+    mobileMenuToggle?.addEventListener("click", toggleMobileMenu);
+
+    mobileMenuLinks.forEach((link) => {
+        link.addEventListener("click", closeMobileMenu);
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!header || !mobileMenuToggle || !mobileMenuPanel || mobileMenuPanel.hidden) {
+            return;
+        }
+
+        const target = event.target;
+        if (!(target instanceof Node) || header.contains(target)) {
+            return;
+        }
+
+        closeMobileMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeMobileMenu();
+        }
+    });
+
     updateHeroCtaTrigger();
     syncHeroCtaFloating();
     window.addEventListener("scroll", syncHeroCtaFloating, { passive: true });
     window.addEventListener("resize", () => {
+        if (window.innerWidth > 980) {
+            closeMobileMenu();
+        }
         updateHeroCtaTrigger();
         syncHeroCtaFloating();
     });
