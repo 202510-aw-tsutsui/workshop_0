@@ -138,11 +138,14 @@ inori 浅草店
       const merged = [...fallback];
       parsed.forEach((item) => {
         if (!item || typeof item !== "object") return;
+        const normalizedItem = "people" in item
+          ? { ...item, people: normalizePeopleValue(item.people) }
+          : item;
         const index = merged.findIndex((fallbackItem) => fallbackItem.id === item.id);
         if (index >= 0) {
-          merged[index] = { ...merged[index], ...item };
+          merged[index] = { ...merged[index], ...normalizedItem };
         } else {
-          merged.unshift(item);
+          merged.unshift(normalizedItem);
         }
       });
 
@@ -169,6 +172,15 @@ inori 浅草店
   function formatDate(dateValue) {
     const [year, month, day] = dateValue.split("-");
     return `${year}/${month}/${day}`;
+  }
+
+  function normalizePeopleValue(value) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+
+    const numeric = String(value ?? "").replace(/[^\d]/g, "");
+    return Number(numeric) || 0;
   }
 
   function reservationStatusClass(status) {
@@ -348,7 +360,7 @@ inori 浅草店
     reservationFields.phone.value = item?.phone ?? "";
     reservationFields.date.value = item?.date ?? "";
     reservationFields.time.value = item?.time ?? "11:00";
-    reservationFields.people.value = item?.people ?? 1;
+    reservationFields.people.value = normalizePeopleValue(item?.people) || 1;
     reservationFields.status.value = item?.status ?? "仮予約";
     reservationFields.note.value = item?.note ?? "";
     completeReservationBtn.disabled = mode === "new";
@@ -583,7 +595,7 @@ inori 浅草店
       phone: reservationFields.phone.value.trim(),
       date: reservationFields.date.value,
       time: reservationFields.time.value,
-      people: Number(reservationFields.people.value),
+      people: normalizePeopleValue(reservationFields.people.value),
       status: reservationFields.status.value,
       note: reservationFields.note.value.trim()
     };
