@@ -330,6 +330,17 @@ ul {
     line-height: 1.2;
 }
 
+body[data-lang="en"] .hero-highlights {
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+body[data-lang="en"] .hero-highlight {
+    white-space: nowrap;
+    padding-inline: 14px;
+    font-size: clamp(0.8rem, 1vw, 0.92rem);
+}
+
 .hero-cta {
     right: clamp(44px, 7vw, 92px);
     bottom: 44px;

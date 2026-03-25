@@ -1,4 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
+  const shopInfo = document.querySelector(".shop-info");
+  const mapFrame = document.querySelector(".map-placeholder iframe");
+  const mapOpenButton = document.querySelector(".map-open-btn");
   const spotGrid = document.querySelector("#spot-grid");
   const attractionsSection = document.querySelector(".attractions");
   const pagerLinks = Array.from(document.querySelectorAll(".pager a"));
@@ -73,6 +76,59 @@
     ]
   };
 
+  async function loadShopInfo() {
+    if (!shopInfo || !mapFrame || !mapOpenButton) return;
+
+    try {
+      const response = await fetch("/api/shop");
+      if (!response.ok) return;
+
+      const shop = await response.json();
+      const heading = shopInfo.querySelector("h3");
+      const infoLines = shopInfo.querySelectorAll("p");
+      const isEnglish = i18n?.getLanguage?.() === "en";
+
+      if (heading && shop.name) {
+        heading.textContent = isEnglish ? "inori Asakusa" : shop.name;
+      }
+
+      if (infoLines[0] && shop.postalCode && shop.address) {
+        infoLines[0].textContent = isEnglish
+          ? "2-1-5 Asakusa, Taito-ku, Tokyo 111-0032"
+          : `〒${shop.postalCode} ${shop.address}`;
+      }
+
+      if (infoLines[1] && shop.stationAccess) {
+        infoLines[1].textContent = isEnglish
+          ? "2 min walk from Asakusa Station on the Tokyo Metro Ginza Line"
+          : shop.stationAccess;
+      }
+
+      if (infoLines[2] && shop.businessHours) {
+        if (isEnglish) {
+          infoLines[2].textContent = "Hours: 10:30-18:30 Closed on Mondays";
+        } else {
+          const closed = shop.closedDays ? ` ※${shop.closedDays}定休日` : "";
+          infoLines[2].textContent = `営業時間：${shop.businessHours}${closed}`;
+        }
+      }
+
+      if (infoLines[3] && shop.tel) {
+        infoLines[3].textContent = `TEL: ${shop.tel}`;
+      }
+
+      if (shop.mapEmbedUrl) {
+        mapFrame.src = shop.mapEmbedUrl;
+      }
+
+      if (shop.mapLinkUrl) {
+        mapOpenButton.href = shop.mapLinkUrl;
+      }
+    } catch {
+      // Keep static content when the API is unavailable.
+    }
+  }
+
   function renderAttractionPage(index) {
     if (!spotGrid) return;
     const lang = i18n?.getLanguage?.() === "en" ? "en" : "ja";
@@ -136,10 +192,12 @@
   document.addEventListener("inori-language-change", () => {
     const currentIndex = pagerLinks.findIndex((link) => link.classList.contains("active"));
     renderAttractionPage(currentIndex >= 0 ? currentIndex : 0);
+    loadShopInfo();
   });
 
   const initialIndex = pagerLinks.findIndex((link) => link.classList.contains("active"));
   setActivePage(initialIndex >= 0 ? initialIndex : 0);
+  loadShopInfo();
 });
 
 document.addEventListener("DOMContentLoaded", () => {

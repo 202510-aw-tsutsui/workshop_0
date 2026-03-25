@@ -1,8 +1,10 @@
 ﻿(function () {
   const storageKey = "inoriLanguage";
   const currentPath = window.location.pathname.replace(/\\/g, "/");
-  const pageIdMatch = currentPath.match(/\/(\d{2})\/index\.html$/);
+  const pageIdMatch = currentPath.match(/\/(\d{2})\/[^/]+\.html$/);
   const pageId = pageIdMatch ? pageIdMatch[1] : "";
+  const pageFileMatch = currentPath.match(/\/([^/]+\.html)$/);
+  const pageFile = pageFileMatch ? pageFileMatch[1] : "";
   const textCache = new WeakMap();
   const htmlCache = new WeakMap();
   const attrCache = new WeakMap();
@@ -121,7 +123,9 @@
     setText(".header-actions .pill-btn.white", "Book Workshop");
     setText(".header-actions .pill-btn.orange", "Jalan");
     setTextList(".gnav a", ["Workshop", "Access", "Reservation", "FAQ", "Contact", "About inori"]);
-    setTextList(".footer-links a", ["Workshop", "Access", "Contact", "Reservation", "FAQ", "About inori"]);
+    setTextList(".mobile-menu-nav a", ["Workshop", "Access", "Reservation", "FAQ", "Contact", "About inori"]);
+    setTextList(".mobile-menu-actions .pill-btn", ["Book Workshop", "Jalan"]);
+    setTextList(".footer-links a", ["ー Workshop", "ー Access", "ー Reservation", "ー FAQ", "ー Contact", "ー About inori"]);
     setText(".footer-actions .pill-btn.white", "Book Workshop");
     setText(".footer-actions .pill-btn.orange", "Contact");
     setTextList(".required", new Array(12).fill("Required"));
@@ -134,6 +138,7 @@
     setText(".hero-heading", "Create a one-of-a-kind scent in Asakusa.");
     setText(".hero-subcopy", "-Craft your own original perfume in Asakusa-");
     setText(".hero-cta", "Book Workshop");
+    setTextList(".hero-highlight", ["About 1 hour", "JPY 5,500", "2 min from Asakusa Station", "Solo guests welcome"]);
     setText(".flow-section .section-sub", "Experience Flow");
     setText(".price-section .section-sub", "Pricing");
     setText(".schedule-section .section-sub", "Schedule");
@@ -174,15 +179,109 @@
   function apply02() {
     document.title = isEnglish() ? "inori | Access" : "inori | アクセス";
     setText(".access-title", "Access");
+    setText(".shop-info h3", "inori Asakusa");
+    setTextList(".shop-info p", [
+      "2-1-5 Asakusa, Taito-ku, Tokyo 111-0032",
+      "2 min walk from Asakusa Station on the Tokyo Metro Ginza Line",
+      "Hours: 10:30-18:30 Closed on Mondays",
+      "TEL: 000-0000-0000"
+    ]);
     setText(".attractions .section-sub", "Nearby Attractions");
     setText(".map-open-btn", "Open Google Maps");
   }
 
-  function apply03() {}
+  function apply03() {
+    if (pageFile === "check.html") {
+      document.title = isEnglish() ? "inori | Reservation Lookup" : "inori | ご予約確認";
+      setText(".reserve-title", "Reservation Lookup");
+      setText(".reserve-heading", "Reservation Lookup");
+      setTextList(".lookup-form .field-group label", ["Name", "Email", "Phone"]);
+      setAttr("#lookup-name", "placeholder", "Taro Yamada");
+      setOptionList("#lookup-email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
+      setText(".lookup-form .next-btn", "Search");
+      setText("#lookup-result-lead", "Matching reservation details are shown below.");
+      setTextList(".lookup-result dt", ["Reservation Code", "Name", "Email", "Phone", "Date & Time", "Guests", "Status", "Notes"]);
+      return;
+    }
+
+    document.title = isEnglish() ? "inori | Reservation" : "inori | ご予約";
+    setText(".reserve-title", "Reservation");
+    setText(".lookup-entry-btn", "Check Your Reservation");
+    setTextList(".step", ["1. Details", "2. Payment", "3. Review", "4. Complete"]);
+    setTextList(".reserve-heading", ["Reservation Form", "Payment Method", "Final Review", "Reservation Complete"]);
+    setTextList(".reserve-form .field-group label", ["Name (Kana)", "Name", "Email", "Phone", "Select Date", "Guests", "Notes"]);
+    setAttr("#name-kana", "placeholder", "YAMADA TARO");
+    setAttr("#name", "placeholder", "Taro Yamada");
+    setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
+    setTextList(".mini-label", ["Date", "Time"]);
+    setOptionList("#reservation-time", ["Select", "11:00", "13:00", "15:00"]);
+    setOptionList("#people", ["Select", "1 guest", "2 guests", "3 guests", "4 guests", "5 guests", "6 guests"]);
+    setHtml(".policy-text", "<strong>Cancellation Policy</strong><br>To welcome as many guests as possible, the following policy applies.<br>Cancellation the day before: 50%<br>Same-day cancellation: 100%<br>No-show: 100%<br>If you have unavoidable circumstances, please contact us in advance.");
+    setText(".policy-agree", "I agree to the cancellation policy.");
+    setText(".submit-wrap .next-btn", "Next");
+    setText(".payment-layout .panel-lead", "Choose your payment method while reviewing your reservation details. You can check everything once more before confirming.");
+    setTextList(".payment-name", ["Amazon Pay", "PayPay", "Credit Card", "Bank Transfer"]);
+    setTextList(".payment-note", [
+      "Proceed to Amazon Pay on the next screen.",
+      "Proceed to the PayPay app on the next screen.",
+      "Instant online payment with major card brands.",
+      "Your reservation is confirmed after payment is received."
+    ]);
+    setTextList(".payment-detail label", ["Card Number", "Name on Card", "Expiry Date", "Security Code", "Account Name", "Account Number", "Planned Transfer Date"]);
+    setOptionList("#card-expiry-month", ["Month", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]);
+    setOptionList("#card-expiry-year", ["Year", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035"]);
+    setTextList(".button-row .back-btn", ["Back", "Back"]);
+    setTextList(".button-row .next-btn", ["Next", "Confirm Reservation"]);
+    setText(".payment-side-card h3", "This Reservation");
+    setTextList(".mini-summary dt", ["Date & Time", "Guests", "Contact"]);
+    setText(".payment-tip", "We will email you instructions based on the payment method you selected.");
+    setText(".confirm-layout .panel-lead", "Please review the details below and confirm that the date, number of guests, and payment method are correct.");
+    setTextList(".confirm-list dt", ["Name (Kana)", "Name", "Email", "Phone", "Date", "Guests", "Payment Method", "Notes"]);
+    setText(".confirm-side-card h3", "Before You Confirm");
+    setTextList(".check-list li", [
+      "Please make sure your email address is correct. If there is an error, contact us by form or phone.",
+      "A confirmation email and reservation code will be sent after your reservation is completed.",
+      "Bank transfer reservations are finalized after payment is confirmed.",
+      "If you need to make changes, you can go back and edit your details."
+    ]);
+    setText(".complete-message-line:first-child", "Thank you for your reservation.");
+    setText(".complete-message-line:last-child", "We have received your booking.");
+    setText(".complete-sub", "We will send your confirmation email shortly. Please wait a moment.");
+    setTextList(".complete-summary span", ["Date & Time", "Guests", "Payment Method"]);
+    setText(".top-link-btn", "Back to Top");
+  }
   function apply04() {}
-  function apply05() {}
-  function apply06() {}
-  function apply07() {}
+  function apply05() {
+    document.title = isEnglish() ? "inori | FAQ" : "inori | よくあるご質問";
+    setText(".faq-title", "FAQ");
+  }
+  function apply06() {
+    document.title = isEnglish() ? "inori | Contact" : "inori | お問い合わせ";
+    setText(".contact-title", "Contact");
+    setText(".section-heading", "Contact Form");
+    setTextList(".contact-inputs .field-group label", ["Name (Kana)", "Name", "Email", "Phone", "Message"]);
+    setAttr("#name-kana", "placeholder", "YAMADA TARO");
+    setAttr("#name", "placeholder", "Taro Yamada");
+    setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
+    setText(".confirm-lead", "Please review the details below before sending.");
+    setTextList(".confirm-list dt", ["Name (Kana)", "Name", "Email", "Phone", "Message"]);
+    setTextList(".send-btn", ["Review", "Back", "Send"]);
+  }
+  function apply07() {
+    document.title = isEnglish() ? "inori | About inori" : "inori | inoriについて";
+    setText(".about-title", "About inori");
+    setText(".intro .section-sub", "What is Koucho?");
+    setText(".intro-lead", "# A brand built around the joy of playing with fragrance");
+    setHtml(".intro-text", "Different fragrance balances create very different impressions.<br>At inori, we offer 12 carefully selected signature scents.<br>We want more people to discover that creating fragrance is easier and more enjoyable than expected.<br>That idea is at the heart of our brand.");
+    setText(".scents .section-sub", "The Scent Lineup of Koucho");
+    setTextList(".block-title-sub", ["12 signature scents", "4 limited seasonal scents"]);
+    setTextList(".note-line", [
+      "Limited scents may change depending on the season and timing.",
+      "Because quantities are limited, some scents may sell out.",
+      "Please check with the store or our social media for the latest updates."
+    ]);
+    setText(".reserve-btn", "Book Workshop");
+  }
 
   function applyLanguage() {
     applyCommon();
