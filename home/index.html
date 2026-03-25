@@ -25,16 +25,22 @@
         </div>
       </div>
 
-      <nav class="sidebar-nav">
-        <button type="button" class="nav-link active" data-view="reservations">予約管理</button>
-        <button type="button" class="nav-link" data-view="inquiries">お問い合わせ管理</button>
-      </nav>
-
-      <div class="sidebar-card">
+      <div
+        class="sidebar-card sidebar-card-highlight"
+        id="today-reservations-card"
+        role="button"
+        tabindex="0"
+        aria-label="本日の予約一覧を表示"
+      >
         <p class="sidebar-label" id="sidebar-label">本日の予約</p>
         <strong id="sidebar-count">0件</strong>
         <span id="sidebar-caption">確認中</span>
       </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-link active" data-view="reservations">予約管理</button>
+        <button type="button" class="nav-link" data-view="inquiries">お問い合わせ管理</button>
+      </nav>
     </aside>
 
     <main class="main-content">
@@ -52,7 +58,7 @@
           <div class="toolbar-grid">
             <div class="toolbar-field keyword-field">
               <label for="search-keyword">キーワード検索</label>
-              <input type="text" id="search-keyword" placeholder="予約者名・メールアドレス・電話番号" />
+              <input type="text" id="search-keyword" placeholder="予約番号・予約者名・メールアドレス・電話番号" />
             </div>
             <div class="toolbar-field">
               <label for="filter-date">日付絞り込み</label>
@@ -94,6 +100,7 @@
             <table class="data-table">
               <thead>
                 <tr>
+                  <th>予約番号</th>
                   <th>予約者名</th>
                   <th>予約日</th>
                   <th>時間</th>
@@ -195,6 +202,10 @@
       <form id="reservation-form" class="modal-form">
         <input type="hidden" id="reservation-id" />
         <div class="detail-grid">
+          <div class="modal-field">
+            <label for="reservation-code">予約番号</label>
+            <input type="text" id="reservation-code" readonly />
+          </div>
           <div class="modal-field">
             <label for="customer-name">予約者名</label>
             <input type="text" id="customer-name" />

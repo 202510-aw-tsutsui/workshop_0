@@ -97,10 +97,29 @@ button {
 }
 
 .sidebar-card {
-  margin-top: auto;
   padding: 18px;
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-card-highlight {
+  background: linear-gradient(145deg, #ffb347 0%, #ff8c42 42%, #ff5a36 100%);
+  box-shadow: 0 18px 36px rgba(255, 111, 55, 0.28);
+  color: #fff8f2;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.sidebar-card-highlight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 42px rgba(255, 111, 55, 0.34);
+  filter: saturate(1.04);
+}
+
+.sidebar-card-highlight:focus-visible {
+  outline: 3px solid rgba(255, 243, 222, 0.88);
+  outline-offset: 4px;
 }
 
 .sidebar-card strong {
@@ -113,6 +132,19 @@ button {
   display: block;
   margin-top: 4px;
   color: #ddc7b8;
+}
+
+.sidebar-card-highlight .sidebar-label {
+  color: rgba(255, 248, 242, 0.82);
+}
+
+.sidebar-card-highlight strong {
+  font-size: 2.2rem;
+  text-shadow: 0 4px 14px rgba(116, 34, 12, 0.2);
+}
+
+.sidebar-card-highlight span {
+  color: rgba(255, 248, 242, 0.92);
 }
 
 .main-content {
@@ -278,6 +310,14 @@ button {
   text-align: left;
   border-bottom: 1px solid #eee3db;
   vertical-align: middle;
+}
+
+.reservation-code-cell {
+  font-family: "Josefin Sans", sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 0.92rem;
+  color: #5d5049;
+  white-space: nowrap;
 }
 
 .data-table th {

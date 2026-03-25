@@ -59,6 +59,7 @@
   };
 
   const confirmPaymentPill = document.querySelector("#confirm-payment-pill");
+  const completeReservationCode = document.querySelector("#complete-reservation-code");
   const completeDate = document.querySelector("#complete-date");
   const completePeople = document.querySelector("#complete-people");
   const completePayment = document.querySelector("#complete-payment");
@@ -175,7 +176,27 @@
     return day === 0 || day === 6 || isHoliday(date);
   }
 
+  function isPastDate(date) {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const targetStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return targetStart.getTime() < todayStart.getTime();
+  }
+
+  function getSlotDateTime(dateKey, time) {
+    return new Date(`${dateKey}T${time}:00`);
+  }
+
+  function isPastSlot(dateKey, time) {
+    const slotDateTime = getSlotDateTime(dateKey, time);
+    return !Number.isNaN(slotDateTime.getTime()) && slotDateTime.getTime() <= Date.now();
+  }
+
   function getSlotStatus(dateKey, slotIndex) {
+    if (isPastSlot(dateKey, slotTimes[slotIndex])) {
+      return "full";
+    }
+
     const seed = Array.from(`${dateKey}-${slotIndex}`).reduce((sum, char) => sum + char.charCodeAt(0), 0);
     const statusIndex = seed % 6;
 
@@ -188,6 +209,18 @@
     }
 
     return "available";
+  }
+
+  function generateReservationCode() {
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let suffix = "";
+
+    for (let index = 0; index < 6; index += 1) {
+      suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+
+    const datePart = fields.reservationDate.value.replaceAll("-", "").slice(2) || String(Date.now()).slice(-6);
+    return `INR-${datePart}-${suffix}`;
   }
 
   function syncReservationAvailability() {
@@ -210,7 +243,7 @@
     }
 
     const date = new Date(`${dateValue}T00:00:00`);
-    if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+    if (Number.isNaN(date.getTime()) || isPastDate(date) || !isReservableDate(date)) {
       if (dateStatusMessage) {
         dateStatusMessage.textContent = "この日は予約対象外です。サイトのスケジュールから空き日をご確認ください。";
       }
@@ -266,7 +299,7 @@
     }
 
     const date = new Date(`${fields.reservationDate.value}T00:00:00`);
-    if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+    if (Number.isNaN(date.getTime()) || isPastDate(date) || !isReservableDate(date)) {
       if (dateStatusMessage) {
         dateStatusMessage.textContent = "この日は予約対象外です。";
       }
@@ -275,7 +308,7 @@
     }
 
     const selectedTimeIndex = slotTimes.indexOf(fields.reservationTime.value);
-    if (selectedTimeIndex < 0 || getSlotStatus(fields.reservationDate.value, selectedTimeIndex) === "full") {
+    if (selectedTimeIndex < 0 || isPastSlot(fields.reservationDate.value, fields.reservationTime.value) || getSlotStatus(fields.reservationDate.value, selectedTimeIndex) === "full") {
       if (timeStatusMessage) {
         timeStatusMessage.textContent = "選択した時間は空きがありません。";
       }
@@ -411,6 +444,7 @@
     const selected = paymentInputs.find((input) => input.checked);
     const reservations = loadAdminReservations();
     const noteParts = [];
+    const reservationCode = generateReservationCode();
 
     if (fields.note.value.trim()) {
       noteParts.push(fields.note.value.trim());
@@ -422,6 +456,7 @@
 
     reservations.unshift({
       id: Date.now(),
+      reservationCode,
       name: fields.name.value.trim(),
       email: getEmailValue(),
       phone: fields.tel.value.trim(),
@@ -434,6 +469,7 @@
 
     localStorage.setItem(adminReservationStorageKey, JSON.stringify(reservations));
     sessionStorage.removeItem("inoriReservationDraft");
+    return reservationCode;
   }
 
   function applyReservationDraft() {
@@ -504,7 +540,10 @@
   });
 
   completeButton?.addEventListener("click", () => {
-    saveReservationToAdmin();
+    const reservationCode = saveReservationToAdmin();
+    if (completeReservationCode) {
+      completeReservationCode.textContent = reservationCode;
+    }
     goToStep(4);
   });
 

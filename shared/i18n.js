@@ -146,7 +146,6 @@
     setText(".reviews-section .section-sub", "Reviews");
     setText(".reservation-section .section-sub", "Reservation");
     setText(".reserve-heading", "Reservation Form");
-    setTextList(".flow-text strong", ["1. Check-in", "2. Prepare & Move", "3. Blending", "4. Finish & Take Home"]);
     setHtml(".flow-list article:nth-child(1) .flow-text", "<strong>1. Check-in</strong><br>Please check in at the front counter.");
     setHtml(".flow-list article:nth-child(2) .flow-text", "<strong>2. Prepare & Move</strong><br>Select your favorite notes from a curated scent lineup.");
     setHtml(".flow-list article:nth-child(3) .flow-text", "<strong>3. Blending</strong><br>Blend the notes you selected.");
@@ -247,7 +246,7 @@
     setText(".complete-message-line:first-child", "Thank you for your reservation.");
     setText(".complete-message-line:last-child", "We have received your booking.");
     setText(".complete-sub", "We will send your confirmation email shortly. Please wait a moment.");
-    setTextList(".complete-summary span", ["Date & Time", "Guests", "Payment Method"]);
+    setTextList(".complete-summary span", ["Reservation Code", "Date & Time", "Guests", "Payment Method"]);
     setText(".top-link-btn", "Back to Top");
   }
   function apply04() {}

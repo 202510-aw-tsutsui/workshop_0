@@ -4,6 +4,7 @@
   const sidebarLabel = document.querySelector("#sidebar-label");
   const sidebarCount = document.querySelector("#sidebar-count");
   const sidebarCaption = document.querySelector("#sidebar-caption");
+  const todayReservationsCard = document.querySelector("#today-reservations-card");
 
   const reservationSearch = document.querySelector("#search-keyword");
   const reservationDate = document.querySelector("#filter-date");
@@ -45,6 +46,7 @@
 
   const reservationFields = {
     id: document.querySelector("#reservation-id"),
+    reservationCode: document.querySelector("#reservation-code"),
     name: document.querySelector("#customer-name"),
     email: document.querySelector("#customer-email"),
     phone: document.querySelector("#customer-phone"),
@@ -69,16 +71,16 @@
   };
 
   const reservationSeed = [
-    { id: 1, name: "山田 花", email: "hana@example.com", phone: "090-1111-2222", date: "2026-03-18", time: "11:00", people: 2, status: "予約確定", note: "記念日利用。写真撮影希望。" },
-    { id: 2, name: "佐藤 健太", email: "kenta@example.com", phone: "080-4321-8765", date: "2026-03-18", time: "13:00", people: 3, status: "仮予約", note: "PayPay予定。" },
-    { id: 3, name: "鈴木 美咲", email: "misaki@example.com", phone: "070-9988-2211", date: "2026-03-19", time: "15:00", people: 2, status: "予約確定", note: "香り相談あり。" },
-    { id: 4, name: "田中 悠斗", email: "yuto@example.com", phone: "090-5432-3456", date: "2026-03-20", time: "11:00", people: 1, status: "キャンセル", note: "前日キャンセル。" },
-    { id: 5, name: "高橋 莉子", email: "riko@example.com", phone: "080-4567-1234", date: "2026-03-20", time: "13:00", people: 4, status: "来店済み", note: "家族利用。" },
-    { id: 6, name: "伊藤 蒼", email: "ao@example.com", phone: "070-8765-2345", date: "2026-03-21", time: "11:00", people: 2, status: "予約確定", note: "Amazon Pay。" },
-    { id: 7, name: "渡辺 彩香", email: "ayaka@example.com", phone: "090-1234-5670", date: "2026-03-21", time: "15:00", people: 2, status: "仮予約", note: "日程確認中。" },
-    { id: 8, name: "小林 拓海", email: "takumi@example.com", phone: "080-6789-2345", date: "2026-03-22", time: "13:00", people: 2, status: "予約確定", note: "クレジットカード。" },
-    { id: 9, name: "加藤 杏奈", email: "anna@example.com", phone: "070-3344-5566", date: "2026-03-23", time: "11:00", people: 1, status: "予約確定", note: "1名利用。" },
-    { id: 10, name: "吉田 直人", email: "naoto@example.com", phone: "090-7788-9900", date: "2026-03-23", time: "15:00", people: 2, status: "予約確定", note: "銀行振込。" }
+    { id: 1, reservationCode: "INR-260318-A7K2M9", name: "山田 花", email: "hana@example.com", phone: "090-1111-2222", date: "2026-03-18", time: "11:00", people: 2, status: "予約確定", note: "記念日利用。写真撮影希望。" },
+    { id: 2, reservationCode: "INR-260318-H4P8Q2", name: "佐藤 健太", email: "kenta@example.com", phone: "080-4321-8765", date: "2026-03-18", time: "13:00", people: 3, status: "仮予約", note: "PayPay予定。" },
+    { id: 3, reservationCode: "INR-260319-M2R7TX", name: "鈴木 美咲", email: "misaki@example.com", phone: "070-9988-2211", date: "2026-03-19", time: "15:00", people: 2, status: "予約確定", note: "香り相談あり。" },
+    { id: 4, reservationCode: "INR-260320-C8L5WY", name: "田中 悠斗", email: "yuto@example.com", phone: "090-5432-3456", date: "2026-03-20", time: "11:00", people: 1, status: "キャンセル", note: "前日キャンセル。" },
+    { id: 5, reservationCode: "INR-260320-V3N6KD", name: "高橋 莉子", email: "riko@example.com", phone: "080-4567-1234", date: "2026-03-20", time: "13:00", people: 4, status: "来店済み", note: "家族利用。" },
+    { id: 6, reservationCode: "INR-260321-Z9B4HF", name: "伊藤 蒼", email: "ao@example.com", phone: "070-8765-2345", date: "2026-03-21", time: "11:00", people: 2, status: "予約確定", note: "Amazon Pay。" },
+    { id: 7, reservationCode: "INR-260321-G5T2XP", name: "渡辺 彩香", email: "ayaka@example.com", phone: "090-1234-5670", date: "2026-03-21", time: "15:00", people: 2, status: "仮予約", note: "日程確認中。" },
+    { id: 8, reservationCode: "INR-260322-J8Y6LC", name: "小林 拓海", email: "takumi@example.com", phone: "080-6789-2345", date: "2026-03-22", time: "13:00", people: 2, status: "予約確定", note: "クレジットカード。" },
+    { id: 9, reservationCode: "INR-260323-Q4S9VN", name: "加藤 杏奈", email: "anna@example.com", phone: "070-3344-5566", date: "2026-03-23", time: "11:00", people: 1, status: "予約確定", note: "1名利用。" },
+    { id: 10, reservationCode: "INR-260323-W7D3KM", name: "吉田 直人", email: "naoto@example.com", phone: "090-7788-9900", date: "2026-03-23", time: "15:00", people: 2, status: "予約確定", note: "銀行振込。" }
   ];
 
   const inquirySeed = [
@@ -139,7 +141,7 @@ inori 浅草店
       parsed.forEach((item) => {
         if (!item || typeof item !== "object") return;
         const normalizedItem = "people" in item
-          ? { ...item, people: normalizePeopleValue(item.people) }
+          ? normalizeReservationItem(item)
           : item;
         const index = merged.findIndex((fallbackItem) => fallbackItem.id === item.id);
         if (index >= 0) {
@@ -183,6 +185,25 @@ inori 浅草店
     return Number(numeric) || 0;
   }
 
+  function generateReservationCodeForAdmin(item) {
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let suffix = "";
+    for (let index = 0; index < 6; index += 1) {
+      const seedBase = Number(item?.id || Date.now()) + index * 17;
+      suffix += alphabet[seedBase % alphabet.length];
+    }
+    const datePart = String(item?.date || "").replaceAll("-", "").slice(2) || String(item?.id || Date.now()).slice(-6);
+    return `INR-${datePart}-${suffix}`;
+  }
+
+  function normalizeReservationItem(item) {
+    return {
+      ...item,
+      people: normalizePeopleValue(item.people),
+      reservationCode: item.reservationCode || generateReservationCodeForAdmin(item)
+    };
+  }
+
   function reservationStatusClass(status) {
     if (status === "予約確定") return "status-confirmed";
     if (status === "仮予約") return "status-pending";
@@ -196,9 +217,17 @@ inori 浅草店
     return "status-pending";
   }
 
+  function getTodayKey() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
   function setSidebarSummary() {
     if (currentView === "reservations") {
-      const today = "2026-03-18";
+      const today = getTodayKey();
       const count = reservations.filter((item) => item.date === today && item.status !== "キャンセル").length;
       sidebarLabel.textContent = "本日の予約";
       sidebarCount.textContent = `${count}件`;
@@ -209,6 +238,16 @@ inori 浅草店
       sidebarCount.textContent = `${count}件`;
       sidebarCaption.textContent = "返信待ちを表示中";
     }
+  }
+
+  function showTodayReservations() {
+    switchView("reservations");
+    reservationSearch.value = "";
+    reservationDate.value = getTodayKey();
+    reservationStatus.value = "";
+    reservationSort.value = "newest";
+    currentReservationPage = 1;
+    renderReservations();
   }
 
   function switchView(view) {
@@ -229,7 +268,11 @@ inori 浅草店
     const sort = reservationSort.value;
 
     return reservations.filter((item) => {
-      const matchKeyword = !keyword || item.name.toLowerCase().includes(keyword) || item.email.toLowerCase().includes(keyword) || item.phone.toLowerCase().includes(keyword);
+      const matchKeyword = !keyword
+        || item.name.toLowerCase().includes(keyword)
+        || item.email.toLowerCase().includes(keyword)
+        || item.phone.toLowerCase().includes(keyword)
+        || String(item.reservationCode || "").toLowerCase().includes(keyword);
       const matchDate = !date || item.date === date;
       const matchStatus = !status || item.status === status;
       return matchKeyword && matchDate && matchStatus;
@@ -280,11 +323,12 @@ inori 浅草店
     reservationBody.innerHTML = "";
 
     if (items.length === 0) {
-      reservationBody.innerHTML = '<tr class="empty-row"><td colspan="6">条件に一致する予約はありません。</td></tr>';
+      reservationBody.innerHTML = '<tr class="empty-row"><td colspan="7">条件に一致する予約はありません。</td></tr>';
     } else {
       items.forEach((item) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
+          <td class="reservation-code-cell">${item.reservationCode || "-"}</td>
           <td>${item.name}</td>
           <td>${formatDate(item.date)}</td>
           <td>${item.time}</td>
@@ -355,6 +399,7 @@ inori 浅草店
     currentReservationId = item?.id ?? null;
     reservationModalTitle.textContent = mode === "new" ? "新規予約" : "予約詳細・編集";
     reservationFields.id.value = item?.id ?? "";
+    reservationFields.reservationCode.value = item?.reservationCode ?? (item ? generateReservationCodeForAdmin(item) : "自動発行");
     reservationFields.name.value = item?.name ?? "";
     reservationFields.email.value = item?.email ?? "";
     reservationFields.phone.value = item?.phone ?? "";
@@ -403,6 +448,17 @@ inori 浅草店
       switchView(link.dataset.view);
     });
   });
+
+  if (todayReservationsCard) {
+    todayReservationsCard.addEventListener("click", () => {
+      showTodayReservations();
+    });
+    todayReservationsCard.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      showTodayReservations();
+    });
+  }
 
   [reservationSearch, reservationDate, reservationStatus, reservationSort].forEach((el) => {
     el.addEventListener("input", () => {
@@ -590,6 +646,7 @@ inori 浅草店
     event.preventDefault();
     const payload = {
       id: currentReservationId ?? Date.now(),
+      reservationCode: reservationFields.reservationCode.value.trim() || generateReservationCodeForAdmin({ id: currentReservationId ?? Date.now(), date: reservationFields.date.value }),
       name: reservationFields.name.value.trim(),
       email: reservationFields.email.value.trim(),
       phone: reservationFields.phone.value.trim(),

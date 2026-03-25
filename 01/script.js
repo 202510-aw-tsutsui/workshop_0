@@ -306,7 +306,26 @@
         return day === 0 || day === 6 || isHoliday(date);
     }
 
+    function isPastDate(date) {
+        const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const targetStart = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        return targetStart.getTime() < todayStart.getTime();
+    }
+
+    function getSlotDateTime(dateKey, time) {
+        return new Date(`${dateKey}T${time}:00`);
+    }
+
+    function isPastSlot(dateKey, time) {
+        const slotDateTime = getSlotDateTime(dateKey, time);
+        return !Number.isNaN(slotDateTime.getTime()) && slotDateTime.getTime() <= Date.now();
+    }
+
     function getSlotStatus(dateKey, slotIndex) {
+        if (isPastSlot(dateKey, slotTimes[slotIndex])) {
+            return "full";
+        }
+
         const seed = Array.from(`${dateKey}-${slotIndex}`).reduce((sum, char) => sum + char.charCodeAt(0), 0);
         const statusIndex = seed % 6;
 
@@ -369,7 +388,7 @@
         }
 
         const date = new Date(`${dateValue}T00:00:00`);
-        if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+        if (Number.isNaN(date.getTime()) || isPastDate(date) || !isReservableDate(date)) {
             if (dateStatusMessage) {
                 dateStatusMessage.textContent = "この日は予約対象外です。サイトのスケジュールから空き日をご確認ください。";
             }
@@ -429,7 +448,7 @@
         }
 
         const date = new Date(`${reservationDate.value}T00:00:00`);
-        if (Number.isNaN(date.getTime()) || !isReservableDate(date)) {
+        if (Number.isNaN(date.getTime()) || isPastDate(date) || !isReservableDate(date)) {
             if (dateStatusMessage) {
                 dateStatusMessage.textContent = "この日は予約対象外です。";
             }
@@ -438,7 +457,7 @@
         }
 
         const selectedTimeIndex = slotTimes.indexOf(reservationTime.value);
-        if (selectedTimeIndex < 0 || getSlotStatus(reservationDate.value, selectedTimeIndex) === "full") {
+        if (selectedTimeIndex < 0 || isPastSlot(reservationDate.value, reservationTime.value) || getSlotStatus(reservationDate.value, selectedTimeIndex) === "full") {
             if (timeStatusMessage) {
                 timeStatusMessage.textContent = "選択した時間は空きがありません。";
             }
@@ -528,7 +547,7 @@
         const dateKey = formatDateKey(date);
         dayButton.innerHTML = `<span class="calendar-date">${date.getDate()}</span>`;
 
-        if (!isReservableDate(date)) {
+        if (isPastDate(date) || !isReservableDate(date)) {
             dayButton.classList.add("is-disabled");
             dayButton.innerHTML += `<span class="calendar-note">${t("対象外", "Closed")}</span>`;
             dayButton.disabled = true;
