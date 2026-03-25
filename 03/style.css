@@ -324,14 +324,18 @@ a {
   font-size: 2rem;
   border-bottom: 2px solid #444;
   padding: 0 22px 6px;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-weight: 700;
 }
 
 .reserve-form {
   width: min(700px, 100%);
   margin: 0 auto;
   border: 1px solid #777;
-  background: #f6f6f6;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #fbf7f3, #f5eeea);
   padding: 18px 18px 22px;
+  box-shadow: 0 18px 34px rgba(83, 63, 51, 0.08);
 }
 
 .hidden {
@@ -351,8 +355,10 @@ a {
 .field-group label {
   display: block;
   font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 4px;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #5f4d43;
 }
 
 .required,
@@ -418,7 +424,16 @@ textarea {
   border: 1px solid #777;
   background: #fff;
   font-size: 1rem;
-  padding: 5px 8px;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border-color: #b9a59a;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ad9588;
 }
 
 .panel-lead {
@@ -449,6 +464,7 @@ textarea {
   text-align: center;
   font-size: 0.78rem;
   line-height: 1.6;
+  color: #6c5a4f;
 }
 
 .policy-agree {
@@ -460,6 +476,7 @@ textarea {
   margin: 8px 0 0;
   font-size: 0.9rem;
   white-space: nowrap;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
 }
 
 .policy-agree input {
@@ -483,10 +500,12 @@ textarea {
   min-width: 130px;
   border-radius: 999px;
   border: 1px solid #555;
-  background: #e9ddd6;
-  padding: 8px 18px;
+  background: linear-gradient(180deg, #f0e2d8, #e5d2c5);
+  padding: 11px 22px;
   font-size: 1rem;
   text-align: center;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-weight: 700;
   cursor: pointer;
 }
 
