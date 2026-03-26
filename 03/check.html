@@ -93,30 +93,13 @@
 
       <form class="reserve-form lookup-form" id="lookup-form" autocomplete="off">
         <div class="field-group">
+          <label for="lookup-code">予約番号<span class="required">必須</span></label>
+          <input id="lookup-code" type="text" placeholder="INR-260401-ABC123" />
+        </div>
+
+        <div class="field-group">
           <label for="lookup-name">お名前<span class="required">必須</span></label>
           <input id="lookup-name" type="text" placeholder="山田 太郎" />
-        </div>
-
-        <div class="field-group">
-          <label for="lookup-email-local">メールアドレス<span class="optional">任意</span></label>
-          <div class="email-field">
-            <input id="lookup-email-local" type="text" placeholder="mail" autocomplete="off" spellcheck="false" autocapitalize="off" />
-            <span class="email-at">@</span>
-            <select id="lookup-email-domain">
-              <option value="gmail.com">gmail.com</option>
-              <option value="yahoo.co.jp">yahoo.co.jp</option>
-              <option value="icloud.com">icloud.com</option>
-              <option value="outlook.com">outlook.com</option>
-              <option value="hotmail.com">hotmail.com</option>
-              <option value="other">その他</option>
-            </select>
-          </div>
-          <input id="lookup-email-domain-custom" type="text" class="email-domain-custom hidden" placeholder="example.com" autocomplete="off" spellcheck="false" autocapitalize="off" />
-        </div>
-
-        <div class="field-group">
-          <label for="lookup-tel">電話番号<span class="optional">任意</span></label>
-          <input id="lookup-tel" type="tel" placeholder="000-0000-0000" />
         </div>
 
         <div class="submit-wrap">

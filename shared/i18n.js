@@ -194,9 +194,9 @@
       document.title = isEnglish() ? "inori | Reservation Lookup" : "inori | ご予約確認";
       setText(".reserve-title", "Reservation Lookup");
       setText(".reserve-heading", "Reservation Lookup");
-      setTextList(".lookup-form .field-group label", ["Name", "Email", "Phone"]);
+      setTextList(".lookup-form .field-group label", ["Reservation Code", "Name"]);
+      setAttr("#lookup-code", "placeholder", "INR-260401-ABC123");
       setAttr("#lookup-name", "placeholder", "Taro Yamada");
-      setOptionList("#lookup-email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
       setText(".lookup-form .next-btn", "Search");
       setText("#lookup-result-lead", "Matching reservation details are shown below.");
       setTextList(".lookup-result dt", ["Reservation Code", "Name", "Email", "Phone", "Date & Time", "Guests", "Status", "Notes"]);
