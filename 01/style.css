@@ -405,6 +405,7 @@ body[data-lang="en"] .hero-highlight {
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
     background: #ead4c9;
     border: 1px solid #b89687;
     border-radius: 999px;
