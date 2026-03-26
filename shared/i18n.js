@@ -101,6 +101,17 @@
     });
   }
 
+  function toggleClosest(selector, closestSelector, visibleInEnglish) {
+    const node = document.querySelector(selector);
+    if (!node) return;
+    const target = node.closest(closestSelector);
+    if (!target) return;
+
+    const visible = isEnglish() ? visibleInEnglish : true;
+    target.hidden = !visible;
+    target.style.display = visible ? "" : "none";
+  }
+
   function injectToggle() {
     const snsIcons = document.querySelector(".sns-icons");
     if (!snsIcons || snsIcons.querySelector(".lang-toggle")) return;
@@ -162,17 +173,19 @@
     setHtml(".schedule-box:nth-child(3)", "Duration<br>About 1 hour");
     setTextList(".legend-item", ["Available", "Few left", "Full"]);
     setHtml(".schedule-note", "Please arrive 10 minutes before your reservation.<br>The workshop starts on time even if all guests have not arrived yet.<br><br>Companions who do not join the workshop are not allowed due to limited seating.");
-    setTextList(".field-group label", ["Name (Kana)", "Name", "Email", "Confirm Email", "Phone", "Reservation Date", "Guests", "Notes"]);
-    setTextList(".mini-label", ["Last", "First", "Last", "First", "Date", "Time"]);
-    setAttr("#last-name-kana", "placeholder", "YAMADA");
-    setAttr("#first-name-kana", "placeholder", "TARO");
-    setAttr("#last-name", "placeholder", "Yamada");
-    setAttr("#first-name", "placeholder", "Taro");
-    setAttr("#people", "placeholder", "Guests");
-    setOptionList("#reservation-time", ["Select", "11:00", "13:00", "15:00"]);
+    setTextList(".reservation-section .field-group label", ["Name (Kana)", "Name", "Email Address", "Phone", "Reservation Date", "Guests", "Notes"]);
+    setTextList(".reservation-section .mini-label", ["Date", "Time"]);
+    setAttr("#name-kana", "placeholder", "YAMADA TARO");
+    setAttr("#name", "placeholder", "Taro Yamada");
+    setAttr("#tel", "placeholder", "000-0000-0000");
+    setAttr("#email-domain-custom", "placeholder", "example.com");
+    setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
+    setOptionList("#reservation-time", ["Select"]);
+    setOptionList("#people", ["Select", "1 guest", "2 guests", "3 guests", "4 guests", "5 guests", "6 guests"]);
     setHtml(".policy-text", "<strong>Cancellation Policy</strong><br>To welcome as many guests as possible, the following policy applies.<br>Cancellation the day before: 50%<br>Same-day cancellation: 100%<br>No-show: 100%");
     setText(".policy-agree", "I agree to the cancellation policy.");
     setText(".submit-wrap .next-btn", "Next");
+    toggleClosest("#name-kana", ".field-group", false);
   }
 
   function apply02() {
@@ -248,6 +261,7 @@
     setText(".complete-sub", "We will send your confirmation email shortly. Please wait a moment.");
     setTextList(".complete-summary span", ["Reservation Code", "Date & Time", "Guests", "Payment Method"]);
     setText(".top-link-btn", "Back to Top");
+    toggleClosest("#name-kana", ".field-group", false);
   }
   function apply04() {}
   function apply05() {

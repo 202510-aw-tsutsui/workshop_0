@@ -6,7 +6,7 @@
   background: rgba(255, 255, 255, 0.88);
   color: #2f2a28;
   font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   letter-spacing: 0.05em;
   cursor: pointer;
 }
@@ -17,13 +17,21 @@
 
 body[data-lang="en"] .gnav a,
 body[data-lang="en"] .footer-links a {
-  font-size: 0.92rem;
+  font-size: 1.18rem;
 }
 
 body[data-lang="en"] .pill-btn,
 body[data-lang="en"] .reserve-btn,
 body[data-lang="en"] .hero-cta {
-  font-size: 0.88rem;
+  font-size: 1.14rem;
+}
+
+body[data-lang="en"] .mobile-menu-nav a {
+  font-size: 1.16rem;
+}
+
+body[data-lang="en"] .mobile-menu-actions .pill-btn {
+  font-size: 1rem;
 }
 
 body[data-lang="en"] .stepper {

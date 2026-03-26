@@ -441,18 +441,8 @@
   }
 
   function saveReservationToAdmin() {
-    const selected = paymentInputs.find((input) => input.checked);
     const reservations = loadAdminReservations();
-    const noteParts = [];
     const reservationCode = generateReservationCode();
-
-    if (fields.note.value.trim()) {
-      noteParts.push(fields.note.value.trim());
-    }
-
-    if (selected) {
-      noteParts.push(`支払方法: ${selected.value}`);
-    }
 
     reservations.unshift({
       id: Date.now(),
@@ -464,7 +454,7 @@
       time: fields.reservationTime.value,
       people: fields.people.value.trim(),
       status: "予約確定",
-      note: noteParts.join(" / ") || "Web予約"
+      note: fields.note.value.trim()
     });
 
     localStorage.setItem(adminReservationStorageKey, JSON.stringify(reservations));
