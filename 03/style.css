@@ -91,7 +91,7 @@ a {
 }
 
 .logo {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   font-size: 48px;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -123,6 +123,7 @@ a {
   padding: 12px 24px;
   border-radius: 999px;
   font-size: 0.9rem;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   border: 1px solid #333;
   line-height: 1;
 }
@@ -168,6 +169,7 @@ a {
   width: 100%;
   min-height: 56px;
   font-size: 1.08rem;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   font-weight: 500;
   line-height: 1.2;
   transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -244,6 +246,11 @@ a {
   background: #f5ece5;
   padding: 10px 22px;
   font-weight: 700;
+}
+
+.lookup-entry-btn,
+.footer-links a {
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
 }
 
 .reserve-title {
@@ -836,7 +843,7 @@ textarea::placeholder {
 
 .footer-logo {
   text-align: center;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   font-size: 2.25rem;
   letter-spacing: 0.15em;
   color: #6e584c;
@@ -919,7 +926,7 @@ textarea::placeholder {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.92);
     color: #2f2a28;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
     font-size: 1.35rem;
     line-height: 1;
     z-index: 1200;
@@ -963,6 +970,7 @@ textarea::placeholder {
     padding: 11px 14px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.86);
+    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
   }
