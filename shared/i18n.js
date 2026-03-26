@@ -177,6 +177,7 @@
     setTextList(".reservation-section .mini-label", ["Date", "Time"]);
     setAttr("#name-kana", "placeholder", "YAMADA TARO");
     setAttr("#name", "placeholder", "Taro Yamada");
+    setText(".reservation-section .name-spacing-note", "Use a single-byte space between family and given name.");
     setAttr("#tel", "placeholder", "000-0000-0000");
     setAttr("#email-domain-custom", "placeholder", "example.com");
     setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
@@ -224,6 +225,7 @@
     setTextList(".reserve-form .field-group label", ["Name (Kana)", "Name", "Email", "Phone", "Select Date", "Guests", "Notes"]);
     setAttr("#name-kana", "placeholder", "YAMADA TARO");
     setAttr("#name", "placeholder", "Taro Yamada");
+    setText(".reserve-form .name-spacing-note", "Use a single-byte space between family and given name.");
     setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
     setTextList(".mini-label", ["Date", "Time"]);
     setOptionList("#reservation-time", ["Select", "11:00", "13:00", "15:00"]);

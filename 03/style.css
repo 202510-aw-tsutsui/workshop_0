@@ -425,6 +425,13 @@ a {
   color: #7a4d37;
 }
 
+.name-spacing-note {
+  margin-top: 6px;
+  font-size: 0.84rem;
+  color: #7a4d37;
+  line-height: 1.5;
+}
+
 input,
 select,
 textarea {
