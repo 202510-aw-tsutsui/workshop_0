@@ -211,6 +211,7 @@
       setTextList(".lookup-form .field-group label", ["Reservation Code", "Name"]);
       setAttr("#lookup-code", "placeholder", "INR-260401-ABC123");
       setAttr("#lookup-name", "placeholder", "Taro Yamada");
+      setText(".lookup-form .name-spacing-note", "Use a single-byte space between family and given name.");
       setText(".lookup-form .next-btn", "Search");
       setText("#lookup-result-lead", "Matching reservation details are shown below.");
       setTextList(".lookup-result dt", ["Reservation Code", "Name", "Email", "Phone", "Date & Time", "Guests", "Status", "Notes"]);
