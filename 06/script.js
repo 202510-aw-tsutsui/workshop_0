@@ -66,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function validatePayload(payload) {
-    if (!payload.name || !payload.email || !payload.tel) {
-      alert("\u304a\u540d\u524d\u3001\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3001\u96fb\u8a71\u756a\u53f7\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
+    if (!payload.name || !payload.email) {
+      alert("\u304a\u540d\u524d\u3068\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
       return false;
     }
     return true;
