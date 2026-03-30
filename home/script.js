@@ -139,7 +139,8 @@
     upcomingPage: 1,
     visitedPage: 1,
     upcomingItems: [],
-    visitedItems: []
+    visitedItems: [],
+    selectedVisitedIds: []
   };
   const inquiryState = {
     pendingPage: 1,
@@ -173,6 +174,8 @@
     visitedPrev: document.querySelector("#visited-reservation-prev-page"),
     visitedNext: document.querySelector("#visited-reservation-next-page"),
     visitedPageNumbers: document.querySelector("#visited-reservation-page-numbers"),
+    visitedSelectAll: document.querySelector("#visited-select-all"),
+    visitedDeleteSelectedButton: document.querySelector("#visited-delete-selected-btn"),
     modal: document.querySelector("#reservation-modal"),
     modalTitle: document.querySelector("#reservation-modal-title"),
     form: document.querySelector("#reservation-form"),
@@ -241,12 +244,51 @@
     localStorage.setItem(reservationStorageKey, JSON.stringify(items));
   }
 
-  function loadReservationTrash() {
-    return normalizeArray(localStorage.getItem(reservationTrashStorageKey), []);
+  function buildTrashItemKey(item) {
+    return `${item.type}:${item.id}`;
   }
 
-  function saveReservationTrash(items) {
+  function normalizeTrashItem(item) {
+    const type = item.type === "inquiry" ? "inquiry" : "reservation";
+    return {
+      ...item,
+      type,
+      trashKey: item.trashKey ?? `${type}:${item.id}`
+    };
+  }
+
+  function loadTrashItems() {
+    return normalizeArray(localStorage.getItem(reservationTrashStorageKey), []).map(normalizeTrashItem);
+  }
+
+  function saveTrashItems(items) {
     localStorage.setItem(reservationTrashStorageKey, JSON.stringify(items));
+  }
+
+  function removeReservationTrashMetadata(item) {
+    const {
+      type,
+      trashKey,
+      deletedAt,
+      deletedAtLabel,
+      originalIndex,
+      originalPanel,
+      ...reservation
+    } = item;
+    return reservation;
+  }
+
+  function removeInquiryTrashMetadata(item) {
+    const {
+      type,
+      trashKey,
+      deletedAt,
+      deletedAtLabel,
+      originalIndex,
+      originalPanel,
+      ...inquiry
+    } = item;
+    return inquiry;
   }
 
   function loadInquiries() {
@@ -266,8 +308,17 @@
       .replaceAll("'", "&#39;");
   }
 
+  function formatPeopleLabel(value) {
+    const normalized = String(value ?? "").replace(/\s*名\s*$/u, "").trim();
+    return normalized ? `${normalized}名` : "";
+  }
+
   function getToday() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  function formatDeletedAtLabel(now) {
+    return `${now.toLocaleDateString("ja-JP")} ${now.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}`;
   }
 
   function generateCode() {
@@ -327,7 +378,7 @@
   }
 
   function renderReservationTable(items, tbody, countLabel, prevButton, nextButton, pageNumbers, currentPage, onPageMove, options = {}) {
-    const { showDeleteAction = false } = options;
+    const { showDeleteAction = false, showSelection = false, selectAllElement = null, selectedIds = [] } = options;
     const visibleItems = items.slice(0, reservationMaxItems);
     const totalPages = Math.max(1, Math.ceil(visibleItems.length / reservationPageSize));
     const safePage = Math.min(currentPage, totalPages);
@@ -337,20 +388,22 @@
     if (pagedItems.length === 0) {
       tbody.innerHTML = `
         <tr class="empty-row">
-          <td colspan="7">該当する予約はありません</td>
+          <td colspan="${showSelection ? 8 : 7}">該当する予約はありません</td>
         </tr>
       `;
     } else {
       tbody.innerHTML = pagedItems.map((item) => `
         <tr>
+          ${showSelection ? `<td><input type="checkbox" data-visited-select="${item.id}" ${selectedIds.includes(item.id) ? "checked" : ""} aria-label="${escapeHtml(item.reservationCode)} を選択" /></td>` : ""}
           <td class="reservation-code-cell">${escapeHtml(item.reservationCode)}</td>
           <td>${escapeHtml(item.name)}</td>
           <td>${escapeHtml(item.date)}</td>
           <td>${escapeHtml(item.time)}</td>
-          <td>${escapeHtml(item.people)}名</td>
+          <td>${escapeHtml(formatPeopleLabel(item.people))}</td>
           <td>${escapeHtml(item.status)}</td>
           <td class="row-actions">
             <button type="button" class="secondary-btn" data-open-reservation="${item.id}">詳細</button>
+            ${showDeleteAction ? "" : `<button type="button" class="secondary-btn" data-complete-reservation="${item.id}">来店済み</button>`}
             ${showDeleteAction ? `<button type="button" class="secondary-btn trash-delete-btn" data-trash-reservation="${item.id}">削除</button>` : ""}
           </td>
         </tr>
@@ -358,6 +411,10 @@
     }
 
     countLabel.textContent = `${visibleItems.length}件を表示中`;
+    if (selectAllElement) {
+      const selectableIds = pagedItems.map((item) => item.id);
+      selectAllElement.checked = selectableIds.length > 0 && selectableIds.every((id) => selectedIds.includes(id));
+    }
     prevButton.disabled = safePage <= 1;
     nextButton.disabled = safePage >= totalPages;
     buildPagination(pageNumbers, totalPages, safePage, onPageMove);
@@ -414,7 +471,12 @@
         reservationState.visitedPage = page;
         renderReservations();
       },
-      { showDeleteAction: true }
+      {
+        showDeleteAction: true,
+        showSelection: true,
+        selectAllElement: reservationElements.visitedSelectAll,
+        selectedIds: reservationState.selectedVisitedIds
+      }
     );
     reservationState.visitedPage = visitedRender.safePage;
 
@@ -422,7 +484,7 @@
   }
 
   function renderTrashReservations() {
-    const items = loadReservationTrash()
+    const items = loadTrashItems()
       .sort((left, right) => String(right.deletedAt ?? "").localeCompare(String(left.deletedAt ?? "")) || right.id - left.id);
 
     const visibleItems = items.slice(0, reservationMaxItems);
@@ -435,26 +497,30 @@
     if (pagedItems.length === 0) {
       trashElements.tbody.innerHTML = `
         <tr class="empty-row">
-          <td colspan="7">ゴミ箱に予約はありません</td>
+          <td colspan="7">ゴミ箱にデータはありません</td>
         </tr>
       `;
     } else {
       trashElements.tbody.innerHTML = pagedItems.map((item) => `
         <tr>
-          <td><input type="checkbox" data-trash-select="${item.id}" ${trashState.selectedIds.includes(item.id) ? "checked" : ""} aria-label="${escapeHtml(item.reservationCode)} を選択" /></td>
-          <td class="reservation-code-cell">${escapeHtml(item.reservationCode)}</td>
+          <td><input type="checkbox" data-trash-select="${escapeHtml(item.trashKey)}" ${trashState.selectedIds.includes(item.trashKey) ? "checked" : ""} aria-label="${escapeHtml(item.type === "inquiry" ? item.subject : item.reservationCode)} を選択" /></td>
+          <td>${item.type === "inquiry" ? "お問い合わせ" : "予約"}</td>
           <td>${escapeHtml(item.name)}</td>
-          <td>${escapeHtml(item.date)}</td>
-          <td>${escapeHtml(item.time)}</td>
+          <td>${escapeHtml(item.type === "inquiry" ? item.subject : item.reservationCode)}</td>
+          <td>${escapeHtml(item.type === "inquiry" ? item.date : `${item.date} ${item.time}`)}</td>
           <td>${escapeHtml(item.deletedAtLabel ?? item.deletedAt ?? "")}</td>
-          <td><button type="button" class="secondary-btn trash-delete-btn" data-delete-trash="${item.id}">完全に削除</button></td>
+          <td class="row-actions">
+            <button type="button" class="secondary-btn" data-open-trash-detail="${escapeHtml(item.trashKey)}">詳細</button>
+            <button type="button" class="secondary-btn" data-restore-trash="${escapeHtml(item.trashKey)}">戻す</button>
+            <button type="button" class="secondary-btn trash-delete-btn" data-delete-trash="${escapeHtml(item.trashKey)}">完全に削除</button>
+          </td>
         </tr>
       `).join("");
     }
 
     trashElements.resultCount.textContent = `${visibleItems.length}件を表示中`;
     if (trashElements.selectAll) {
-      const selectableIds = pagedItems.map((item) => item.id);
+      const selectableIds = pagedItems.map((item) => item.trashKey);
       trashElements.selectAll.checked = selectableIds.length > 0 && selectableIds.every((id) => trashState.selectedIds.includes(id));
     }
     trashElements.prev.disabled = trashState.page <= 1;
@@ -660,21 +726,96 @@
     return nextItem;
   }
 
+  function updateReservationStatus(id, status) {
+    const items = loadReservations();
+    const target = items.find((item) => item.id === id);
+    if (!target) return null;
+    target.status = status;
+    saveReservations(items);
+    return target;
+  }
+
   function moveReservationToTrash(id) {
     const reservations = loadReservations();
-    const target = reservations.find((item) => item.id === id);
+    const originalIndex = reservations.findIndex((item) => item.id === id);
+    const target = originalIndex >= 0 ? reservations[originalIndex] : null;
     if (!target) return;
 
     const now = new Date();
-    const trashItems = loadReservationTrash();
+    const trashItems = loadTrashItems();
     trashItems.unshift({
       ...target,
+      type: "reservation",
+      originalIndex,
+      originalPanel: target.status === reservationStatusVisited ? "visited" : "upcoming",
       deletedAt: now.toISOString(),
-      deletedAtLabel: `${now.toLocaleDateString("ja-JP")} ${now.toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })}`
+      deletedAtLabel: formatDeletedAtLabel(now),
+      trashKey: buildTrashItemKey({ type: "reservation", id: target.id })
     });
 
-    saveReservationTrash(trashItems);
+    saveTrashItems(trashItems);
     saveReservations(reservations.filter((item) => item.id !== id));
+    reservationState.selectedVisitedIds = reservationState.selectedVisitedIds.filter((selectedId) => selectedId !== id);
+  }
+
+  function moveInquiryToTrash(id) {
+    const inquiries = loadInquiries();
+    const originalIndex = inquiries.findIndex((item) => item.id === id);
+    const target = originalIndex >= 0 ? inquiries[originalIndex] : null;
+    if (!target) return;
+
+    const now = new Date();
+    const trashItems = loadTrashItems();
+    trashItems.unshift({
+      ...target,
+      type: "inquiry",
+      originalIndex,
+      originalPanel: target.status === "完了" ? "handled" : "pending",
+      deletedAt: now.toISOString(),
+      deletedAtLabel: formatDeletedAtLabel(now),
+      trashKey: buildTrashItemKey({ type: "inquiry", id: target.id })
+    });
+
+    saveTrashItems(trashItems);
+    saveInquiries(inquiries.filter((item) => item.id !== id));
+  }
+
+  function restoreReservationFromTrash(trashKey) {
+    const trashItems = loadTrashItems();
+    const trashIndex = trashItems.findIndex((item) => item.trashKey === trashKey);
+    if (trashIndex < 0) return;
+
+    const trashItem = trashItems[trashIndex];
+    const restoredReservation = removeReservationTrashMetadata(trashItem);
+    const reservations = loadReservations();
+    const insertIndex = Math.max(0, Math.min(Number(trashItem.originalIndex) || 0, reservations.length));
+    const nextReservations = [...reservations];
+    nextReservations.splice(insertIndex, 0, restoredReservation);
+
+    saveReservations(nextReservations);
+    saveTrashItems(trashItems.filter((item) => item.trashKey !== trashKey));
+    trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== trashKey);
+    setActiveView("reservations");
+    setReservationPanel(trashItem.originalPanel === "visited" ? "visited" : "upcoming");
+  }
+
+  function restoreInquiryFromTrash(trashKey) {
+    const trashItems = loadTrashItems();
+    const trashIndex = trashItems.findIndex((item) => item.trashKey === trashKey);
+    if (trashIndex < 0) return;
+
+    const trashItem = trashItems[trashIndex];
+    const restoredInquiry = removeInquiryTrashMetadata(trashItem);
+    const inquiries = loadInquiries();
+    const insertIndex = Math.max(0, Math.min(Number(trashItem.originalIndex) || 0, inquiries.length));
+    const nextInquiries = [...inquiries];
+    nextInquiries.splice(insertIndex, 0, restoredInquiry);
+
+    saveInquiries(nextInquiries);
+    saveTrashItems(trashItems.filter((item) => item.trashKey !== trashKey));
+    trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== trashKey);
+    setActiveView("inquiries");
+    setInquiryPanel(trashItem.originalPanel === "handled" ? "handled" : "pending");
   }
 
   function openReservationById(id) {
@@ -686,6 +827,13 @@
   }
 
   reservationElements.upcomingTbody.addEventListener("click", (event) => {
+    const completeButton = event.target.closest("[data-complete-reservation]");
+    if (completeButton) {
+      updateReservationStatus(Number(completeButton.dataset.completeReservation), reservationStatusVisited);
+      renderReservations();
+      return;
+    }
+
     const button = event.target.closest("[data-open-reservation]");
     if (!button) return;
     openReservationById(Number(button.dataset.openReservation));
@@ -694,7 +842,9 @@
   reservationElements.visitedTbody.addEventListener("click", (event) => {
     const deleteButton = event.target.closest("[data-trash-reservation]");
     if (deleteButton) {
-      moveReservationToTrash(Number(deleteButton.dataset.trashReservation));
+      const id = Number(deleteButton.dataset.trashReservation);
+      moveReservationToTrash(id);
+      reservationState.selectedVisitedIds = reservationState.selectedVisitedIds.filter((selectedId) => selectedId !== id);
       renderReservations();
       renderTrashReservations();
       return;
@@ -702,6 +852,40 @@
     const button = event.target.closest("[data-open-reservation]");
     if (!button) return;
     openReservationById(Number(button.dataset.openReservation));
+  });
+
+  reservationElements.visitedTbody.addEventListener("change", (event) => {
+    const checkbox = event.target.closest("[data-visited-select]");
+    if (!checkbox) return;
+    const id = Number(checkbox.dataset.visitedSelect);
+    if (checkbox.checked) {
+      if (!reservationState.selectedVisitedIds.includes(id)) {
+        reservationState.selectedVisitedIds.push(id);
+      }
+    } else {
+      reservationState.selectedVisitedIds = reservationState.selectedVisitedIds.filter((selectedId) => selectedId !== id);
+    }
+    renderReservations();
+  });
+
+  reservationElements.visitedSelectAll?.addEventListener("change", () => {
+    const visibleIds = reservationState.visitedItems
+      .slice((reservationState.visitedPage - 1) * reservationPageSize, (reservationState.visitedPage - 1) * reservationPageSize + reservationPageSize)
+      .map((item) => item.id);
+    if (reservationElements.visitedSelectAll.checked) {
+      reservationState.selectedVisitedIds = Array.from(new Set([...reservationState.selectedVisitedIds, ...visibleIds]));
+    } else {
+      reservationState.selectedVisitedIds = reservationState.selectedVisitedIds.filter((id) => !visibleIds.includes(id));
+    }
+    renderReservations();
+  });
+
+  reservationElements.visitedDeleteSelectedButton?.addEventListener("click", () => {
+    if (reservationState.selectedVisitedIds.length === 0) return;
+    reservationState.selectedVisitedIds.forEach((id) => moveReservationToTrash(id));
+    reservationState.selectedVisitedIds = [];
+    renderReservations();
+    renderTrashReservations();
   });
 
   inquiryElements.pendingTbody.addEventListener("click", (event) => {
@@ -719,9 +903,9 @@
     const deleteButton = event.target.closest("[data-delete-inquiry-row]");
     if (deleteButton) {
       const id = Number(deleteButton.dataset.deleteInquiryRow);
-      const items = loadInquiries().filter((item) => item.id !== id);
-      saveInquiries(items);
+      moveInquiryToTrash(id);
       renderInquiries();
+      renderTrashReservations();
       return;
     }
     const button = event.target.closest("[data-open-inquiry]");
@@ -783,32 +967,66 @@
   inquiryElements.deleteButton.addEventListener("click", () => {
     const id = Number(document.querySelector("#inquiry-id").value);
     if (!id) return;
-    const items = loadInquiries().filter((item) => item.id !== id);
-    saveInquiries(items);
+    moveInquiryToTrash(id);
     closeModal(inquiryElements.modal);
+    trashState.page = 1;
     renderInquiries();
+    renderTrashReservations();
   });
 
   trashElements.tbody.addEventListener("click", (event) => {
+    const detailButton = event.target.closest("[data-open-trash-detail]");
+    if (detailButton) {
+      const trashKey = detailButton.dataset.openTrashDetail;
+      const target = loadTrashItems().find((item) => item.trashKey === trashKey);
+      if (!target) return;
+      if (target.type === "inquiry") {
+        inquiryElements.modalTitle.textContent = "お問い合わせ詳細";
+        fillInquiryForm(target);
+        openModal(inquiryElements.modal);
+      } else {
+        reservationElements.modalTitle.textContent = "予約詳細";
+        fillReservationForm(target);
+        openModal(reservationElements.modal);
+      }
+      return;
+    }
+
+    const restoreButton = event.target.closest("[data-restore-trash]");
+    if (restoreButton) {
+      const trashKey = restoreButton.dataset.restoreTrash;
+      const target = loadTrashItems().find((item) => item.trashKey === trashKey);
+      if (!target) return;
+      if (target.type === "inquiry") {
+        restoreInquiryFromTrash(trashKey);
+        renderInquiries();
+      } else {
+        restoreReservationFromTrash(trashKey);
+        renderReservations();
+      }
+      renderTrashReservations();
+      return;
+    }
+
     const button = event.target.closest("[data-delete-trash]");
     if (!button) return;
-    const id = Number(button.dataset.deleteTrash);
-    trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== id);
-    const items = loadReservationTrash().filter((item) => item.id !== id);
-    saveReservationTrash(items);
+    const trashKey = button.dataset.deleteTrash;
+    trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== trashKey);
+    const items = loadTrashItems().filter((item) => item.trashKey !== trashKey);
+    saveTrashItems(items);
     renderTrashReservations();
   });
 
   trashElements.tbody.addEventListener("change", (event) => {
     const checkbox = event.target.closest("[data-trash-select]");
     if (!checkbox) return;
-    const id = Number(checkbox.dataset.trashSelect);
+    const trashKey = checkbox.dataset.trashSelect;
     if (checkbox.checked) {
-      if (!trashState.selectedIds.includes(id)) {
-        trashState.selectedIds.push(id);
+      if (!trashState.selectedIds.includes(trashKey)) {
+        trashState.selectedIds.push(trashKey);
       }
     } else {
-      trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== id);
+      trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== trashKey);
     }
     renderTrashReservations();
   });
@@ -816,7 +1034,7 @@
   trashElements.selectAll?.addEventListener("change", () => {
     const visibleIds = trashState.items
       .slice((trashState.page - 1) * reservationPageSize, (trashState.page - 1) * reservationPageSize + reservationPageSize)
-      .map((item) => item.id);
+      .map((item) => item.trashKey);
     if (trashElements.selectAll.checked) {
       trashState.selectedIds = Array.from(new Set([...trashState.selectedIds, ...visibleIds]));
     } else {
@@ -827,23 +1045,23 @@
 
   trashElements.deleteSelectedButton?.addEventListener("click", () => {
     if (trashState.selectedIds.length === 0) return;
-    const items = loadReservationTrash().filter((item) => !trashState.selectedIds.includes(item.id));
+    const items = loadTrashItems().filter((item) => !trashState.selectedIds.includes(item.trashKey));
     trashState.selectedIds = [];
-    saveReservationTrash(items);
+    saveTrashItems(items);
     renderTrashReservations();
   });
 
   trashElements.deleteAllButton?.addEventListener("click", () => {
     trashState.selectedIds = [];
-    saveReservationTrash([]);
+    saveTrashItems([]);
     renderTrashReservations();
   });
 
   reservationElements.completeButton.addEventListener("click", () => {
-    saveReservationFromForm({ status: reservationStatusVisited });
+    const id = Number(document.querySelector("#reservation-id").value);
+    if (!id) return;
+    updateReservationStatus(id, reservationStatusVisited);
     closeModal(reservationElements.modal);
-    reservationState.visitedPage = 1;
-    setReservationPanel("visited");
     renderReservations();
   });
 

@@ -133,12 +133,16 @@
                 <h3>来店済み</h3>
                 <p id="visited-reservation-result-count">0件を表示中</p>
               </div>
+              <div class="row-actions">
+                <button type="button" class="secondary-btn" id="visited-delete-selected-btn">選択を削除</button>
+              </div>
             </div>
 
             <div class="table-wrap">
               <table class="data-table">
                 <thead>
                   <tr>
+                    <th><input type="checkbox" id="visited-select-all" aria-label="来店済みをすべて選択" /></th>
                     <th>予約番号</th>
                     <th>予約者名</th>
                     <th>予約日</th>
@@ -269,14 +273,14 @@
           <div>
             <p class="page-eyebrow">Trash</p>
             <h2>ゴミ箱</h2>
-            <p class="page-copy">予約管理から削除したデータを確認し、完全に削除できます。</p>
+            <p class="page-copy">予約管理とお問い合わせ管理から削除したデータを確認し、元の位置へ戻すか完全に削除できます。</p>
           </div>
         </header>
 
         <section class="table-card">
           <div class="table-header">
             <div>
-              <h3>削除済みの予約</h3>
+              <h3>削除済みデータ</h3>
               <p id="trash-result-count">0件を表示中</p>
             </div>
             <div class="row-actions">
@@ -290,10 +294,10 @@
               <thead>
                 <tr>
                   <th><input type="checkbox" id="trash-select-all" aria-label="すべて選択" /></th>
-                  <th>予約番号</th>
-                  <th>予約者名</th>
-                  <th>予約日</th>
-                  <th>時間</th>
+                  <th>種別</th>
+                  <th>氏名</th>
+                  <th>内容</th>
+                  <th>対象日</th>
                   <th>削除日時</th>
                   <th>操作</th>
                 </tr>
