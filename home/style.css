@@ -225,9 +225,99 @@ button {
   margin-bottom: 22px;
 }
 
-.toolbar-grid {
+.reservation-section-stack {
   display: grid;
-  grid-template-columns: minmax(320px, 1.5fr) 220px 220px 140px 136px;
+  gap: 22px;
+}
+
+.reservation-view-menu {
+  display: inline-flex;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 6px;
+  border-radius: 18px;
+  background: #f1e6dd;
+}
+
+.reservation-view-tab {
+  padding: 10px 18px;
+  border-radius: 14px;
+  color: #5d5049;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reservation-view-tab.is-active {
+  background: #2f2a28;
+  color: #fff7f1;
+  box-shadow: 0 10px 20px rgba(47, 42, 40, 0.16);
+}
+
+.reservation-panel.hidden {
+  display: none;
+}
+
+.reservation-panel .table-header {
+  margin-bottom: 18px;
+}
+
+.reservation-panel .table-header h3 {
+  font-size: 1.35rem;
+}
+
+.reservation-panel .table-header p {
+  margin-top: 4px;
+  color: #746a64;
+}
+
+.inquiry-section-stack {
+  display: grid;
+  gap: 22px;
+}
+
+.inquiry-view-menu {
+  display: inline-flex;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 6px;
+  border-radius: 18px;
+  background: #f1e6dd;
+}
+
+.inquiry-view-tab {
+  padding: 10px 18px;
+  border-radius: 14px;
+  color: #5d5049;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inquiry-view-tab.is-active {
+  background: #2f2a28;
+  color: #fff7f1;
+  box-shadow: 0 10px 20px rgba(47, 42, 40, 0.16);
+}
+
+.inquiry-panel.hidden {
+  display: none;
+}
+
+.inquiry-panel .table-header {
+  margin-bottom: 18px;
+}
+
+.inquiry-panel .table-header h3 {
+  font-size: 1.35rem;
+}
+
+.inquiry-panel .table-header p {
+  margin-top: 4px;
+  color: #746a64;
+}
+
+.toolbar-grid {
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: end;
 }
@@ -380,6 +470,11 @@ button {
   color: #8d3535;
 }
 
+.trash-delete-btn {
+  background: #f8d7d7;
+  color: #8d3535;
+}
+
 .empty-row td {
   padding: 36px 16px;
   text-align: center;
@@ -406,6 +501,7 @@ button {
   color: #4a403b;
 }
 
+.page-btn.is-active,
 .page-number.active {
   background: #2f2a28;
   color: #fff7f1;

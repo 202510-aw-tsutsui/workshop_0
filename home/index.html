@@ -40,6 +40,7 @@
       <nav class="sidebar-nav">
         <button type="button" class="nav-link active" data-view="reservations">予約管理</button>
         <button type="button" class="nav-link" data-view="inquiries">お問い合わせ管理</button>
+        <button type="button" class="nav-link" data-view="trash">ゴミ箱</button>
       </nav>
     </aside>
 
@@ -86,39 +87,78 @@
               <button type="button" class="secondary-btn" id="reset-filter-btn">条件をクリア</button>
             </div>
           </div>
+
+          <div class="reservation-view-menu" aria-label="予約表示切り替え">
+            <button type="button" class="reservation-view-tab is-active" data-reservation-toggle="upcoming">これからの予約</button>
+            <button type="button" class="reservation-view-tab" data-reservation-toggle="visited">来店済み</button>
+          </div>
         </section>
 
-        <section class="table-card">
-          <div class="table-header">
-            <div>
-              <h3>予約一覧</h3>
-              <p id="reservation-result-count">0件を表示中</p>
+        <div class="reservation-section-stack">
+          <section class="table-card reservation-panel is-active" data-reservation-panel="upcoming" id="upcoming-reservation-panel">
+            <div class="table-header">
+              <div>
+                <h3>これからの予約</h3>
+                <p id="upcoming-reservation-result-count">0件を表示中</p>
+              </div>
             </div>
-          </div>
 
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>予約番号</th>
-                  <th>予約者名</th>
-                  <th>予約日</th>
-                  <th>時間</th>
-                  <th>人数</th>
-                  <th>ステータス</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody id="reservation-tbody"></tbody>
-            </table>
-          </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>予約番号</th>
+                    <th>予約者名</th>
+                    <th>予約日</th>
+                    <th>時間</th>
+                    <th>人数</th>
+                    <th>ステータス</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="upcoming-reservation-tbody"></tbody>
+              </table>
+            </div>
 
-          <div class="pagination-bar">
-            <button type="button" class="page-btn" id="reservation-prev-page">前へ</button>
-            <div class="page-numbers" id="reservation-page-numbers"></div>
-            <button type="button" class="page-btn" id="reservation-next-page">次へ</button>
-          </div>
-        </section>
+            <div class="pagination-bar">
+              <button type="button" class="page-btn" id="upcoming-reservation-prev-page">前へ</button>
+              <div class="page-numbers" id="upcoming-reservation-page-numbers"></div>
+              <button type="button" class="page-btn" id="upcoming-reservation-next-page">次へ</button>
+            </div>
+          </section>
+
+          <section class="table-card reservation-panel hidden" data-reservation-panel="visited" id="visited-reservation-panel">
+            <div class="table-header">
+              <div>
+                <h3>来店済み</h3>
+                <p id="visited-reservation-result-count">0件を表示中</p>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>予約番号</th>
+                    <th>予約者名</th>
+                    <th>予約日</th>
+                    <th>時間</th>
+                    <th>人数</th>
+                    <th>ステータス</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="visited-reservation-tbody"></tbody>
+              </table>
+            </div>
+
+            <div class="pagination-bar">
+              <button type="button" class="page-btn" id="visited-reservation-prev-page">前へ</button>
+              <div class="page-numbers" id="visited-reservation-page-numbers"></div>
+              <button type="button" class="page-btn" id="visited-reservation-next-page">次へ</button>
+            </div>
+          </section>
+        </div>
       </section>
 
       <section class="content-view" data-view-panel="inquiries">
@@ -131,11 +171,11 @@
           <button type="button" class="primary-btn" id="new-inquiry-btn">新規登録</button>
         </header>
 
-        <section class="toolbar-card">
-          <div class="toolbar-grid">
-            <div class="toolbar-field keyword-field">
-              <label for="inquiry-search-keyword">キーワード検索</label>
-              <input type="text" id="inquiry-search-keyword" placeholder="氏名・メールアドレス・お問い合わせ内容" />
+          <section class="toolbar-card">
+            <div class="toolbar-grid">
+              <div class="toolbar-field keyword-field">
+                <label for="inquiry-search-keyword">キーワード検索</label>
+                <input type="text" id="inquiry-search-keyword" placeholder="氏名・メールアドレス・お問い合わせ内容" />
             </div>
             <div class="toolbar-field">
               <label for="inquiry-filter-date">日付絞り込み</label>
@@ -150,17 +190,94 @@
                 <option value="完了">完了</option>
               </select>
             </div>
-            <div class="toolbar-actions">
-              <button type="button" class="secondary-btn" id="inquiry-reset-filter-btn">条件をクリア</button>
+              <div class="toolbar-actions">
+                <button type="button" class="secondary-btn" id="inquiry-reset-filter-btn">条件をクリア</button>
+              </div>
             </div>
+
+            <div class="inquiry-view-menu" aria-label="お問い合わせ表示切り替え">
+              <button type="button" class="inquiry-view-tab is-active" data-inquiry-toggle="pending">未対応</button>
+              <button type="button" class="inquiry-view-tab" data-inquiry-toggle="handled">対応済み</button>
+            </div>
+          </section>
+
+          <div class="inquiry-section-stack">
+            <section class="table-card inquiry-panel is-active" data-inquiry-panel="pending" id="pending-inquiry-panel">
+              <div class="table-header">
+                <div>
+                  <h3>未対応</h3>
+                  <p id="pending-inquiry-result-count">0件を表示中</p>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>氏名</th>
+                      <th>受信日</th>
+                      <th>件名</th>
+                      <th>ステータス</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pending-inquiry-tbody"></tbody>
+                </table>
+              </div>
+
+              <div class="pagination-bar">
+                <button type="button" class="page-btn" id="pending-inquiry-prev-page">前へ</button>
+                <div class="page-numbers" id="pending-inquiry-page-numbers"></div>
+                <button type="button" class="page-btn" id="pending-inquiry-next-page">次へ</button>
+              </div>
+            </section>
+
+            <section class="table-card inquiry-panel hidden" data-inquiry-panel="handled" id="handled-inquiry-panel">
+              <div class="table-header">
+                <div>
+                  <h3>対応済み</h3>
+                  <p id="handled-inquiry-result-count">0件を表示中</p>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>氏名</th>
+                      <th>受信日</th>
+                      <th>件名</th>
+                      <th>ステータス</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="handled-inquiry-tbody"></tbody>
+                </table>
+              </div>
+
+              <div class="pagination-bar">
+                <button type="button" class="page-btn" id="handled-inquiry-prev-page">前へ</button>
+                <div class="page-numbers" id="handled-inquiry-page-numbers"></div>
+                <button type="button" class="page-btn" id="handled-inquiry-next-page">次へ</button>
+              </div>
+            </section>
           </div>
         </section>
+
+      <section class="content-view" data-view-panel="trash">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Trash</p>
+            <h2>ゴミ箱</h2>
+            <p class="page-copy">予約管理から削除したデータを確認し、完全に削除できます。</p>
+          </div>
+        </header>
 
         <section class="table-card">
           <div class="table-header">
             <div>
-              <h3>お問い合わせ一覧</h3>
-              <p id="inquiry-result-count">0件を表示中</p>
+              <h3>削除済みの予約</h3>
+              <p id="trash-result-count">0件を表示中</p>
             </div>
           </div>
 
@@ -168,21 +285,22 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>氏名</th>
-                  <th>受信日</th>
-                  <th>件名</th>
-                  <th>ステータス</th>
+                  <th>予約番号</th>
+                  <th>予約者名</th>
+                  <th>予約日</th>
+                  <th>時間</th>
+                  <th>削除日時</th>
                   <th>操作</th>
                 </tr>
               </thead>
-              <tbody id="inquiry-tbody"></tbody>
+              <tbody id="trash-tbody"></tbody>
             </table>
           </div>
 
           <div class="pagination-bar">
-            <button type="button" class="page-btn" id="inquiry-prev-page">前へ</button>
-            <div class="page-numbers" id="inquiry-page-numbers"></div>
-            <button type="button" class="page-btn" id="inquiry-next-page">次へ</button>
+            <button type="button" class="page-btn" id="trash-prev-page">前へ</button>
+            <div class="page-numbers" id="trash-page-numbers"></div>
+            <button type="button" class="page-btn" id="trash-next-page">次へ</button>
           </div>
         </section>
       </section>
@@ -252,7 +370,7 @@
         <div class="modal-actions">
           <div></div>
           <div class="modal-submit">
-            <button type="button" class="secondary-btn" id="complete-reservation-btn">完了</button>
+            <button type="button" class="secondary-btn" id="complete-reservation-btn">来店済みにする</button>
             <button type="button" class="secondary-btn" id="delete-reservation-btn">削除</button>
             <button type="submit" class="primary-btn">保存する</button>
           </div>
