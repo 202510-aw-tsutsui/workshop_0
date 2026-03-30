@@ -147,7 +147,7 @@
     pendingItems: [],
     handledItems: []
   };
-  const trashState = { page: 1, items: [] };
+  const trashState = { page: 1, items: [], selectedIds: [] };
 
   const views = Array.from(document.querySelectorAll("[data-view-panel]"));
   const navLinks = Array.from(document.querySelectorAll(".nav-link"));
@@ -211,6 +211,9 @@
   const trashElements = {
     tbody: document.querySelector("#trash-tbody"),
     resultCount: document.querySelector("#trash-result-count"),
+    selectAll: document.querySelector("#trash-select-all"),
+    deleteSelectedButton: document.querySelector("#trash-delete-selected-btn"),
+    deleteAllButton: document.querySelector("#trash-delete-all-btn"),
     prev: document.querySelector("#trash-prev-page"),
     next: document.querySelector("#trash-next-page"),
     pageNumbers: document.querySelector("#trash-page-numbers")
@@ -323,7 +326,8 @@
     });
   }
 
-  function renderReservationTable(items, tbody, countLabel, prevButton, nextButton, pageNumbers, currentPage, onPageMove) {
+  function renderReservationTable(items, tbody, countLabel, prevButton, nextButton, pageNumbers, currentPage, onPageMove, options = {}) {
+    const { showDeleteAction = false } = options;
     const visibleItems = items.slice(0, reservationMaxItems);
     const totalPages = Math.max(1, Math.ceil(visibleItems.length / reservationPageSize));
     const safePage = Math.min(currentPage, totalPages);
@@ -345,7 +349,10 @@
           <td>${escapeHtml(item.time)}</td>
           <td>${escapeHtml(item.people)}名</td>
           <td>${escapeHtml(item.status)}</td>
-          <td><button type="button" class="secondary-btn" data-open-reservation="${item.id}">詳細</button></td>
+          <td class="row-actions">
+            <button type="button" class="secondary-btn" data-open-reservation="${item.id}">詳細</button>
+            ${showDeleteAction ? `<button type="button" class="secondary-btn trash-delete-btn" data-trash-reservation="${item.id}">削除</button>` : ""}
+          </td>
         </tr>
       `).join("");
     }
@@ -406,7 +413,8 @@
       (page) => {
         reservationState.visitedPage = page;
         renderReservations();
-      }
+      },
+      { showDeleteAction: true }
     );
     reservationState.visitedPage = visitedRender.safePage;
 
@@ -427,12 +435,13 @@
     if (pagedItems.length === 0) {
       trashElements.tbody.innerHTML = `
         <tr class="empty-row">
-          <td colspan="6">ゴミ箱に予約はありません</td>
+          <td colspan="7">ゴミ箱に予約はありません</td>
         </tr>
       `;
     } else {
       trashElements.tbody.innerHTML = pagedItems.map((item) => `
         <tr>
+          <td><input type="checkbox" data-trash-select="${item.id}" ${trashState.selectedIds.includes(item.id) ? "checked" : ""} aria-label="${escapeHtml(item.reservationCode)} を選択" /></td>
           <td class="reservation-code-cell">${escapeHtml(item.reservationCode)}</td>
           <td>${escapeHtml(item.name)}</td>
           <td>${escapeHtml(item.date)}</td>
@@ -444,6 +453,10 @@
     }
 
     trashElements.resultCount.textContent = `${visibleItems.length}件を表示中`;
+    if (trashElements.selectAll) {
+      const selectableIds = pagedItems.map((item) => item.id);
+      trashElements.selectAll.checked = selectableIds.length > 0 && selectableIds.every((id) => trashState.selectedIds.includes(id));
+    }
     trashElements.prev.disabled = trashState.page <= 1;
     trashElements.next.disabled = trashState.page >= totalPages;
     buildPagination(trashElements.pageNumbers, totalPages, trashState.page, (page) => {
@@ -487,7 +500,8 @@
     inquiryState.pendingItems = pendingItems;
     inquiryState.handledItems = handledItems;
 
-    const renderInquiryTable = (sourceItems, tbody, countLabel, prevButton, nextButton, pageNumbers, currentPage, onPageMove) => {
+    const renderInquiryTable = (sourceItems, tbody, countLabel, prevButton, nextButton, pageNumbers, currentPage, onPageMove, options = {}) => {
+      const { showDeleteAction = false } = options;
       const visibleItems = sourceItems.slice(0, inquiryMaxItems);
       const totalPages = Math.max(1, Math.ceil(visibleItems.length / inquiryPageSize));
       const safePage = Math.min(currentPage, totalPages);
@@ -507,7 +521,10 @@
           <td>${escapeHtml(item.date)}</td>
           <td>${escapeHtml(item.subject)}</td>
           <td>${escapeHtml(item.status)}</td>
-          <td><button type="button" class="secondary-btn" data-open-inquiry="${item.id}">詳細</button></td>
+          <td class="row-actions">
+            <button type="button" class="secondary-btn" data-open-inquiry="${item.id}">詳細</button>
+            ${showDeleteAction ? `<button type="button" class="secondary-btn trash-delete-btn" data-delete-inquiry-row="${item.id}">削除</button>` : ""}
+          </td>
         </tr>
       `).join("");
       }
@@ -544,7 +561,8 @@
       (page) => {
         inquiryState.handledPage = page;
         renderInquiries();
-      }
+      },
+      { showDeleteAction: true }
     );
   }
 
@@ -674,6 +692,13 @@
   });
 
   reservationElements.visitedTbody.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest("[data-trash-reservation]");
+    if (deleteButton) {
+      moveReservationToTrash(Number(deleteButton.dataset.trashReservation));
+      renderReservations();
+      renderTrashReservations();
+      return;
+    }
     const button = event.target.closest("[data-open-reservation]");
     if (!button) return;
     openReservationById(Number(button.dataset.openReservation));
@@ -691,6 +716,14 @@
   });
 
   inquiryElements.handledTbody.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest("[data-delete-inquiry-row]");
+    if (deleteButton) {
+      const id = Number(deleteButton.dataset.deleteInquiryRow);
+      const items = loadInquiries().filter((item) => item.id !== id);
+      saveInquiries(items);
+      renderInquiries();
+      return;
+    }
     const button = event.target.closest("[data-open-inquiry]");
     if (!button) return;
     const id = Number(button.dataset.openInquiry);
@@ -760,8 +793,49 @@
     const button = event.target.closest("[data-delete-trash]");
     if (!button) return;
     const id = Number(button.dataset.deleteTrash);
+    trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== id);
     const items = loadReservationTrash().filter((item) => item.id !== id);
     saveReservationTrash(items);
+    renderTrashReservations();
+  });
+
+  trashElements.tbody.addEventListener("change", (event) => {
+    const checkbox = event.target.closest("[data-trash-select]");
+    if (!checkbox) return;
+    const id = Number(checkbox.dataset.trashSelect);
+    if (checkbox.checked) {
+      if (!trashState.selectedIds.includes(id)) {
+        trashState.selectedIds.push(id);
+      }
+    } else {
+      trashState.selectedIds = trashState.selectedIds.filter((selectedId) => selectedId !== id);
+    }
+    renderTrashReservations();
+  });
+
+  trashElements.selectAll?.addEventListener("change", () => {
+    const visibleIds = trashState.items
+      .slice((trashState.page - 1) * reservationPageSize, (trashState.page - 1) * reservationPageSize + reservationPageSize)
+      .map((item) => item.id);
+    if (trashElements.selectAll.checked) {
+      trashState.selectedIds = Array.from(new Set([...trashState.selectedIds, ...visibleIds]));
+    } else {
+      trashState.selectedIds = trashState.selectedIds.filter((id) => !visibleIds.includes(id));
+    }
+    renderTrashReservations();
+  });
+
+  trashElements.deleteSelectedButton?.addEventListener("click", () => {
+    if (trashState.selectedIds.length === 0) return;
+    const items = loadReservationTrash().filter((item) => !trashState.selectedIds.includes(item.id));
+    trashState.selectedIds = [];
+    saveReservationTrash(items);
+    renderTrashReservations();
+  });
+
+  trashElements.deleteAllButton?.addEventListener("click", () => {
+    trashState.selectedIds = [];
+    saveReservationTrash([]);
     renderTrashReservations();
   });
 
