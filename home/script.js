@@ -155,6 +155,11 @@
   const todayReservationsCard = document.querySelector("#today-reservations-card");
   const sidebarCount = document.querySelector("#sidebar-count");
   const sidebarCaption = document.querySelector("#sidebar-caption");
+  const monthlyFlowerPrev = document.querySelector("#monthly-flower-prev");
+  const monthlyFlowerNext = document.querySelector("#monthly-flower-next");
+  const monthlyFlowerIllustration = document.querySelector("#monthly-flower-illustration");
+  const monthlyFlowerName = document.querySelector("#monthly-flower-name");
+  let selectedFlowerMonth = new Date().getMonth() + 1;
 
   const reservationElements = {
     viewPanels: Array.from(document.querySelectorAll("[data-reservation-panel]")),
@@ -365,6 +370,65 @@
       button.addEventListener("click", () => onMove(page));
       target.appendChild(button);
     }
+  }
+
+  function renderMonthlyFlower() {
+    if (!monthlyFlowerIllustration || !monthlyFlowerName) return;
+
+    const flowers = {
+      1: {
+        name: "1月 | 椿",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M62 118C73 92 79 63 79 28" stroke="#6E8B61" stroke-width="4" stroke-linecap="round"/><path d="M62 118C74 101 87 90 101 82" stroke="#6E8B61" stroke-width="4" stroke-linecap="round"/><circle cx="79" cy="43" r="20" fill="#D95C6F"/><circle cx="65" cy="45" r="14" fill="#E77E8D"/><circle cx="91" cy="45" r="14" fill="#E77E8D"/><circle cx="79" cy="29" r="14" fill="#E77E8D"/><circle cx="79" cy="58" r="14" fill="#E77E8D"/><circle cx="79" cy="43" r="6" fill="#F7D57A"/></svg>'
+      },
+      2: {
+        name: "2月 | 梅",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M48 120C60 96 74 75 95 52C108 38 121 29 137 22" stroke="#7B624D" stroke-width="4" stroke-linecap="round"/><circle cx="94" cy="53" r="5" fill="#C08A6B"/><g fill="#F2A9BF"><circle cx="120" cy="36" r="10"/><circle cx="108" cy="36" r="10"/><circle cx="114" cy="25" r="10"/><circle cx="114" cy="47" r="10"/><circle cx="126" cy="47" r="10"/></g><circle cx="117" cy="38" r="4" fill="#F5D480"/></svg>'
+      },
+      3: {
+        name: "3月 | ミモザ",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M54 118C66 92 78 72 104 38" stroke="#6C8A61" stroke-width="4" stroke-linecap="round"/><path d="M88 59L120 45" stroke="#6C8A61" stroke-width="3" stroke-linecap="round"/><path d="M76 74L110 65" stroke="#6C8A61" stroke-width="3" stroke-linecap="round"/><g fill="#E5C84C"><circle cx="116" cy="44" r="8"/><circle cx="129" cy="39" r="8"/><circle cx="110" cy="60" r="8"/><circle cx="123" cy="59" r="8"/><circle cx="101" cy="72" r="8"/><circle cx="115" cy="73" r="8"/></g></svg>'
+      },
+      4: {
+        name: "4月 | チューリップ",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M88 118V49" stroke="#6F955E" stroke-width="4" stroke-linecap="round"/><path d="M88 70C76 67 70 60 68 49C76 47 82 49 88 57C94 49 100 47 108 49C106 60 100 67 88 70Z" fill="#F28D79"/><path d="M88 70C80 64 76 55 77 40C83 42 87 46 88 54C89 46 93 42 99 40C100 55 96 64 88 70Z" fill="#E75D66"/><path d="M88 94C81 91 76 87 72 81" stroke="#6F955E" stroke-width="3" stroke-linecap="round"/><path d="M88 88C95 84 101 79 106 71" stroke="#6F955E" stroke-width="3" stroke-linecap="round"/></svg>'
+      },
+      5: {
+        name: "5月 | バラ",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M86 118V73" stroke="#6A8A5C" stroke-width="4" stroke-linecap="round"/><path d="M67 58C67 43 78 32 93 32C93 47 82 58 67 58Z" fill="#E67A8E"/><path d="M105 39C105 54 94 65 79 65C79 50 90 39 105 39Z" fill="#D95C73"/><path d="M75 71C60 71 49 60 49 45C64 45 75 56 75 71Z" fill="#F0A2AE"/><path d="M97 72C112 72 123 61 123 46C108 46 97 57 97 72Z" fill="#F08FA1"/><circle cx="86" cy="69" r="8" fill="#C84C63"/></svg>'
+      },
+      6: {
+        name: "6月 | 紫陽花",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M87 118V74" stroke="#67885D" stroke-width="4" stroke-linecap="round"/><path d="M87 90C80 86 74 80 69 73" stroke="#67885D" stroke-width="3" stroke-linecap="round"/><g fill="#8FA7E8"><circle cx="73" cy="60" r="14"/><circle cx="90" cy="50" r="14"/><circle cx="108" cy="60" r="14"/><circle cx="85" cy="67" r="14"/><circle cx="100" cy="74" r="14"/></g><g fill="#B39BE6"><circle cx="83" cy="47" r="11"/><circle cx="99" cy="66" r="11"/><circle cx="67" cy="72" r="11"/></g></svg>'
+      },
+      7: {
+        name: "7月 | ひまわり",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M88 118V74" stroke="#6A8B58" stroke-width="4" stroke-linecap="round"/><circle cx="88" cy="47" r="18" fill="#7A5332"/><g fill="#F0C84F"><path d="M88 8L97 28H79L88 8Z"/><path d="M124 22L112 38L103 20L124 22Z"/><path d="M137 53L117 57L121 39L137 53Z"/><path d="M120 84L104 72L121 65L120 84Z"/><path d="M88 96L79 76H97L88 96Z"/><path d="M56 84L72 72L55 65L56 84Z"/><path d="M39 53L59 57L55 39L39 53Z"/><path d="M52 22L64 38L73 20L52 22Z"/></g></svg>'
+      },
+      8: {
+        name: "8月 | 朝顔",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M70 118C75 92 84 66 101 36" stroke="#6D8B5B" stroke-width="4" stroke-linecap="round"/><path d="M90 86C105 82 115 73 121 58" stroke="#6D8B5B" stroke-width="3" stroke-linecap="round"/><path d="M102 37C88 35 77 28 69 18" stroke="#6D8B5B" stroke-width="3" stroke-linecap="round"/><path d="M104 34C118 34 129 45 129 59C115 59 104 48 104 34Z" fill="#6E7DE2"/><path d="M69 14C83 14 94 25 94 39C80 39 69 28 69 14Z" fill="#8E7FEA"/><circle cx="106" cy="47" r="6" fill="#F7E6F4"/><circle cx="81" cy="27" r="6" fill="#F7E6F4"/></svg>'
+      },
+      9: {
+        name: "9月 | コスモス",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M74 118V56" stroke="#6E8C5D" stroke-width="4" stroke-linecap="round"/><path d="M104 118V70" stroke="#6E8C5D" stroke-width="4" stroke-linecap="round"/><g fill="#F1A8C1"><ellipse cx="74" cy="43" rx="10" ry="18"/><ellipse cx="74" cy="43" rx="10" ry="18" transform="rotate(72 74 43)"/><ellipse cx="74" cy="43" rx="10" ry="18" transform="rotate(144 74 43)"/><ellipse cx="74" cy="43" rx="10" ry="18" transform="rotate(216 74 43)"/><ellipse cx="74" cy="43" rx="10" ry="18" transform="rotate(288 74 43)"/></g><g fill="#E992B0"><ellipse cx="104" cy="56" rx="9" ry="16"/><ellipse cx="104" cy="56" rx="9" ry="16" transform="rotate(72 104 56)"/><ellipse cx="104" cy="56" rx="9" ry="16" transform="rotate(144 104 56)"/><ellipse cx="104" cy="56" rx="9" ry="16" transform="rotate(216 104 56)"/><ellipse cx="104" cy="56" rx="9" ry="16" transform="rotate(288 104 56)"/></g><circle cx="74" cy="43" r="5" fill="#F0D36D"/><circle cx="104" cy="56" r="5" fill="#F0D36D"/></svg>'
+      },
+      10: {
+        name: "10月 | 金木犀",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M56 118C70 92 84 68 108 40" stroke="#7D614C" stroke-width="4" stroke-linecap="round"/><path d="M96 57L128 47" stroke="#7D614C" stroke-width="3" stroke-linecap="round"/><path d="M84 73L118 67" stroke="#7D614C" stroke-width="3" stroke-linecap="round"/><g fill="#F1AE4C"><rect x="116" y="38" width="10" height="10" rx="2"/><rect x="107" y="47" width="10" height="10" rx="2"/><rect x="122" y="53" width="10" height="10" rx="2"/><rect x="99" y="63" width="10" height="10" rx="2"/><rect x="113" y="68" width="10" height="10" rx="2"/></g></svg>'
+      },
+      11: {
+        name: "11月 | 菊",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M90 118V77" stroke="#6E8B5C" stroke-width="4" stroke-linecap="round"/><g fill="#F6D36C"><ellipse cx="90" cy="54" rx="10" ry="30"/><ellipse cx="90" cy="54" rx="10" ry="30" transform="rotate(30 90 54)"/><ellipse cx="90" cy="54" rx="10" ry="30" transform="rotate(60 90 54)"/><ellipse cx="90" cy="54" rx="10" ry="30" transform="rotate(90 90 54)"/><ellipse cx="90" cy="54" rx="10" ry="30" transform="rotate(120 90 54)"/><ellipse cx="90" cy="54" rx="10" ry="30" transform="rotate(150 90 54)"/></g><circle cx="90" cy="54" r="10" fill="#D89C3F"/></svg>'
+      },
+      12: {
+        name: "12月 | ポインセチア",
+        svg: '<svg viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M88 118V74" stroke="#6B8A5A" stroke-width="4" stroke-linecap="round"/><g fill="#D64F5C"><ellipse cx="88" cy="51" rx="12" ry="24"/><ellipse cx="88" cy="51" rx="12" ry="24" transform="rotate(60 88 51)"/><ellipse cx="88" cy="51" rx="12" ry="24" transform="rotate(120 88 51)"/></g><g fill="#F2D56B"><circle cx="88" cy="51" r="4"/><circle cx="95" cy="48" r="3"/><circle cx="81" cy="48" r="3"/></g></svg>'
+      }
+    };
+
+    const currentFlower = flowers[selectedFlowerMonth] ?? flowers[1];
+    monthlyFlowerIllustration.innerHTML = currentFlower.svg;
+    monthlyFlowerName.textContent = currentFlower.name;
   }
 
   function sortReservations(items, sortMode) {
@@ -1216,6 +1280,17 @@
     saveInquiries(inquirySeed);
   }
 
+  monthlyFlowerPrev?.addEventListener("click", () => {
+    selectedFlowerMonth = selectedFlowerMonth === 1 ? 12 : selectedFlowerMonth - 1;
+    renderMonthlyFlower();
+  });
+
+  monthlyFlowerNext?.addEventListener("click", () => {
+    selectedFlowerMonth = selectedFlowerMonth === 12 ? 1 : selectedFlowerMonth + 1;
+    renderMonthlyFlower();
+  });
+
+  renderMonthlyFlower();
   setReservationPanel("upcoming");
   setInquiryPanel("pending");
   renderReservations();
