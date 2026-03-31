@@ -293,8 +293,8 @@
   }
 
   function validateStepOne() {
-    if (!fields.name.value.trim() || !getEmailValue() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
-      alert("お名前、メールアドレス、日程、時間、参加人数を入力してください。");
+    if (!fields.nameKana.value.trim() || !fields.name.value.trim() || !getEmailValue() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
+      alert("お名前（フリガナ）、お名前、メールアドレス、日程、時間、参加人数を入力してください。");
       return false;
     }
 
@@ -447,6 +447,7 @@
     reservations.unshift({
       id: Date.now(),
       reservationCode,
+      nameKana: fields.nameKana.value.trim(),
       name: fields.name.value.trim(),
       email: getEmailValue(),
       phone: fields.tel.value.trim(),

@@ -455,14 +455,15 @@
 
     function validateReservationStep() {
         const isEnglish = getLanguage() === "en";
+        const nameKana = document.querySelector("#name-kana")?.value.trim() ?? "";
         const name = document.querySelector("#name")?.value.trim() ?? "";
         const email = getEmailValue();
         const people = document.querySelector("#people")?.value.trim() ?? "";
 
-        if (!name || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
+        if (!nameKana || !name || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
             alert(isEnglish
-                ? "Please enter your name, email address, date, time, and number of guests."
-                : "お名前、メールアドレス、日程、時間、参加人数を入力してください。");
+                ? "Please enter your name in katakana, name, email address, date, time, and number of guests."
+                : "お名前（フリガナ）、お名前、メールアドレス、日程、時間、参加人数を入力してください。");
             return false;
         }
 

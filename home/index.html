@@ -7,7 +7,7 @@
   <title>inori | 管理画面</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
@@ -38,10 +38,22 @@
       </div>
 
       <nav class="sidebar-nav">
-        <button type="button" class="nav-link active" data-view="reservations">予約管理</button>
+        <button type="button" class="nav-link active" data-view="dashboard">ダッシュボード</button>
+        <button type="button" class="nav-link" data-view="reservations">予約管理</button>
         <button type="button" class="nav-link" data-view="inquiries">お問い合わせ管理</button>
+        <button type="button" class="nav-link" data-view="customers">ユーザー管理</button>
         <button type="button" class="nav-link" data-view="trash">ゴミ箱</button>
       </nav>
+
+      <section class="theme-switch-card" aria-label="デザイン切り替え">
+        <p class="theme-switch-label">Design</p>
+        <button type="button" class="theme-switch-btn" id="theme-switch-btn" aria-pressed="false">
+          <span class="theme-switch-track">
+            <span class="theme-switch-thumb"></span>
+          </span>
+          <span class="theme-switch-text" id="theme-switch-text">今のデザイン</span>
+        </button>
+      </section>
 
       <section class="monthly-flower-card" id="monthly-flower-card" aria-label="今月の花">
         <div class="monthly-flower-header">
@@ -55,7 +67,138 @@
     </aside>
 
     <main class="main-content">
-      <section class="content-view is-active" data-view-panel="reservations">
+      <section class="content-view is-active" data-view-panel="dashboard">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Overview</p>
+            <h2>ダッシュボード</h2>
+            <p class="page-copy">今日と今月の予約・来店・売上・お問い合わせを一覧とグラフで確認できます。</p>
+          </div>
+          <div class="dashboard-header-actions">
+            <button type="button" class="dashboard-card dashboard-card-inline dashboard-edit-card" data-dashboard-edit="todaySales">
+              <p class="dashboard-label">今日の売上</p>
+              <strong id="dashboard-today-sales">¥0</strong>
+            </button>
+            <button type="button" class="primary-btn" id="dashboard-sales-adjust-btn">＋</button>
+          </div>
+        </header>
+
+        <section class="dashboard-grid">
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayReservations">
+            <p class="dashboard-label">今日の予約数</p>
+            <strong id="dashboard-today-reservations">0件</strong>
+          </button>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayVisits">
+            <p class="dashboard-label">今日の来店数</p>
+            <strong id="dashboard-today-visits">0件</strong>
+          </button>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayGuests">
+            <p class="dashboard-label">今日の来店人数</p>
+            <strong id="dashboard-today-guests">0名</strong>
+          </button>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="monthGuests">
+            <p class="dashboard-label">今月の来店人数</p>
+            <strong id="dashboard-month-guests">0名</strong>
+          </button>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="monthSales">
+            <p class="dashboard-label">今月の売上</p>
+            <strong id="dashboard-month-sales">¥0</strong>
+          </button>
+        </section>
+
+        <section class="dashboard-split">
+          <section class="table-card">
+            <div class="table-header">
+              <div>
+                <h3>集計テーブル</h3>
+                <p id="dashboard-summary-month-label">2026年3月</p>
+              </div>
+              <div class="dashboard-month-nav">
+                <button type="button" class="dashboard-month-btn" id="dashboard-summary-prev-month" aria-label="前の月">&lt;</button>
+                <button type="button" class="dashboard-month-btn" id="dashboard-summary-next-month" aria-label="次の月">&gt;</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>日付</th>
+                    <th>予約数</th>
+                    <th>来店数</th>
+                    <th>来店人数</th>
+                    <th>売上</th>
+                    <th>問い合わせ数</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-summary-tbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="table-card">
+            <div class="table-header">
+              <div>
+                <h3>集計グラフ</h3>
+              </div>
+              <div class="dashboard-menu-wrap">
+                <button type="button" class="dashboard-menu-btn" id="dashboard-goal-menu-btn" aria-expanded="false" aria-controls="dashboard-goal-menu">=</button>
+                <div class="dashboard-goal-menu hidden" id="dashboard-goal-menu">
+                  <div class="dashboard-goal-menu-head">
+                    <strong>今月目標</strong>
+                  </div>
+                  <label class="dashboard-goal-field">
+                    <span>予約数</span>
+                    <input type="number" id="dashboard-goal-reservations" min="0" step="1" />
+                  </label>
+                  <label class="dashboard-goal-field">
+                    <span>来店数</span>
+                    <input type="number" id="dashboard-goal-visits" min="0" step="1" />
+                  </label>
+                  <label class="dashboard-goal-field">
+                    <span>来店人数</span>
+                    <input type="number" id="dashboard-goal-guests" min="0" step="1" />
+                  </label>
+                  <label class="dashboard-goal-field">
+                    <span>今月の売上</span>
+                    <input type="number" id="dashboard-goal-sales" min="0" step="5500" />
+                  </label>
+                  <label class="dashboard-goal-field">
+                    <span>問い合わせ数</span>
+                    <input type="number" id="dashboard-goal-inquiries" min="0" step="1" />
+                  </label>
+                  <button type="button" class="primary-btn dashboard-goal-save-btn" id="dashboard-goal-save-btn">設定する</button>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-chart" id="dashboard-chart"></div>
+          </section>
+        </section>
+
+        <section class="table-card">
+          <div class="table-header">
+            <div>
+              <h3>本日の予約一覧</h3>
+              <p id="dashboard-today-list-count">0件を表示中</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>予約番号</th>
+                  <th>予約者名</th>
+                  <th>時間</th>
+                  <th>人数</th>
+                  <th>ステータス</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-today-tbody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="content-view" data-view-panel="reservations">
         <header class="page-header">
           <div>
             <p class="page-eyebrow">Dashboard</p>
@@ -323,6 +466,67 @@
           </div>
         </section>
       </section>
+
+      <section class="content-view" data-view-panel="customers">
+        <header class="page-header">
+          <div>
+            <p class="page-eyebrow">Customers</p>
+            <h2>ユーザー管理画面</h2>
+            <p class="page-copy">顧客一覧、予約履歴、ステータス、接客メモをまとめて確認できます。</p>
+          </div>
+        </header>
+
+        <section class="toolbar-card">
+          <div class="toolbar-grid">
+            <div class="toolbar-field keyword-field">
+              <label for="customer-search-keyword">キーワード検索</label>
+              <input type="text" id="customer-search-keyword" placeholder="氏名・メールアドレス・メモ" />
+            </div>
+            <div class="toolbar-field">
+              <label for="customer-filter-status">ステータス</label>
+              <select id="customer-filter-status">
+                <option value="">すべて</option>
+                <option value="初回">初回</option>
+                <option value="2回目以降">2回目以降</option>
+              </select>
+            </div>
+            <div class="toolbar-actions">
+              <button type="button" class="secondary-btn" id="customer-reset-filter-btn">条件をクリア</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="table-header">
+            <div>
+              <h3>顧客一覧</h3>
+              <p id="customer-result-count">0件を表示中</p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>名前</th>
+                  <th>メール</th>
+                  <th>予約履歴</th>
+                  <th>ステータス</th>
+                  <th>メモ</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="customer-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <button type="button" class="page-btn" id="customer-prev-page">前へ</button>
+            <div class="page-numbers" id="customer-page-numbers"></div>
+            <button type="button" class="page-btn" id="customer-next-page">次へ</button>
+          </div>
+        </section>
+      </section>
     </main>
   </div>
 
@@ -338,6 +542,7 @@
 
       <form id="reservation-form" class="modal-form">
         <input type="hidden" id="reservation-id" />
+        <input type="hidden" id="reservation-name-kana" />
         <div class="detail-grid">
           <div class="modal-field">
             <label for="reservation-code">予約番号</label>
@@ -460,6 +665,144 @@
             <button type="button" class="secondary-btn" id="reply-inquiry-btn">メール作成</button>
             <button type="button" class="secondary-btn" id="complete-inquiry-btn">完了</button>
             <button type="button" class="secondary-btn" id="delete-inquiry-btn">削除</button>
+            <button type="submit" class="primary-btn">保存する</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="customer-modal">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <p class="page-eyebrow">Customer Detail</p>
+          <h3 id="customer-modal-title">顧客詳細</h3>
+        </div>
+        <button type="button" class="icon-btn" id="close-customer-modal" aria-label="閉じる">×</button>
+      </div>
+
+      <form id="customer-form" class="modal-form">
+        <input type="hidden" id="customer-record-key" />
+        <div class="detail-grid">
+          <div class="modal-field">
+            <label for="customer-detail-name">名前</label>
+            <input type="text" id="customer-detail-name" readonly />
+          </div>
+          <div class="modal-field">
+            <label for="customer-detail-kana">フリガナ</label>
+            <input type="text" id="customer-detail-kana" placeholder="ヤマダ ハナ" />
+          </div>
+          <div class="modal-field">
+            <label for="customer-detail-email">メールアドレス</label>
+            <input type="email" id="customer-detail-email" readonly />
+          </div>
+          <div class="modal-field">
+            <label for="customer-detail-status">ステータス</label>
+            <select id="customer-detail-status">
+              <option value="初回">初回</option>
+              <option value="2回目以降">2回目以降</option>
+            </select>
+          </div>
+          <div class="modal-field">
+            <label for="customer-detail-history-count">予約回数</label>
+            <input type="text" id="customer-detail-history-count" readonly />
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label for="customer-detail-memo">接客メモ</label>
+            <textarea id="customer-detail-memo" rows="5" placeholder="香りの好み、接客時のポイント、前回会話などを記録できます。"></textarea>
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label>予約履歴</label>
+            <div class="customer-history-list" id="customer-history-list"></div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <div></div>
+          <div class="modal-submit">
+            <button type="submit" class="primary-btn">保存する</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="dashboard-sales-modal">
+    <div class="modal-panel dashboard-sales-panel">
+      <div class="modal-header">
+        <div>
+          <p class="page-eyebrow">Sales Adjust</p>
+          <h3>日別売上の修正</h3>
+        </div>
+        <button type="button" class="icon-btn" id="close-dashboard-sales-modal" aria-label="閉じる">×</button>
+      </div>
+
+      <form id="dashboard-sales-form" class="modal-form">
+        <div class="detail-grid">
+          <div class="modal-field">
+            <label for="dashboard-sales-date">対象日</label>
+            <input type="date" id="dashboard-sales-date" />
+          </div>
+          <div class="modal-field">
+            <label for="dashboard-sales-amount">修正金額</label>
+            <input type="number" id="dashboard-sales-amount" step="100" placeholder="例: 5500 または -1000" />
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label for="dashboard-sales-note">メモ</label>
+            <textarea id="dashboard-sales-note" rows="4" placeholder="追加購入、返金、手入力修正の理由など"></textarea>
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label>現在の反映</label>
+            <div class="dashboard-sales-summary">
+              <p>予約ベース売上: <strong id="dashboard-sales-base">¥0</strong></p>
+              <p>修正後売上: <strong id="dashboard-sales-total">¥0</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <div></div>
+          <div class="modal-submit">
+            <button type="button" class="secondary-btn" id="dashboard-sales-reset-btn">修正をクリア</button>
+            <button type="submit" class="primary-btn">保存する</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="dashboard-metric-modal">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <p class="page-eyebrow">Dashboard Metric</p>
+          <h3 id="dashboard-metric-modal-title">数値を修正</h3>
+        </div>
+        <button type="button" class="icon-btn" id="close-dashboard-metric-modal" aria-label="閉じる">×</button>
+      </div>
+
+      <form id="dashboard-metric-form" class="modal-form">
+        <input type="hidden" id="dashboard-metric-key" />
+        <div class="detail-grid">
+          <div class="modal-field">
+            <label for="dashboard-metric-value">修正値</label>
+            <input type="number" id="dashboard-metric-value" min="0" step="1" />
+          </div>
+          <div class="modal-field">
+            <label for="dashboard-metric-base">元の数値</label>
+            <input type="text" id="dashboard-metric-base" readonly />
+          </div>
+          <div class="modal-field modal-field-wide">
+            <label for="dashboard-metric-note">変更理由メモ</label>
+            <textarea id="dashboard-metric-note" rows="4" placeholder="例: 手動受付分を追加、取消分を反映 など"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <div></div>
+          <div class="modal-submit">
+            <button type="button" class="secondary-btn" id="dashboard-metric-reset-btn">元に戻す</button>
             <button type="submit" class="primary-btn">保存する</button>
           </div>
         </div>

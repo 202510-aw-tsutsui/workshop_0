@@ -2,10 +2,18 @@
   const reservationStorageKey = "inoriAdminReservations";
   const reservationTrashStorageKey = "inoriAdminReservationTrash";
   const inquiryStorageKey = "inoriAdminInquiries";
+  const customerStorageKey = "inoriAdminCustomers";
+  const dashboardGoalsStorageKey = "inoriAdminDashboardGoals";
+  const dashboardSalesAdjustmentsStorageKey = "inoriAdminDashboardSalesAdjustments";
+  const dashboardMetricOverridesStorageKey = "inoriAdminDashboardMetricOverrides";
+  const themeStorageKey = "inoriAdminTheme";
   const reservationPageSize = 5;
   const reservationMaxItems = 10;
   const inquiryPageSize = 5;
   const inquiryMaxItems = 10;
+  const customerPageSize = 5;
+  const customerMaxItems = 20;
+  const salesUnitPrice = 5500;
   const reservationStatusVisited = "来店済み";
   const reservationStatusCancelled = "キャンセル";
 
@@ -13,6 +21,7 @@
     {
       id: 1001,
       reservationCode: "INR-260401-HN4K8P",
+      nameKana: "ヤマダ ハナ",
       name: "山田 花",
       email: "hana@example.com",
       phone: "090-1111-2222",
@@ -25,6 +34,7 @@
     {
       id: 1002,
       reservationCode: "INR-260402-KT7M2Q",
+      nameKana: "カトウ ケンタ",
       name: "加藤 健太",
       email: "kenta@example.com",
       phone: "080-4321-8765",
@@ -37,6 +47,7 @@
     {
       id: 1003,
       reservationCode: "INR-260403-MS5R9L",
+      nameKana: "マツキ ミサキ",
       name: "松木 美咲",
       email: "misaki@example.com",
       phone: "070-9988-2211",
@@ -49,6 +60,7 @@
     {
       id: 1004,
       reservationCode: "INR-260405-YT3W6N",
+      nameKana: "ヤマナカ ユウト",
       name: "山中 裕斗",
       email: "yuto@example.com",
       phone: "090-5432-3456",
@@ -61,6 +73,7 @@
     {
       id: 1005,
       reservationCode: "INR-260406-RK8P4S",
+      nameKana: "タカハシ リコ",
       name: "高橋 理子",
       email: "riko@example.com",
       phone: "080-4567-1234",
@@ -135,6 +148,25 @@
     }
   ];
 
+  const customerSeed = [
+    {
+      customerKey: "hana@example.com",
+      kana: "ヤマダ ハナ",
+      name: "山田 花",
+      email: "hana@example.com",
+      status: "初回",
+      memo: "香りはやさしいフローラル系が好み。説明はゆっくりめが安心。"
+    },
+    {
+      customerKey: "riko@example.com",
+      kana: "タカハシ リコ",
+      name: "高橋 理子",
+      email: "riko@example.com",
+      status: "2回目以降",
+      memo: "グループ利用が多い。体験後の写真案内をすると反応が良い。"
+    }
+  ];
+
   const reservationState = {
     upcomingPage: 1,
     visitedPage: 1,
@@ -148,6 +180,13 @@
     pendingItems: [],
     handledItems: []
   };
+  const customerState = {
+    page: 1,
+    items: []
+  };
+  const dashboardState = {
+    summaryMonth: getCurrentMonthKey()
+  };
   const trashState = { page: 1, items: [], selectedIds: [] };
 
   const views = Array.from(document.querySelectorAll("[data-view-panel]"));
@@ -155,6 +194,8 @@
   const todayReservationsCard = document.querySelector("#today-reservations-card");
   const sidebarCount = document.querySelector("#sidebar-count");
   const sidebarCaption = document.querySelector("#sidebar-caption");
+  const themeSwitchButton = document.querySelector("#theme-switch-btn");
+  const themeSwitchText = document.querySelector("#theme-switch-text");
   const monthlyFlowerPrev = document.querySelector("#monthly-flower-prev");
   const monthlyFlowerNext = document.querySelector("#monthly-flower-next");
   const monthlyFlowerIllustration = document.querySelector("#monthly-flower-illustration");
@@ -226,8 +267,65 @@
     next: document.querySelector("#trash-next-page"),
     pageNumbers: document.querySelector("#trash-page-numbers")
   };
+  const customerElements = {
+    tbody: document.querySelector("#customer-tbody"),
+    resultCount: document.querySelector("#customer-result-count"),
+    keyword: document.querySelector("#customer-search-keyword"),
+    status: document.querySelector("#customer-filter-status"),
+    reset: document.querySelector("#customer-reset-filter-btn"),
+    prev: document.querySelector("#customer-prev-page"),
+    next: document.querySelector("#customer-next-page"),
+    pageNumbers: document.querySelector("#customer-page-numbers"),
+    modal: document.querySelector("#customer-modal"),
+    modalTitle: document.querySelector("#customer-modal-title"),
+    form: document.querySelector("#customer-form"),
+    closeButton: document.querySelector("#close-customer-modal")
+  };
+  const dashboardElements = {
+    cards: Array.from(document.querySelectorAll("[data-dashboard-edit]")),
+    todayReservations: document.querySelector("#dashboard-today-reservations"),
+    todayVisits: document.querySelector("#dashboard-today-visits"),
+    todayGuests: document.querySelector("#dashboard-today-guests"),
+    todaySales: document.querySelector("#dashboard-today-sales"),
+    monthGuests: document.querySelector("#dashboard-month-guests"),
+    monthSales: document.querySelector("#dashboard-month-sales"),
+    summaryTbody: document.querySelector("#dashboard-summary-tbody"),
+    chart: document.querySelector("#dashboard-chart"),
+    todayTbody: document.querySelector("#dashboard-today-tbody"),
+    todayListCount: document.querySelector("#dashboard-today-list-count"),
+    goalMenuButton: document.querySelector("#dashboard-goal-menu-btn"),
+    goalMenu: document.querySelector("#dashboard-goal-menu"),
+    goalSaveButton: document.querySelector("#dashboard-goal-save-btn"),
+    goalReservations: document.querySelector("#dashboard-goal-reservations"),
+    goalVisits: document.querySelector("#dashboard-goal-visits"),
+    goalGuests: document.querySelector("#dashboard-goal-guests"),
+    goalSales: document.querySelector("#dashboard-goal-sales"),
+    goalInquiries: document.querySelector("#dashboard-goal-inquiries"),
+    salesAdjustButton: document.querySelector("#dashboard-sales-adjust-btn"),
+    salesModal: document.querySelector("#dashboard-sales-modal"),
+    salesForm: document.querySelector("#dashboard-sales-form"),
+    salesCloseButton: document.querySelector("#close-dashboard-sales-modal"),
+    salesDate: document.querySelector("#dashboard-sales-date"),
+    salesAmount: document.querySelector("#dashboard-sales-amount"),
+    salesNote: document.querySelector("#dashboard-sales-note"),
+    salesBase: document.querySelector("#dashboard-sales-base"),
+    salesTotal: document.querySelector("#dashboard-sales-total"),
+    salesResetButton: document.querySelector("#dashboard-sales-reset-btn"),
+    summaryMonthLabel: document.querySelector("#dashboard-summary-month-label"),
+    summaryPrevMonth: document.querySelector("#dashboard-summary-prev-month"),
+    summaryNextMonth: document.querySelector("#dashboard-summary-next-month"),
+    metricModal: document.querySelector("#dashboard-metric-modal"),
+    metricForm: document.querySelector("#dashboard-metric-form"),
+    metricTitle: document.querySelector("#dashboard-metric-modal-title"),
+    metricCloseButton: document.querySelector("#close-dashboard-metric-modal"),
+    metricKey: document.querySelector("#dashboard-metric-key"),
+    metricValue: document.querySelector("#dashboard-metric-value"),
+    metricBase: document.querySelector("#dashboard-metric-base"),
+    metricNote: document.querySelector("#dashboard-metric-note"),
+    metricResetButton: document.querySelector("#dashboard-metric-reset-btn")
+  };
 
-  if (!reservationElements.upcomingTbody || !reservationElements.visitedTbody || !inquiryElements.pendingTbody || !inquiryElements.handledTbody || !trashElements.tbody) {
+  if (!reservationElements.upcomingTbody || !reservationElements.visitedTbody || !inquiryElements.pendingTbody || !inquiryElements.handledTbody || !trashElements.tbody || !customerElements.tbody || !dashboardElements.summaryTbody) {
     return;
   }
 
@@ -242,7 +340,16 @@
   }
 
   function loadReservations() {
-    return normalizeArray(localStorage.getItem(reservationStorageKey), reservationSeed);
+    const seedMap = new Map(
+      reservationSeed.map((item) => [String(item.id ?? item.reservationCode), item])
+    );
+    return normalizeArray(localStorage.getItem(reservationStorageKey), reservationSeed).map((item) => {
+      const seedItem = seedMap.get(String(item.id ?? item.reservationCode));
+      return {
+        ...item,
+        nameKana: item.nameKana ?? seedItem?.nameKana ?? ""
+      };
+    });
   }
 
   function saveReservations(items) {
@@ -304,6 +411,72 @@
     localStorage.setItem(inquiryStorageKey, JSON.stringify(items));
   }
 
+  function loadCustomers() {
+    const seedMap = new Map(customerSeed.map((item) => [item.customerKey, item]));
+    return normalizeArray(localStorage.getItem(customerStorageKey), customerSeed).map((item) => {
+      const customerKey = item.customerKey ?? buildCustomerKey(item.email, item.name);
+      const seedItem = seedMap.get(customerKey);
+      const normalizedStatus = item.status === "常連" || item.status === "VIP" || item.status === "要フォロー"
+        ? "2回目以降"
+        : (item.status ?? seedItem?.status ?? "初回");
+      return {
+        ...item,
+        customerKey,
+        kana: item.kana ?? seedItem?.kana ?? "",
+        status: normalizedStatus
+      };
+    });
+  }
+
+  function saveCustomers(items) {
+    localStorage.setItem(customerStorageKey, JSON.stringify(items));
+  }
+
+  function loadDashboardGoals() {
+    const raw = localStorage.getItem(dashboardGoalsStorageKey);
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveDashboardGoals(goals) {
+    localStorage.setItem(dashboardGoalsStorageKey, JSON.stringify(goals));
+  }
+
+  function loadDashboardSalesAdjustments() {
+    const raw = localStorage.getItem(dashboardSalesAdjustmentsStorageKey);
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveDashboardSalesAdjustments(adjustments) {
+    localStorage.setItem(dashboardSalesAdjustmentsStorageKey, JSON.stringify(adjustments));
+  }
+
+  function loadDashboardMetricOverrides() {
+    const raw = localStorage.getItem(dashboardMetricOverridesStorageKey);
+    if (!raw) return {};
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveDashboardMetricOverrides(overrides) {
+    localStorage.setItem(dashboardMetricOverridesStorageKey, JSON.stringify(overrides));
+  }
+
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -318,8 +491,144 @@
     return normalized ? `${normalized}名` : "";
   }
 
+  function buildCustomerKey(email, name) {
+    const normalizedEmail = String(email ?? "").trim().toLowerCase();
+    if (normalizedEmail) return normalizedEmail;
+    return `name:${String(name ?? "").trim().toLowerCase()}`;
+  }
+
+  function formatCustomerHistoryItem(item) {
+    return `${item.date} ${item.time} / ${formatPeopleLabel(item.people)} / ${item.status}`;
+  }
+
+  function inferCustomerStatus(history) {
+    if (history.length >= 2) return "2回目以降";
+    return "初回";
+  }
+
+  function getCustomerStatusClass(status) {
+    if (status === "2回目以降") return "status-repeat";
+    return "status-first";
+  }
+
   function getToday() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  function getCurrentMonthKey() {
+    return getToday().slice(0, 7);
+  }
+
+  function getDaysInCurrentMonth() {
+    const today = new Date(`${getToday()}T00:00:00`);
+    return new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+  }
+
+  function getDaysInMonth(monthKey) {
+    const [year, month] = monthKey.split("-").map(Number);
+    return new Date(year, month, 0).getDate();
+  }
+
+  function formatMonthLabel(monthKey) {
+    const [year, month] = monthKey.split("-").map(Number);
+    return `${year}年${month}月`;
+  }
+
+  function formatShortDateLabel(dateText) {
+    const [year, month, date] = String(dateText).split("-").map(Number);
+    if (!year || !month || !date) return dateText;
+    return `${month}/${date}`;
+  }
+
+  function shiftMonthKey(monthKey, offset) {
+    const [year, month] = monthKey.split("-").map(Number);
+    const baseDate = new Date(year, month - 1 + offset, 1);
+    return `${baseDate.getFullYear()}-${String(baseDate.getMonth() + 1).padStart(2, "0")}`;
+  }
+
+  function formatCurrency(value) {
+    return `¥${Number(value || 0).toLocaleString("ja-JP")}`;
+  }
+
+  function formatGoalValue(value, type) {
+    if (type === "sales") return formatCurrency(value);
+    if (type === "guests") return `${Number(value || 0).toLocaleString("ja-JP")}名`;
+    return `${Number(value || 0).toLocaleString("ja-JP")}件`;
+  }
+
+  function createSeededRandom(seedText) {
+    let hash = 0;
+    for (let index = 0; index < seedText.length; index += 1) {
+      hash = (hash * 31 + seedText.charCodeAt(index)) >>> 0;
+    }
+    return () => {
+      hash = (hash * 1664525 + 1013904223) >>> 0;
+      return hash / 4294967296;
+    };
+  }
+
+  function getRandomIntFromSeed(seedText, min, max) {
+    const random = createSeededRandom(seedText)();
+    return Math.floor(random * (max - min + 1)) + min;
+  }
+
+  function getGoalValue(savedValue, actualValue, fallbackValue) {
+    const normalizedSaved = Number(savedValue);
+    if (Number.isFinite(normalizedSaved) && normalizedSaved > 0) {
+      return Math.max(normalizedSaved, actualValue);
+    }
+    return Math.max(actualValue, fallbackValue);
+  }
+
+  function getReservationSalesByDate(date) {
+    return loadReservations()
+      .filter((item) => item.date === date && item.status === reservationStatusVisited)
+      .reduce((sum, item) => sum + (Number(item.people) || 0) * salesUnitPrice, 0);
+  }
+
+  function getSalesAdjustmentEntry(date) {
+    const adjustments = loadDashboardSalesAdjustments();
+    return adjustments[date] ?? { amount: 0, note: "" };
+  }
+
+  function getDashboardMetricConfig(metricKey) {
+    const config = {
+      todayReservations: { label: "今日の予約数", type: "count", step: 1 },
+      todayVisits: { label: "今日の来店数", type: "count", step: 1 },
+      todayGuests: { label: "今日の来店人数", type: "guests", step: 1 },
+      todaySales: { label: "今日の売上", type: "sales", step: 100 },
+      monthGuests: { label: "今月の来店人数", type: "guests", step: 1 },
+      monthSales: { label: "今月の売上", type: "sales", step: 100 }
+    };
+    return config[metricKey] ?? null;
+  }
+
+  function getDashboardMetricOverrideEntry(overrides, key) {
+    const entry = overrides[key];
+    if (entry && typeof entry === "object" && !Array.isArray(entry)) {
+      return {
+        value: Number(entry.value),
+        note: String(entry.note ?? "")
+      };
+    }
+    return {
+      value: Number(entry),
+      note: ""
+    };
+  }
+
+  function resolveDashboardMetricValue(overrides, key, fallbackValue) {
+    const overriddenValue = getDashboardMetricOverrideEntry(overrides, key).value;
+    return Number.isFinite(overriddenValue) ? overriddenValue : fallbackValue;
+  }
+
+  function updateDashboardSalesPreview() {
+    if (!dashboardElements.salesDate || !dashboardElements.salesBase || !dashboardElements.salesTotal) return;
+    const targetDate = dashboardElements.salesDate.value || getToday();
+    const baseSales = getReservationSalesByDate(targetDate);
+    const nextAdjustment = Number(dashboardElements.salesAmount?.value || 0);
+    dashboardElements.salesBase.textContent = formatCurrency(baseSales);
+    dashboardElements.salesTotal.textContent = formatCurrency(baseSales + nextAdjustment);
   }
 
   function formatDeletedAtLabel(now) {
@@ -360,6 +669,256 @@
     }
   }
 
+  function calculateDashboardMetrics() {
+    const today = getToday();
+    const currentMonth = getCurrentMonthKey();
+    const summaryMonth = dashboardState.summaryMonth;
+    const reservations = loadReservations();
+    const inquiries = loadInquiries();
+    const salesAdjustments = loadDashboardSalesAdjustments();
+
+    const todayReservations = reservations.filter((item) => item.date === today && item.status !== reservationStatusCancelled);
+    const todayVisits = todayReservations.filter((item) => item.status === reservationStatusVisited);
+    const monthReservations = reservations.filter((item) => item.date?.startsWith(currentMonth) && item.status !== reservationStatusCancelled);
+    const monthVisits = monthReservations.filter((item) => item.status === reservationStatusVisited);
+    const todayInquiries = inquiries.filter((item) => item.date === today);
+    const monthInquiries = inquiries.filter((item) => item.date?.startsWith(currentMonth));
+
+    const totalSales = (items) => items.reduce((sum, item) => sum + (Number(item.people) || 0) * salesUnitPrice, 0);
+    const totalGuests = (items) => items.reduce((sum, item) => sum + (Number(item.people) || 0), 0);
+    const getAdjustmentAmount = (date) => Number(salesAdjustments[date]?.amount || 0);
+    const fallbackTodayReservations = getRandomIntFromSeed(`${today}:todayReservations`, 1, 6);
+    const fallbackTodayVisits = getRandomIntFromSeed(`${today}:todayVisits`, 1, Math.max(1, fallbackTodayReservations));
+    const fallbackTodaySales = fallbackTodayVisits * salesUnitPrice;
+    const fallbackMonthSales = getRandomIntFromSeed(`${currentMonth}:monthSales`, 18, 65) * salesUnitPrice;
+
+    const todayReservationCount = todayReservations.length || fallbackTodayReservations;
+    const todayVisitCount = todayVisits.length || fallbackTodayVisits;
+    const todayGuestCount = totalGuests(todayVisits);
+    const monthGuestCount = totalGuests(monthVisits);
+    const actualTodaySales = totalSales(todayVisits) + getAdjustmentAmount(today);
+    const actualMonthSales = totalSales(monthVisits) + Object.entries(salesAdjustments)
+      .filter(([date]) => date.startsWith(currentMonth))
+      .reduce((sum, [, entry]) => sum + Number(entry?.amount || 0), 0);
+    const todaySalesAmount = actualTodaySales || fallbackTodaySales;
+    const monthSalesAmount = actualMonthSales || fallbackMonthSales;
+    const dailySummaryMap = new Map();
+
+    const ensureDailyRow = (date) => {
+      if (!dailySummaryMap.has(date)) {
+        dailySummaryMap.set(date, {
+          date,
+          reservations: 0,
+          visits: 0,
+          guests: 0,
+          sales: 0,
+          inquiries: 0
+        });
+      }
+      return dailySummaryMap.get(date);
+    };
+
+    reservations
+      .filter((item) => item.date?.startsWith(summaryMonth) && item.status !== reservationStatusCancelled)
+      .forEach((item) => {
+        const row = ensureDailyRow(item.date);
+        row.reservations += 1;
+        if (item.status === reservationStatusVisited) {
+          row.visits += 1;
+          row.guests += Number(item.people) || 0;
+          row.sales += (Number(item.people) || 0) * salesUnitPrice;
+        }
+      });
+
+    inquiries
+      .filter((item) => item.date?.startsWith(summaryMonth))
+      .forEach((item) => {
+        const row = ensureDailyRow(item.date);
+        row.inquiries += 1;
+      });
+
+    Object.entries(salesAdjustments)
+      .filter(([date]) => date.startsWith(summaryMonth))
+      .forEach(([date, entry]) => {
+        const row = ensureDailyRow(date);
+        row.sales += Number(entry?.amount || 0);
+      });
+
+    const dailySummary = Array.from(dailySummaryMap.values())
+      .sort((left, right) => right.date.localeCompare(left.date));
+    const savedGoals = loadDashboardGoals();
+    const metricOverrides = loadDashboardMetricOverrides();
+    const goals = {
+      reservations: getGoalValue(savedGoals.reservations, monthReservations.length, getRandomIntFromSeed(`${currentMonth}:goalReservations`, 8, 18)),
+      visits: getGoalValue(savedGoals.visits, monthVisits.length, getRandomIntFromSeed(`${currentMonth}:goalVisits`, 6, 16)),
+      guests: getGoalValue(savedGoals.guests, monthGuestCount, getRandomIntFromSeed(`${currentMonth}:goalGuests`, 12, 36)),
+      sales: getGoalValue(savedGoals.sales, monthSalesAmount, getRandomIntFromSeed(`${currentMonth}:goalSales`, 25, 80) * salesUnitPrice),
+      inquiries: getGoalValue(savedGoals.inquiries, monthInquiries.length, getRandomIntFromSeed(`${currentMonth}:goalInquiries`, 10, 24))
+    };
+
+    return {
+      today: {
+        reservations: resolveDashboardMetricValue(metricOverrides, "todayReservations", todayReservationCount),
+        visits: resolveDashboardMetricValue(metricOverrides, "todayVisits", todayVisitCount),
+        guests: resolveDashboardMetricValue(metricOverrides, "todayGuests", todayGuestCount),
+        sales: resolveDashboardMetricValue(metricOverrides, "todaySales", todaySalesAmount),
+        inquiries: todayInquiries.length
+      },
+      month: {
+        reservations: monthReservations.length,
+        visits: monthVisits.length,
+        guests: resolveDashboardMetricValue(metricOverrides, "monthGuests", monthGuestCount),
+        sales: resolveDashboardMetricValue(metricOverrides, "monthSales", monthSalesAmount),
+        inquiries: monthInquiries.length
+      },
+      summaryMonth,
+      goals,
+      dailySummary,
+      todayReservationsList: [...todayReservations].sort((left, right) => left.time.localeCompare(right.time) || left.id - right.id)
+    };
+  }
+
+  function renderDashboard() {
+    const metrics = calculateDashboardMetrics();
+    if (dashboardElements.summaryMonthLabel) {
+      dashboardElements.summaryMonthLabel.textContent = formatMonthLabel(metrics.summaryMonth);
+    }
+    dashboardElements.todayReservations.textContent = `${metrics.today.reservations}件`;
+    dashboardElements.todayVisits.textContent = `${metrics.today.visits}件`;
+    dashboardElements.todayGuests.textContent = `${metrics.today.guests}名`;
+    dashboardElements.todaySales.textContent = formatCurrency(metrics.today.sales);
+    dashboardElements.monthGuests.textContent = `${metrics.month.guests}名`;
+    dashboardElements.monthSales.textContent = formatCurrency(metrics.month.sales);
+    if (dashboardElements.goalReservations) dashboardElements.goalReservations.value = String(Math.round(metrics.goals.reservations));
+    if (dashboardElements.goalVisits) dashboardElements.goalVisits.value = String(Math.round(metrics.goals.visits));
+    if (dashboardElements.goalGuests) dashboardElements.goalGuests.value = String(Math.round(metrics.goals.guests));
+    if (dashboardElements.goalSales) dashboardElements.goalSales.value = String(Math.round(metrics.goals.sales));
+    if (dashboardElements.goalInquiries) dashboardElements.goalInquiries.value = String(Math.round(metrics.goals.inquiries));
+
+    if (metrics.dailySummary.length === 0) {
+      dashboardElements.summaryTbody.innerHTML = `
+        <tr class="empty-row">
+          <td colspan="6">${formatMonthLabel(metrics.summaryMonth)}の集計データはありません</td>
+        </tr>
+      `;
+    } else {
+      dashboardElements.summaryTbody.innerHTML = metrics.dailySummary.map((row) => `
+        <tr>
+          <td class="dashboard-date-cell">${formatShortDateLabel(row.date)}</td>
+          <td>${row.reservations}件</td>
+          <td>${row.visits}件</td>
+          <td>${row.guests}名</td>
+          <td>${formatCurrency(row.sales)}</td>
+          <td>${row.inquiries}件</td>
+        </tr>
+      `).join("");
+    }
+
+    const chartRows = [
+      { key: "reservations", label: "予約数", today: metrics.today.reservations, month: metrics.goals.reservations, actualMonth: metrics.month.reservations, suffix: "件", type: "count" },
+      { key: "visits", label: "来店数", today: metrics.today.visits, month: metrics.goals.visits, actualMonth: metrics.month.visits, suffix: "件", type: "count" },
+      { key: "today-guests", label: "今日の来店人数", today: metrics.today.guests, month: Math.max(Math.round(metrics.goals.guests / getDaysInCurrentMonth()), metrics.today.guests), actualMonth: metrics.today.guests, suffix: "名", type: "guests" },
+      { key: "guests", label: "今月の来店人数", today: metrics.today.guests, month: metrics.goals.guests, actualMonth: metrics.month.guests, suffix: "名", type: "guests" },
+      { key: "today-sales", label: "今日の売上", today: metrics.today.sales, month: Math.max(Math.round(metrics.goals.sales / getDaysInCurrentMonth()), metrics.today.sales), actualMonth: metrics.today.sales, suffix: "円", type: "sales" },
+      { key: "sales", label: "今月の売上", today: metrics.today.sales, month: metrics.goals.sales, actualMonth: metrics.month.sales, suffix: "円", type: "sales" },
+      { key: "inquiries", label: "問い合わせ数", today: metrics.today.inquiries, month: metrics.goals.inquiries, actualMonth: metrics.month.inquiries, suffix: "件", type: "count" }
+    ];
+    dashboardElements.chart.innerHTML = chartRows.map((row) => {
+      const max = Math.max(row.today, row.month, 1);
+      const todayWidth = Math.max((row.today / max) * 100, row.today > 0 ? 8 : 0);
+      const monthWidth = Math.max((row.month / max) * 100, row.month > 0 ? 8 : 0);
+      return `
+        <div class="dashboard-chart-row">
+          <div class="dashboard-chart-head">
+            <strong>${row.label}</strong>
+            <span>${row.actualMonth.toLocaleString("ja-JP")}/${row.month.toLocaleString("ja-JP")}${row.type === "sales" ? "円" : ""}</span>
+          </div>
+          <div class="dashboard-bar-group">
+            <div class="dashboard-bar-track">
+              <div class="dashboard-bar dashboard-bar-today" style="width:${todayWidth}%"></div>
+            </div>
+            <div class="dashboard-bar-track">
+              <div class="dashboard-bar dashboard-bar-month" style="width:${monthWidth}%"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    if (metrics.todayReservationsList.length === 0) {
+      dashboardElements.todayTbody.innerHTML = `
+        <tr class="empty-row">
+          <td colspan="5">本日の予約はありません</td>
+        </tr>
+      `;
+    } else {
+      dashboardElements.todayTbody.innerHTML = metrics.todayReservationsList.map((item) => `
+        <tr>
+          <td class="reservation-code-cell">${escapeHtml(item.reservationCode)}</td>
+          <td>${escapeHtml(item.name)}</td>
+          <td>${escapeHtml(item.time)}</td>
+          <td>${escapeHtml(formatPeopleLabel(item.people))}</td>
+          <td>${escapeHtml(item.status)}</td>
+        </tr>
+      `).join("");
+    }
+
+    dashboardElements.todayListCount.textContent = `${metrics.todayReservationsList.length}件を表示中`;
+  }
+
+  function toggleDashboardGoalMenu(forceOpen) {
+    if (!dashboardElements.goalMenu || !dashboardElements.goalMenuButton) return;
+    const nextOpen = typeof forceOpen === "boolean"
+      ? forceOpen
+      : dashboardElements.goalMenu.classList.contains("hidden");
+    dashboardElements.goalMenu.classList.toggle("hidden", !nextOpen);
+    dashboardElements.goalMenuButton.setAttribute("aria-expanded", String(nextOpen));
+  }
+
+  function openDashboardSalesModal(targetDate = getToday()) {
+    if (!dashboardElements.salesModal || !dashboardElements.salesDate) return;
+    const entry = getSalesAdjustmentEntry(targetDate);
+    dashboardElements.salesDate.value = targetDate;
+    if (dashboardElements.salesAmount) dashboardElements.salesAmount.value = String(Number(entry.amount || 0));
+    if (dashboardElements.salesNote) dashboardElements.salesNote.value = entry.note || "";
+    updateDashboardSalesPreview();
+    openModal(dashboardElements.salesModal);
+  }
+
+  function openDashboardMetricModal(metricKey) {
+    const config = getDashboardMetricConfig(metricKey);
+    if (!config || !dashboardElements.metricModal) return;
+    const metrics = calculateDashboardMetrics();
+    const valueMap = {
+      todayReservations: metrics.today.reservations,
+      todayVisits: metrics.today.visits,
+      todayGuests: metrics.today.guests,
+      todaySales: metrics.today.sales,
+      monthGuests: metrics.month.guests,
+      monthSales: metrics.month.sales
+    };
+    const overrides = loadDashboardMetricOverrides();
+    const baseValue = valueMap[metricKey] ?? 0;
+    const currentValue = resolveDashboardMetricValue(overrides, metricKey, baseValue);
+    const currentEntry = getDashboardMetricOverrideEntry(overrides, metricKey);
+
+    if (dashboardElements.metricTitle) {
+      dashboardElements.metricTitle.textContent = `${config.label} を修正`;
+    }
+    if (dashboardElements.metricKey) dashboardElements.metricKey.value = metricKey;
+    if (dashboardElements.metricValue) {
+      dashboardElements.metricValue.value = String(currentValue);
+      dashboardElements.metricValue.step = String(config.step);
+    }
+    if (dashboardElements.metricBase) {
+      dashboardElements.metricBase.value = formatGoalValue(baseValue, config.type);
+    }
+    if (dashboardElements.metricNote) {
+      dashboardElements.metricNote.value = currentEntry.note;
+    }
+    openModal(dashboardElements.metricModal);
+  }
+
   function buildPagination(target, totalPages, currentPage, onMove) {
     target.innerHTML = "";
     for (let page = 1; page <= totalPages; page += 1) {
@@ -369,6 +928,17 @@
       button.textContent = String(page);
       button.addEventListener("click", () => onMove(page));
       target.appendChild(button);
+    }
+  }
+
+  function applyTheme(theme) {
+    const isClassic = theme === "classic";
+    document.body.classList.toggle("theme-classic", isClassic);
+    if (themeSwitchButton) {
+      themeSwitchButton.setAttribute("aria-pressed", String(!isClassic));
+    }
+    if (themeSwitchText) {
+      themeSwitchText.textContent = isClassic ? "元のデザイン" : "今のデザイン";
     }
   }
 
@@ -545,6 +1115,8 @@
     reservationState.visitedPage = visitedRender.safePage;
 
     updateSidebarSummary(allItems);
+    renderDashboard();
+    renderCustomers();
   }
 
   function renderTrashReservations() {
@@ -694,6 +1266,122 @@
       },
       { showDeleteAction: true }
     );
+    renderDashboard();
+  }
+
+  function buildCustomerRecords() {
+    const reservations = loadReservations()
+      .filter((item) => item.name || item.email)
+      .sort((left, right) => `${right.date} ${right.time}`.localeCompare(`${left.date} ${left.time}`) || right.id - left.id);
+    const savedCustomers = loadCustomers();
+    const savedMap = new Map(savedCustomers.map((item) => [item.customerKey ?? buildCustomerKey(item.email, item.name), item]));
+    const groupedCustomers = new Map();
+
+    reservations.forEach((item) => {
+      const customerKey = buildCustomerKey(item.email, item.name);
+      const current = groupedCustomers.get(customerKey) ?? {
+        customerKey,
+        name: item.name,
+        email: item.email,
+        phone: item.phone,
+        history: []
+      };
+
+      current.name = item.name || current.name;
+      current.email = item.email || current.email;
+      current.phone = item.phone || current.phone;
+      current.history.push(item);
+      groupedCustomers.set(customerKey, current);
+    });
+
+    savedCustomers.forEach((item) => {
+      const customerKey = item.customerKey ?? buildCustomerKey(item.email, item.name);
+      if (groupedCustomers.has(customerKey)) return;
+      groupedCustomers.set(customerKey, {
+        customerKey,
+        name: item.name,
+        email: item.email,
+        phone: item.phone ?? "",
+        history: []
+      });
+    });
+
+    return Array.from(groupedCustomers.values())
+      .map((customer) => {
+        const saved = savedMap.get(customer.customerKey);
+        const history = [...customer.history].sort((left, right) => `${right.date} ${right.time}`.localeCompare(`${left.date} ${left.time}`) || right.id - left.id);
+        const latestReservation = history[0] ?? null;
+        const latestKana = history.find((item) => item.nameKana)?.nameKana ?? "";
+        return {
+          customerKey: customer.customerKey,
+          name: customer.name || "未設定",
+          email: customer.email || "未設定",
+          phone: customer.phone || "",
+          history,
+          kana: saved?.kana || latestKana,
+          status: saved?.status || inferCustomerStatus(history),
+          memo: saved?.memo || "",
+          latestReservationAt: latestReservation ? `${latestReservation.date} ${latestReservation.time}` : "",
+          historySummary: history.length > 0 ? formatCustomerHistoryItem(history[0]) : "予約履歴はありません"
+        };
+      })
+      .sort((left, right) => {
+        const leftKana = String(left.kana || left.name).replace(/\s+/g, "");
+        const rightKana = String(right.kana || right.name).replace(/\s+/g, "");
+        return leftKana.localeCompare(rightKana, "ja") || left.name.localeCompare(right.name, "ja") || left.email.localeCompare(right.email, "ja");
+      });
+  }
+
+  function renderCustomers() {
+    const keyword = customerElements.keyword.value.trim().toLowerCase();
+    const filterStatus = customerElements.status.value;
+    const items = buildCustomerRecords().filter((item) => {
+      const matchedKeyword = !keyword || [item.name, item.email, item.memo, item.historySummary]
+        .some((value) => String(value ?? "").toLowerCase().includes(keyword));
+      const matchedStatus = !filterStatus || item.status === filterStatus;
+      return matchedKeyword && matchedStatus;
+    });
+
+    const visibleItems = items.slice(0, customerMaxItems);
+    customerState.items = visibleItems;
+    const totalPages = Math.max(1, Math.ceil(visibleItems.length / customerPageSize));
+    customerState.page = Math.min(customerState.page, totalPages);
+    const start = (customerState.page - 1) * customerPageSize;
+    const pagedItems = visibleItems.slice(start, start + customerPageSize);
+
+    if (pagedItems.length === 0) {
+      customerElements.tbody.innerHTML = `
+        <tr class="empty-row">
+          <td colspan="6">該当する顧客はありません</td>
+        </tr>
+      `;
+    } else {
+      customerElements.tbody.innerHTML = pagedItems.map((item) => `
+        <tr>
+          <td>${escapeHtml(item.name)}</td>
+          <td>${escapeHtml(item.email)}</td>
+          <td>
+            <div class="customer-history-cell">
+              <strong>${escapeHtml(`${item.history.length}件`)}</strong>
+              <span>${escapeHtml(item.historySummary)}</span>
+            </div>
+          </td>
+          <td><span class="status-chip ${getCustomerStatusClass(item.status)}">${escapeHtml(item.status)}</span></td>
+          <td><p class="customer-memo-preview">${escapeHtml(item.memo || "未登録")}</p></td>
+          <td class="row-actions">
+            <button type="button" class="secondary-btn" data-open-customer="${escapeHtml(item.customerKey)}">詳細</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    customerElements.resultCount.textContent = `${visibleItems.length}件を表示中`;
+    customerElements.prev.disabled = customerState.page <= 1;
+    customerElements.next.disabled = customerState.page >= totalPages;
+    buildPagination(customerElements.pageNumbers, totalPages, customerState.page, (page) => {
+      customerState.page = page;
+      renderCustomers();
+    });
   }
 
   function setInquiryPanel(panelName) {
@@ -720,6 +1408,7 @@
 
   function fillReservationForm(item) {
     document.querySelector("#reservation-id").value = item.id ?? "";
+    document.querySelector("#reservation-name-kana").value = item.nameKana ?? "";
     document.querySelector("#reservation-code").value = item.reservationCode ?? "";
     document.querySelector("#customer-name").value = item.name ?? "";
     document.querySelector("#customer-email").value = item.email ?? "";
@@ -748,6 +1437,7 @@
     return {
       id: Number(document.querySelector("#reservation-id").value) || Date.now(),
       reservationCode: document.querySelector("#reservation-code").value.trim() || generateCode(),
+      nameKana: document.querySelector("#reservation-name-kana").value.trim(),
       name: document.querySelector("#customer-name").value.trim(),
       email: document.querySelector("#customer-email").value.trim(),
       phone: document.querySelector("#customer-phone").value.trim(),
@@ -774,6 +1464,45 @@
     };
   }
 
+  function fillCustomerForm(item) {
+    document.querySelector("#customer-record-key").value = item.customerKey ?? "";
+    document.querySelector("#customer-detail-name").value = item.name ?? "";
+    document.querySelector("#customer-detail-kana").value = item.kana ?? "";
+    document.querySelector("#customer-detail-email").value = item.email ?? "";
+    document.querySelector("#customer-detail-status").value = item.status ?? "初回";
+    document.querySelector("#customer-detail-history-count").value = `${item.history?.length ?? 0}件`;
+    document.querySelector("#customer-detail-memo").value = item.memo ?? "";
+
+    const historyList = document.querySelector("#customer-history-list");
+    if (!historyList) return;
+    if (!item.history || item.history.length === 0) {
+      historyList.innerHTML = `<p class="customer-history-empty">予約履歴はありません。</p>`;
+      return;
+    }
+
+    historyList.innerHTML = item.history.map((historyItem) => `
+      <article class="customer-history-item">
+        <div class="customer-history-meta">
+          <strong>${escapeHtml(historyItem.date)} ${escapeHtml(historyItem.time)}</strong>
+          <span>${escapeHtml(historyItem.reservationCode)}</span>
+        </div>
+        <p>${escapeHtml(`${formatPeopleLabel(historyItem.people)} / ${historyItem.status}`)}</p>
+        <p>${escapeHtml(historyItem.note || "備考なし")}</p>
+      </article>
+    `).join("");
+  }
+
+  function getCustomerFormValue() {
+    return {
+      customerKey: document.querySelector("#customer-record-key").value.trim(),
+      name: document.querySelector("#customer-detail-name").value.trim(),
+      kana: document.querySelector("#customer-detail-kana").value.trim(),
+      email: document.querySelector("#customer-detail-email").value.trim(),
+      status: document.querySelector("#customer-detail-status").value,
+      memo: document.querySelector("#customer-detail-memo").value.trim()
+    };
+  }
+
   function upsertById(items, nextItem) {
     const index = items.findIndex((item) => item.id === nextItem.id);
     if (index >= 0) {
@@ -787,6 +1516,20 @@
     const nextItem = { ...getReservationFormValue(), ...overrides };
     const items = upsertById(loadReservations(), nextItem);
     saveReservations(items);
+    return nextItem;
+  }
+
+  function saveCustomerProfile() {
+    const nextItem = getCustomerFormValue();
+    if (!nextItem.customerKey) return null;
+    const items = loadCustomers();
+    const index = items.findIndex((item) => (item.customerKey ?? buildCustomerKey(item.email, item.name)) === nextItem.customerKey);
+    if (index >= 0) {
+      items[index] = { ...items[index], ...nextItem };
+    } else {
+      items.unshift(nextItem);
+    }
+    saveCustomers(items);
     return nextItem;
   }
 
@@ -890,6 +1633,14 @@
     openModal(reservationElements.modal);
   }
 
+  function openCustomerById(customerKey) {
+    const item = buildCustomerRecords().find((entry) => entry.customerKey === customerKey);
+    if (!item) return;
+    customerElements.modalTitle.textContent = "顧客詳細";
+    fillCustomerForm(item);
+    openModal(customerElements.modal);
+  }
+
   reservationElements.upcomingTbody.addEventListener("click", (event) => {
     const completeButton = event.target.closest("[data-complete-reservation]");
     if (completeButton) {
@@ -982,6 +1733,12 @@
     openModal(inquiryElements.modal);
   });
 
+  customerElements.tbody.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-open-customer]");
+    if (!button) return;
+    openCustomerById(button.dataset.openCustomer);
+  });
+
   reservationElements.newButton.addEventListener("click", () => {
     reservationElements.modalTitle.textContent = "新規予約";
     fillReservationForm({
@@ -1016,6 +1773,13 @@
     saveInquiries(items);
     closeModal(inquiryElements.modal);
     renderInquiries();
+  });
+
+  customerElements.form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    saveCustomerProfile();
+    closeModal(customerElements.modal);
+    renderCustomers();
   });
 
   reservationElements.deleteButton.addEventListener("click", () => {
@@ -1156,6 +1920,9 @@
 
   reservationElements.closeButton.addEventListener("click", () => closeModal(reservationElements.modal));
   inquiryElements.closeButton.addEventListener("click", () => closeModal(inquiryElements.modal));
+  customerElements.closeButton.addEventListener("click", () => closeModal(customerElements.modal));
+  dashboardElements.salesCloseButton?.addEventListener("click", () => closeModal(dashboardElements.salesModal));
+  dashboardElements.metricCloseButton?.addEventListener("click", () => closeModal(dashboardElements.metricModal));
 
   reservationElements.modal.addEventListener("click", (event) => {
     if (event.target === reservationElements.modal) closeModal(reservationElements.modal);
@@ -1163,6 +1930,26 @@
 
   inquiryElements.modal.addEventListener("click", (event) => {
     if (event.target === inquiryElements.modal) closeModal(inquiryElements.modal);
+  });
+
+  customerElements.modal.addEventListener("click", (event) => {
+    if (event.target === customerElements.modal) closeModal(customerElements.modal);
+  });
+
+  dashboardElements.salesModal?.addEventListener("click", (event) => {
+    if (event.target === dashboardElements.salesModal) closeModal(dashboardElements.salesModal);
+  });
+
+  dashboardElements.metricModal?.addEventListener("click", (event) => {
+    if (event.target === dashboardElements.metricModal) closeModal(dashboardElements.metricModal);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!dashboardElements.goalMenu || !dashboardElements.goalMenuButton) return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (dashboardElements.goalMenu.contains(target) || dashboardElements.goalMenuButton.contains(target)) return;
+    toggleDashboardGoalMenu(false);
   });
 
   reservationElements.upcomingPrev.addEventListener("click", () => {
@@ -1215,6 +2002,113 @@
     renderTrashReservations();
   });
 
+  dashboardElements.summaryPrevMonth?.addEventListener("click", () => {
+    dashboardState.summaryMonth = shiftMonthKey(dashboardState.summaryMonth, -1);
+    renderDashboard();
+  });
+
+  dashboardElements.summaryNextMonth?.addEventListener("click", () => {
+    dashboardState.summaryMonth = shiftMonthKey(dashboardState.summaryMonth, 1);
+    renderDashboard();
+  });
+
+  dashboardElements.goalMenuButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleDashboardGoalMenu();
+  });
+
+  dashboardElements.salesAdjustButton?.addEventListener("click", () => {
+    openDashboardSalesModal();
+  });
+
+  dashboardElements.cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      openDashboardMetricModal(card.dataset.dashboardEdit);
+    });
+  });
+
+  dashboardElements.goalSaveButton?.addEventListener("click", () => {
+    const goals = loadDashboardGoals();
+    goals.reservations = Math.max(0, Number(dashboardElements.goalReservations?.value) || 0);
+    goals.visits = Math.max(0, Number(dashboardElements.goalVisits?.value) || 0);
+    goals.guests = Math.max(0, Number(dashboardElements.goalGuests?.value) || 0);
+    goals.sales = Math.max(0, Number(dashboardElements.goalSales?.value) || 0);
+    goals.inquiries = Math.max(0, Number(dashboardElements.goalInquiries?.value) || 0);
+    saveDashboardGoals(goals);
+    toggleDashboardGoalMenu(false);
+    renderDashboard();
+  });
+
+  dashboardElements.salesDate?.addEventListener("input", () => {
+    const entry = getSalesAdjustmentEntry(dashboardElements.salesDate.value || getToday());
+    if (dashboardElements.salesAmount) dashboardElements.salesAmount.value = String(Number(entry.amount || 0));
+    if (dashboardElements.salesNote) dashboardElements.salesNote.value = entry.note || "";
+    updateDashboardSalesPreview();
+  });
+
+  dashboardElements.salesAmount?.addEventListener("input", updateDashboardSalesPreview);
+
+  dashboardElements.salesForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const targetDate = dashboardElements.salesDate?.value || getToday();
+    const adjustments = loadDashboardSalesAdjustments();
+    adjustments[targetDate] = {
+      amount: Number(dashboardElements.salesAmount?.value || 0),
+      note: dashboardElements.salesNote?.value.trim() || ""
+    };
+    saveDashboardSalesAdjustments(adjustments);
+    closeModal(dashboardElements.salesModal);
+    renderDashboard();
+  });
+
+  dashboardElements.metricForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const metricKey = dashboardElements.metricKey?.value.trim();
+    if (!metricKey) return;
+    const overrides = loadDashboardMetricOverrides();
+    overrides[metricKey] = {
+      value: Math.max(0, Number(dashboardElements.metricValue?.value || 0)),
+      note: dashboardElements.metricNote?.value.trim() || ""
+    };
+    saveDashboardMetricOverrides(overrides);
+    closeModal(dashboardElements.metricModal);
+    renderDashboard();
+  });
+
+  dashboardElements.salesResetButton?.addEventListener("click", () => {
+    const targetDate = dashboardElements.salesDate?.value || getToday();
+    const adjustments = loadDashboardSalesAdjustments();
+    delete adjustments[targetDate];
+    saveDashboardSalesAdjustments(adjustments);
+    if (dashboardElements.salesAmount) dashboardElements.salesAmount.value = "0";
+    if (dashboardElements.salesNote) dashboardElements.salesNote.value = "";
+    updateDashboardSalesPreview();
+    renderDashboard();
+  });
+
+  dashboardElements.metricResetButton?.addEventListener("click", () => {
+    const metricKey = dashboardElements.metricKey?.value.trim();
+    if (!metricKey) return;
+    const overrides = loadDashboardMetricOverrides();
+    delete overrides[metricKey];
+    saveDashboardMetricOverrides(overrides);
+    if (dashboardElements.metricNote) {
+      dashboardElements.metricNote.value = "";
+    }
+    closeModal(dashboardElements.metricModal);
+    renderDashboard();
+  });
+
+  customerElements.prev.addEventListener("click", () => {
+    customerState.page = Math.max(1, customerState.page - 1);
+    renderCustomers();
+  });
+
+  customerElements.next.addEventListener("click", () => {
+    customerState.page += 1;
+    renderCustomers();
+  });
+
   [reservationElements.keyword, reservationElements.date, reservationElements.status, reservationElements.sort].forEach((element) => {
     element.addEventListener("input", () => {
       reservationState.upcomingPage = 1;
@@ -1241,6 +2135,17 @@
     });
   });
 
+  [customerElements.keyword, customerElements.status].forEach((element) => {
+    element.addEventListener("input", () => {
+      customerState.page = 1;
+      renderCustomers();
+    });
+    element.addEventListener("change", () => {
+      customerState.page = 1;
+      renderCustomers();
+    });
+  });
+
   reservationElements.reset.addEventListener("click", () => {
     reservationElements.keyword.value = "";
     reservationElements.date.value = "";
@@ -1258,6 +2163,13 @@
     inquiryState.pendingPage = 1;
     inquiryState.handledPage = 1;
     renderInquiries();
+  });
+
+  customerElements.reset.addEventListener("click", () => {
+    customerElements.keyword.value = "";
+    customerElements.status.value = "";
+    customerState.page = 1;
+    renderCustomers();
   });
 
   navLinks.forEach((button) => {
@@ -1280,6 +2192,18 @@
     saveInquiries(inquirySeed);
   }
 
+  if (!localStorage.getItem(customerStorageKey)) {
+    saveCustomers(customerSeed);
+  }
+
+  const initialTheme = localStorage.getItem(themeStorageKey) || "current";
+  applyTheme(initialTheme);
+  themeSwitchButton?.addEventListener("click", () => {
+    const nextTheme = document.body.classList.contains("theme-classic") ? "current" : "classic";
+    localStorage.setItem(themeStorageKey, nextTheme);
+    applyTheme(nextTheme);
+  });
+
   monthlyFlowerPrev?.addEventListener("click", () => {
     selectedFlowerMonth = selectedFlowerMonth === 1 ? 12 : selectedFlowerMonth - 1;
     renderMonthlyFlower();
@@ -1291,9 +2215,11 @@
   });
 
   renderMonthlyFlower();
+  setActiveView("dashboard");
   setReservationPanel("upcoming");
   setInquiryPanel("pending");
   renderReservations();
   renderInquiries();
+  renderCustomers();
   renderTrashReservations();
 });
