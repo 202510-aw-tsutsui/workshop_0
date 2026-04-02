@@ -20,38 +20,38 @@
   const reservationSeed = [
     {
       id: 1001,
-      reservationCode: "INR-260401-HN4K8P",
+      reservationCode: "INR-260301-HN4K8P",
       nameKana: "ヤマダ ハナ",
       name: "山田 花",
       email: "hana@example.com",
       phone: "090-1111-2222",
-      date: "2026-04-01",
+      date: "2026-03-01",
       time: "11:00",
       people: 2,
-      status: "予約確定",
-      note: "当日は体験利用。同行者1名あり。"
+      status: "来店済み",
+      note: "日曜の午前枠で来店済み。同行者1名あり。"
     },
     {
       id: 1002,
-      reservationCode: "INR-260402-KT7M2Q",
+      reservationCode: "INR-260307-KT7M2Q",
       nameKana: "カトウ ケンタ",
       name: "加藤 健太",
       email: "kenta@example.com",
       phone: "080-4321-8765",
-      date: "2026-04-02",
+      date: "2026-03-07",
       time: "13:00",
       people: 3,
-      status: "仮予約",
-      note: "PayPay希望。返信は午後希望。"
+      status: "来店済み",
+      note: "土曜の午後枠で3名利用。"
     },
     {
       id: 1003,
-      reservationCode: "INR-260403-MS5R9L",
+      reservationCode: "INR-260308-MS5R9L",
       nameKana: "マツキ ミサキ",
       name: "松木 美咲",
       email: "misaki@example.com",
       phone: "070-9988-2211",
-      date: "2026-04-03",
+      date: "2026-03-08",
       time: "15:00",
       people: 2,
       status: "予約確定",
@@ -59,29 +59,94 @@
     },
     {
       id: 1004,
-      reservationCode: "INR-260405-YT3W6N",
+      reservationCode: "INR-260314-YT3W6N",
       nameKana: "ヤマナカ ユウト",
       name: "山中 裕斗",
       email: "yuto@example.com",
       phone: "090-5432-3456",
-      date: "2026-04-05",
+      date: "2026-03-14",
       time: "11:00",
       people: 1,
       status: "キャンセル",
-      note: "前日にキャンセル。"
+      note: "土曜枠を前日にキャンセル。"
     },
     {
       id: 1005,
-      reservationCode: "INR-260406-RK8P4S",
+      reservationCode: "INR-260315-RK8P4S",
       nameKana: "タカハシ リコ",
       name: "高橋 理子",
       email: "riko@example.com",
       phone: "080-4567-1234",
-      date: "2026-04-06",
+      date: "2026-03-15",
       time: "13:00",
       people: 4,
       status: "来店済み",
-      note: "4名で来店済み。"
+      note: "4名で来店済み。写真撮影希望あり。"
+    },
+    {
+      id: 1006,
+      reservationCode: "INR-260320-AM2D5J",
+      nameKana: "アベ ミホ",
+      name: "阿部 美穂",
+      email: "miho.abe@example.com",
+      phone: "090-2468-1357",
+      date: "2026-03-20",
+      time: "11:00",
+      people: 2,
+      status: "来店済み",
+      note: "春分の日の午前予約。"
+    },
+    {
+      id: 1007,
+      reservationCode: "INR-260321-SK9N4B",
+      nameKana: "サカイ ケイコ",
+      name: "酒井 恵子",
+      email: "keiko.sakai@example.com",
+      phone: "080-8765-1200",
+      date: "2026-03-21",
+      time: "13:00",
+      people: 2,
+      status: "来店済み",
+      note: "土曜午後に来店済み。"
+    },
+    {
+      id: 1008,
+      reservationCode: "INR-260322-TR8V1M",
+      nameKana: "タナカ リオ",
+      name: "田中 莉央",
+      email: "rio.tanaka@example.com",
+      phone: "070-2468-9991",
+      date: "2026-03-22",
+      time: "15:00",
+      people: 1,
+      status: "予約確定",
+      note: "日曜夕方枠を予約済み。"
+    },
+    {
+      id: 1009,
+      reservationCode: "INR-260328-NM6C7X",
+      nameKana: "ナカムラ メイ",
+      name: "中村 芽衣",
+      email: "mei.nakamura@example.com",
+      phone: "090-9999-5678",
+      date: "2026-03-28",
+      time: "11:00",
+      people: 3,
+      status: "来店済み",
+      note: "友人3名で来店済み。"
+    },
+    {
+      id: 1010,
+      reservationCode: "INR-260329-OS3L2H",
+      nameKana: "オオシマ ルイ",
+      name: "大島 るい",
+      email: "rui.oshima@example.com",
+      phone: "080-3141-5926",
+      date: "2026-03-29",
+      time: "13:00",
+      people: 2,
+      status: "仮予約",
+      note: "日曜の午後枠を仮押さえ。"
     }
   ];
 
@@ -91,19 +156,19 @@
       name: "中村 美穂",
       email: "miho@example.com",
       phone: "090-2345-6789",
-      date: "2026-03-29",
+      date: "2026-03-01",
       subject: "予約可能日の確認",
       status: "未対応",
-      message: "4月前半の土日で2名予約したいです。空き状況を教えてください。",
+      message: "3月前半の土日で2名予約したいです。空き状況を教えてください。",
       replySubject: "お問い合わせありがとうございます",
-      replyMessage: "お問い合わせありがとうございます。\n\n4月前半の土日について、現在ご案内可能な日程を確認しております。\n確認でき次第、候補日時をご案内します。\n\n少々お待ちください。"
+      replyMessage: "お問い合わせありがとうございます。\n\n3月前半の土日について、現在ご案内可能な日程を確認しております。\n確認でき次第、候補日時をご案内します。\n\n少々お待ちください。"
     },
     {
       id: 2002,
       name: "森田 直人",
       email: "naoto@example.com",
       phone: "080-1234-5678",
-      date: "2026-03-30",
+      date: "2026-03-07",
       subject: "持ち物の確認について",
       status: "対応中",
       message: "ワークショップで必要な持ち物はありますか。",
@@ -115,7 +180,7 @@
       name: "青木 春香",
       email: "haruka@example.com",
       phone: "070-9876-5432",
-      date: "2026-03-31",
+      date: "2026-03-20",
       subject: "団体利用の可否",
       status: "完了",
       message: "会社の研修での利用は可能でしょうか。",
@@ -127,7 +192,7 @@
       name: "佐々木 真央",
       email: "mao@example.com",
       phone: "090-8765-4321",
-      date: "2026-04-01",
+      date: "2026-03-21",
       subject: "キャンセルポリシーについて",
       status: "未対応",
       message: "体調不良時のキャンセル料について確認したいです。",
@@ -139,12 +204,12 @@
       name: "田本 蓮",
       email: "ren@example.com",
       phone: "080-7654-3210",
-      date: "2026-04-02",
+      date: "2026-03-29",
       subject: "子ども連れの参加",
       status: "対応中",
-      message: "5歳の子ども連れでの参加は可能ですか。平日希望です。",
+      message: "5歳の子ども連れでの参加は可能ですか。3月の土日祝で検討しています。",
       replySubject: "お問い合わせありがとうございます",
-      replyMessage: "お問い合わせありがとうございます。\n\n5歳のお子さま連れでのご参加について、日程によりご案内可能です。\n平日の候補日を確認して、折り返しご連絡いたします。\n\n少しお時間をください。"
+      replyMessage: "お問い合わせありがとうございます。\n\n5歳のお子さま連れでのご参加について、3月の土日祝でご案内可能な日程を確認いたします。\n候補日を整理して、折り返しご連絡いたします。\n\n少しお時間をください。"
     }
   ];
 
@@ -185,7 +250,7 @@
     items: []
   };
   const dashboardState = {
-    summaryMonth: getCurrentMonthKey()
+    summaryMonth: "2026-03"
   };
   const trashState = { page: 1, items: [], selectedIds: [] };
 
@@ -554,6 +619,20 @@
     if (type === "sales") return formatCurrency(value);
     if (type === "guests") return `${Number(value || 0).toLocaleString("ja-JP")}名`;
     return `${Number(value || 0).toLocaleString("ja-JP")}件`;
+  }
+
+  function isLegacyReservationSeed(items) {
+    return Array.isArray(items)
+      && items.length === 5
+      && items.every((item, index) => Number(item?.id) === 1001 + index)
+      && items.every((item) => String(item?.date || "").startsWith("2026-04"));
+  }
+
+  function isLegacyInquirySeed(items) {
+    return Array.isArray(items)
+      && items.length === 5
+      && items.every((item, index) => Number(item?.id) === 2001 + index)
+      && items.some((item) => String(item?.date || "").startsWith("2026-04"));
   }
 
   function createSeededRandom(seedText) {
@@ -2186,10 +2265,20 @@
 
   if (!localStorage.getItem(reservationStorageKey)) {
     saveReservations(reservationSeed);
+  } else {
+    const storedReservations = normalizeArray(localStorage.getItem(reservationStorageKey), []);
+    if (isLegacyReservationSeed(storedReservations)) {
+      saveReservations(reservationSeed);
+    }
   }
 
   if (!localStorage.getItem(inquiryStorageKey)) {
     saveInquiries(inquirySeed);
+  } else {
+    const storedInquiries = normalizeArray(localStorage.getItem(inquiryStorageKey), []);
+    if (isLegacyInquirySeed(storedInquiries)) {
+      saveInquiries(inquirySeed);
+    }
   }
 
   if (!localStorage.getItem(customerStorageKey)) {
