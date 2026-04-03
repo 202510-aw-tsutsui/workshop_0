@@ -357,7 +357,7 @@ button {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
   margin-bottom: 22px;
 }
@@ -411,18 +411,6 @@ button {
 .dashboard-card-inline strong {
   margin-top: 10px;
   font-size: 2rem;
-}
-
-#dashboard-sales-adjust-btn {
-  width: 72px;
-  height: 72px;
-  padding: 0;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 1.8rem;
-  line-height: 1;
-  flex: 0 0 72px;
 }
 
 .dashboard-sales-panel {

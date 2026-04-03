@@ -75,11 +75,14 @@
             <p class="page-copy">今日と今月の予約・来店・売上・お問い合わせを一覧とグラフで確認できます。</p>
           </div>
           <div class="dashboard-header-actions">
+            <button type="button" class="dashboard-card dashboard-card-inline dashboard-edit-card" data-dashboard-edit="monthSales">
+              <p class="dashboard-label">今月の売上</p>
+              <strong id="dashboard-month-sales">¥0</strong>
+            </button>
             <button type="button" class="dashboard-card dashboard-card-inline dashboard-edit-card" data-dashboard-edit="todaySales">
               <p class="dashboard-label">今日の売上</p>
               <strong id="dashboard-today-sales">¥0</strong>
             </button>
-            <button type="button" class="primary-btn" id="dashboard-sales-adjust-btn">＋</button>
           </div>
         </header>
 
@@ -88,21 +91,17 @@
             <p class="dashboard-label">今日の予約数</p>
             <strong id="dashboard-today-reservations">0件</strong>
           </button>
-          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayVisits">
-            <p class="dashboard-label">今日の来店数</p>
-            <strong id="dashboard-today-visits">0件</strong>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayAvailableSlots">
+            <p class="dashboard-label">空き枠</p>
+            <strong id="dashboard-today-available-slots">0枠</strong>
+          </button>
+          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayCancellations">
+            <p class="dashboard-label">キャンセル</p>
+            <strong id="dashboard-today-cancellations">0件</strong>
           </button>
           <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="todayGuests">
-            <p class="dashboard-label">今日の来店人数</p>
+            <p class="dashboard-label">来店人数</p>
             <strong id="dashboard-today-guests">0名</strong>
-          </button>
-          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="monthGuests">
-            <p class="dashboard-label">今月の来店人数</p>
-            <strong id="dashboard-month-guests">0名</strong>
-          </button>
-          <button type="button" class="dashboard-card dashboard-edit-card" data-dashboard-edit="monthSales">
-            <p class="dashboard-label">今月の売上</p>
-            <strong id="dashboard-month-sales">¥0</strong>
           </button>
         </section>
 

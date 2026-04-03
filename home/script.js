@@ -14,6 +14,7 @@
   const customerPageSize = 5;
   const customerMaxItems = 20;
   const salesUnitPrice = 5500;
+  const dashboardDailySlots = ["11:00", "13:00", "15:00"];
   const reservationStatusVisited = "来店済み";
   const reservationStatusCancelled = "キャンセル";
 
@@ -349,7 +350,8 @@
   const dashboardElements = {
     cards: Array.from(document.querySelectorAll("[data-dashboard-edit]")),
     todayReservations: document.querySelector("#dashboard-today-reservations"),
-    todayVisits: document.querySelector("#dashboard-today-visits"),
+    todayAvailableSlots: document.querySelector("#dashboard-today-available-slots"),
+    todayCancellations: document.querySelector("#dashboard-today-cancellations"),
     todayGuests: document.querySelector("#dashboard-today-guests"),
     todaySales: document.querySelector("#dashboard-today-sales"),
     monthGuests: document.querySelector("#dashboard-month-guests"),
@@ -673,6 +675,8 @@
   function getDashboardMetricConfig(metricKey) {
     const config = {
       todayReservations: { label: "今日の予約数", type: "count", step: 1 },
+      todayAvailableSlots: { label: "空き枠", type: "count", step: 1 },
+      todayCancellations: { label: "キャンセル", type: "count", step: 1 },
       todayVisits: { label: "今日の来店数", type: "count", step: 1 },
       todayGuests: { label: "今日の来店人数", type: "guests", step: 1 },
       todaySales: { label: "今日の売上", type: "sales", step: 100 },
@@ -757,6 +761,7 @@
     const salesAdjustments = loadDashboardSalesAdjustments();
 
     const todayReservations = reservations.filter((item) => item.date === today && item.status !== reservationStatusCancelled);
+    const todayCancellations = reservations.filter((item) => item.date === today && item.status === reservationStatusCancelled);
     const todayVisits = todayReservations.filter((item) => item.status === reservationStatusVisited);
     const monthReservations = reservations.filter((item) => item.date?.startsWith(currentMonth) && item.status !== reservationStatusCancelled);
     const monthVisits = monthReservations.filter((item) => item.status === reservationStatusVisited);
@@ -772,7 +777,10 @@
     const fallbackMonthSales = getRandomIntFromSeed(`${currentMonth}:monthSales`, 18, 65) * salesUnitPrice;
 
     const todayReservationCount = todayReservations.length || fallbackTodayReservations;
+    const reservedTodaySlots = new Set(todayReservations.map((item) => item.time)).size;
+    const todayAvailableSlots = Math.max(0, dashboardDailySlots.length - reservedTodaySlots);
     const todayVisitCount = todayVisits.length || fallbackTodayVisits;
+    const todayCancellationCount = todayCancellations.length;
     const todayGuestCount = totalGuests(todayVisits);
     const monthGuestCount = totalGuests(monthVisits);
     const actualTodaySales = totalSales(todayVisits) + getAdjustmentAmount(today);
@@ -824,7 +832,7 @@
       });
 
     const dailySummary = Array.from(dailySummaryMap.values())
-      .sort((left, right) => right.date.localeCompare(left.date));
+      .sort((left, right) => left.date.localeCompare(right.date));
     const savedGoals = loadDashboardGoals();
     const metricOverrides = loadDashboardMetricOverrides();
     const goals = {
@@ -838,6 +846,8 @@
     return {
       today: {
         reservations: resolveDashboardMetricValue(metricOverrides, "todayReservations", todayReservationCount),
+        availableSlots: resolveDashboardMetricValue(metricOverrides, "todayAvailableSlots", todayAvailableSlots),
+        cancellations: resolveDashboardMetricValue(metricOverrides, "todayCancellations", todayCancellationCount),
         visits: resolveDashboardMetricValue(metricOverrides, "todayVisits", todayVisitCount),
         guests: resolveDashboardMetricValue(metricOverrides, "todayGuests", todayGuestCount),
         sales: resolveDashboardMetricValue(metricOverrides, "todaySales", todaySalesAmount),
@@ -862,12 +872,13 @@
     if (dashboardElements.summaryMonthLabel) {
       dashboardElements.summaryMonthLabel.textContent = formatMonthLabel(metrics.summaryMonth);
     }
-    dashboardElements.todayReservations.textContent = `${metrics.today.reservations}件`;
-    dashboardElements.todayVisits.textContent = `${metrics.today.visits}件`;
-    dashboardElements.todayGuests.textContent = `${metrics.today.guests}名`;
-    dashboardElements.todaySales.textContent = formatCurrency(metrics.today.sales);
-    dashboardElements.monthGuests.textContent = `${metrics.month.guests}名`;
-    dashboardElements.monthSales.textContent = formatCurrency(metrics.month.sales);
+    if (dashboardElements.todayReservations) dashboardElements.todayReservations.textContent = `${metrics.today.reservations}件`;
+    if (dashboardElements.todayAvailableSlots) dashboardElements.todayAvailableSlots.textContent = `${metrics.today.availableSlots}枠`;
+    if (dashboardElements.todayCancellations) dashboardElements.todayCancellations.textContent = `${metrics.today.cancellations}件`;
+    if (dashboardElements.todayGuests) dashboardElements.todayGuests.textContent = `${metrics.today.guests}名`;
+    if (dashboardElements.todaySales) dashboardElements.todaySales.textContent = formatCurrency(metrics.today.sales);
+    if (dashboardElements.monthGuests) dashboardElements.monthGuests.textContent = `${metrics.month.guests}名`;
+    if (dashboardElements.monthSales) dashboardElements.monthSales.textContent = formatCurrency(metrics.month.sales);
     if (dashboardElements.goalReservations) dashboardElements.goalReservations.value = String(Math.round(metrics.goals.reservations));
     if (dashboardElements.goalVisits) dashboardElements.goalVisits.value = String(Math.round(metrics.goals.visits));
     if (dashboardElements.goalGuests) dashboardElements.goalGuests.value = String(Math.round(metrics.goals.guests));
@@ -970,6 +981,8 @@
     const metrics = calculateDashboardMetrics();
     const valueMap = {
       todayReservations: metrics.today.reservations,
+      todayAvailableSlots: metrics.today.availableSlots,
+      todayCancellations: metrics.today.cancellations,
       todayVisits: metrics.today.visits,
       todayGuests: metrics.today.guests,
       todaySales: metrics.today.sales,
