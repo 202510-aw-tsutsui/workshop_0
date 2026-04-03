@@ -139,6 +139,7 @@
     setTextList(".footer-links a", ["ー Workshop", "ー Access", "ー Reservation", "ー FAQ", "ー Contact", "ー About inori"]);
     setText(".footer-actions .pill-btn.white", "Book Workshop");
     setText(".footer-actions .pill-btn.orange", "Contact");
+    setText(".copyright", "Discover Your Signature Scent at inori");
     setTextList(".required", new Array(12).fill("Required"));
     setTextList(".optional", new Array(4).fill("Optional"));
   }
