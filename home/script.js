@@ -907,9 +907,6 @@
     const chartRows = [
       { key: "reservations", label: "予約数", today: metrics.today.reservations, month: metrics.goals.reservations, actualMonth: metrics.month.reservations, suffix: "件", type: "count" },
       { key: "visits", label: "来店数", today: metrics.today.visits, month: metrics.goals.visits, actualMonth: metrics.month.visits, suffix: "件", type: "count" },
-      { key: "today-guests", label: "今日の来店人数", today: metrics.today.guests, month: Math.max(Math.round(metrics.goals.guests / getDaysInCurrentMonth()), metrics.today.guests), actualMonth: metrics.today.guests, suffix: "名", type: "guests" },
-      { key: "guests", label: "今月の来店人数", today: metrics.today.guests, month: metrics.goals.guests, actualMonth: metrics.month.guests, suffix: "名", type: "guests" },
-      { key: "today-sales", label: "今日の売上", today: metrics.today.sales, month: Math.max(Math.round(metrics.goals.sales / getDaysInCurrentMonth()), metrics.today.sales), actualMonth: metrics.today.sales, suffix: "円", type: "sales" },
       { key: "sales", label: "今月の売上", today: metrics.today.sales, month: metrics.goals.sales, actualMonth: metrics.month.sales, suffix: "円", type: "sales" },
       { key: "inquiries", label: "問い合わせ数", today: metrics.today.inquiries, month: metrics.goals.inquiries, actualMonth: metrics.month.inquiries, suffix: "件", type: "count" }
     ];

@@ -93,7 +93,7 @@ ul {
     justify-content: center;
     gap: 12px;
     justify-self: center;
-    padding: 6px 24px 6px 6px;
+    padding: 6px 24px;
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.85);
 }
