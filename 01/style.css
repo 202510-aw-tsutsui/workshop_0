@@ -4,14 +4,29 @@
     box-sizing: border-box;
 }
 
+:root {
+    --font-sans: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --font-round: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --font-display: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
+}
+
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
-    font-family: "Noto Sans JP", sans-serif;
+    font-family: var(--font-sans);
     background: #ececec;
     color: #2f2a28;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
 }
 
 img {
@@ -114,7 +129,7 @@ ul {
 }
 
 .logo {
-    font-family: "Josefin Sans", sans-serif;
+    font-family: var(--font-display);
     font-size: 48px;
     font-weight: 600;
     letter-spacing: 0.15em;
@@ -150,7 +165,7 @@ ul {
     padding: 12px 24px;
     border-radius: 999px;
     font-size: 1.1rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     border: 1px solid #333;
     line-height: 1;
 }
@@ -195,7 +210,7 @@ ul {
     width: 100%;
     min-height: 56px;
     font-size: 1.18rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     font-weight: 500;
     line-height: 1.2;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -250,7 +265,7 @@ ul {
 .hero-cta,
 .footer-links a,
 .next-btn {
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
 }
 
 .hero-copy {
@@ -405,7 +420,7 @@ body[data-lang="en"] .hero-highlight {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     background: #ead4c9;
     border: 1px solid #b89687;
     border-radius: 999px;
@@ -422,7 +437,7 @@ body[data-lang="en"] .hero-highlight {
 }
 
 .section-heading.en {
-    font-family: "Josefin Sans", sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(2rem, 3vw, 3rem);
     letter-spacing: 0.06em;
 }
@@ -495,7 +510,7 @@ body[data-lang="en"] .hero-highlight {
 
 .price-value strong {
     margin-left: 10px;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: var(--font-display);
     font-size: 1.8rem;
     color: #e25f6d;
     letter-spacing: 0.12em;
@@ -584,7 +599,7 @@ body[data-lang="en"] .hero-highlight {
 
 .calendar-current {
     text-align: center;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: var(--font-display);
     font-size: 1.6rem;
     letter-spacing: 0.06em;
     color: #745d51;
@@ -967,7 +982,7 @@ body[data-lang="en"] .hero-highlight {
     padding: 0 22px 6px;
     margin: 0 auto 30px;
     text-align: center;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     font-weight: 700;
 }
 
@@ -1018,7 +1033,7 @@ body[data-lang="en"] .hero-highlight {
 .form-card-header h4 {
     margin: 0 0 4px;
     font-size: 1.2rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     color: #5f4d43;
 }
 
@@ -1049,7 +1064,7 @@ body[data-lang="en"] .hero-highlight {
 .field-group label {
     display: block;
     font-size: 1.02rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     font-weight: 700;
     margin-bottom: 8px;
     color: #5f4d43;
@@ -1125,7 +1140,7 @@ body[data-lang="en"] .hero-highlight {
     border: 1px solid #777;
     background: #fff;
     font-size: 1rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     padding: 12px 14px;
     border-radius: 16px;
     border-color: #b9a59a;
@@ -1173,7 +1188,7 @@ body[data-lang="en"] .hero-highlight {
     gap: 6px;
     margin-top: 12px;
     font-size: 0.9rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
 }
 
 .policy-agree input {
@@ -1192,7 +1207,7 @@ body[data-lang="en"] .hero-highlight {
     background: linear-gradient(180deg, #f0e2d8, #e5d2c5);
     padding: 13px 28px;
     font-size: 1rem;
-    font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+    font-family: var(--font-round);
     font-weight: 700;
     cursor: pointer;
 }
@@ -1244,7 +1259,7 @@ body[data-lang="en"] .hero-highlight {
 
 .footer-logo {
     text-align: center;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: var(--font-display);
     font-size: 2.25rem;
     letter-spacing: 0.15em;
     color: #6e584c;
@@ -1333,7 +1348,7 @@ body[data-lang="en"] .hero-highlight {
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.92);
         color: #2f2a28;
-        font-family: "Josefin Sans", sans-serif;
+        font-family: var(--font-display);
         font-size: 1.35rem;
         line-height: 1;
         z-index: 1200;
@@ -1386,7 +1401,7 @@ body[data-lang="en"] .hero-highlight {
         padding: 11px 14px;
         border-radius: 12px;
         background: rgba(255, 255, 255, 0.86);
-        font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+        font-family: var(--font-round);
         font-size: 1.05rem;
         font-weight: 500;
     }
