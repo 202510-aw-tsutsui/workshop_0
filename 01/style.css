@@ -592,9 +592,9 @@ body[data-lang="en"] .hero-highlight {
     width: min(760px, 92%);
     margin: 0 auto 14px;
     display: grid;
-    grid-template-columns: 44px 1fr 44px;
+    grid-template-columns: 52px 1fr 52px;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .calendar-current {
@@ -606,16 +606,24 @@ body[data-lang="en"] .hero-highlight {
 }
 
 .calendar-nav {
-    width: 44px;
-    height: 44px;
-    border: 1px solid #d7c2b5;
+    width: 52px;
+    height: 52px;
+    border: 1px solid #d8c7bc;
     border-radius: 50%;
-    background: linear-gradient(180deg, #fffaf7, #f5e8e0);
-    color: #7c6254;
-    box-shadow: 0 10px 18px rgba(116, 87, 70, 0.12);
-    font-size: 1.6rem;
+    background: linear-gradient(180deg, #fffdfb, #f3ece6);
+    color: #7a6255;
+    box-shadow: 0 10px 18px rgba(116, 87, 70, 0.1);
+    font-size: 1.35rem;
+    font-weight: 700;
     line-height: 1;
+    display: grid;
+    place-items: center;
     cursor: pointer;
+}
+
+.calendar-nav-icon {
+    display: inline-block;
+    transform: translateY(-2px);
 }
 
 .booking-calendar {
