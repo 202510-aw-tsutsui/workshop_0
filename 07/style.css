@@ -226,22 +226,26 @@ a {
 .about-title-wrap::after {
   content: "";
   flex: 1;
-  height: 6px;
-  background: #e8e0dc;
+  height: calc(4px + 3mm);
+  background: #e7dfdb;
 }
 
 .about-title {
   width: min(560px, 88%);
   min-height: 68px;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  text-align: center;
+  font-family: var(--font-round);
   border-radius: 999px;
-  border: 1px solid #7c6759;
-  background: #ddc5b8;
+  border: 1px solid #b89687;
+  background: #ead4c9;
+  padding: 18px 20px;
   font-size: 1.9rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1;
 }
 
