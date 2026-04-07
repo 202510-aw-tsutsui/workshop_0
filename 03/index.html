@@ -102,89 +102,115 @@
         <div class="heading-wrap">
           <h2 class="reserve-heading">予約フォーム</h2>
         </div>
+        <p class="reserve-intro">必要事項を上から順に入力してください。お客様情報と予約内容を分けて表示しています。</p>
 
         <form class="reserve-form" id="reserve-form" autocomplete="off">
           <input type="text" name="fake-user" autocomplete="username" tabindex="-1" hidden />
           <input type="password" name="fake-pass" autocomplete="current-password" tabindex="-1" hidden />
-          <div class="field-group">
-            <label for="name-kana">お名前（フリガナ）<span class="required">必須</span></label>
-            <input type="text" id="name-kana" name="booking_kana_field" placeholder="ヤマダ タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" required />
-          </div>
 
-          <div class="field-group">
-            <label for="name">お名前<span class="required">必須</span></label>
-            <input type="text" id="name" name="booking_name_field" placeholder="山田 太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
-            <p class="name-spacing-note">※ 姓名の間は半角スペースで入力してください。</p>
-          </div>
-
-          <div class="field-group">
-            <label for="email">メールアドレス<span class="required">必須</span></label>
-            <div class="email-field">
-              <input id="email-local" type="text" name="booking_email_local_field" placeholder="mail" autocomplete="off" spellcheck="false" autocapitalize="off" />
-              <span class="email-at">@</span>
-              <select id="email-domain" name="booking_email_domain_field">
-                <option value="gmail.com">gmail.com</option>
-                <option value="yahoo.co.jp">yahoo.co.jp</option>
-                <option value="icloud.com">icloud.com</option>
-                <option value="outlook.com">outlook.com</option>
-                <option value="hotmail.com">hotmail.com</option>
-                <option value="other">その他</option>
-              </select>
-            </div>
-            <input id="email-domain-custom" type="text" name="booking_email_domain_custom_field" class="email-domain-custom hidden" placeholder="example.com" autocomplete="off" spellcheck="false" autocapitalize="off" />
-          </div>
-
-          <div class="field-group">
-            <label for="tel">電話番号<span class="optional">任意</span></label>
-            <input id="tel" type="tel" name="booking_tel_field" placeholder="000-0000-0000" autocomplete="off" />
-          </div>
-
-          <div class="field-group">
-            <label>日程選択<span class="required">必須</span></label>
-            <div class="grid-2">
-              <div>
-                <p class="mini-label">日程</p>
-                <input type="date" id="reservation-date" name="booking_date_field" autocomplete="off" />
-                <p class="field-message" id="date-status-message" aria-live="polite"></p>
+          <div class="reserve-layout">
+            <section class="form-card">
+              <div class="form-card-header">
+                <span class="form-step">1</span>
+                <div>
+                  <h4>お客様情報</h4>
+                  <p>ご予約者様のお名前と連絡先を入力してください。</p>
+                </div>
               </div>
-              <div>
-                <p class="mini-label">時間</p>
-                <select id="reservation-time" name="booking_time_field" disabled>
+
+              <div class="field-group">
+                <label for="name-kana">お名前（フリガナ）<span class="required">必須</span></label>
+                <input type="text" id="name-kana" name="booking_kana_field" placeholder="ヤマダ タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" required />
+              </div>
+
+              <div class="field-group">
+                <label for="name">お名前<span class="required">必須</span></label>
+                <input type="text" id="name" name="booking_name_field" placeholder="山田 太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
+                <p class="name-spacing-note">※ 姓名の間は半角スペースで入力してください。</p>
+              </div>
+
+              <div class="field-group">
+                <label for="email">メールアドレス<span class="required">必須</span></label>
+                <div class="email-field">
+                  <input id="email-local" type="text" name="booking_email_local_field" placeholder="mail" autocomplete="off" spellcheck="false" autocapitalize="off" />
+                  <span class="email-at">@</span>
+                  <select id="email-domain" name="booking_email_domain_field">
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="yahoo.co.jp">yahoo.co.jp</option>
+                    <option value="icloud.com">icloud.com</option>
+                    <option value="outlook.com">outlook.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="other">その他</option>
+                  </select>
+                </div>
+                <input id="email-domain-custom" type="text" name="booking_email_domain_custom_field" class="email-domain-custom hidden" placeholder="example.com" autocomplete="off" spellcheck="false" autocapitalize="off" />
+              </div>
+
+              <div class="field-group">
+                <label for="tel">電話番号<span class="optional">任意</span></label>
+                <input id="tel" type="tel" name="booking_tel_field" placeholder="000-0000-0000" autocomplete="off" />
+              </div>
+            </section>
+
+            <section class="form-card form-card-accent">
+              <div class="form-card-header">
+                <span class="form-step">2</span>
+                <div>
+                  <h4>予約内容</h4>
+                  <p>日付、時間、参加人数を選択してください。</p>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label>日程選択<span class="required">必須</span></label>
+                <div class="grid-2">
+                  <div>
+                    <p class="mini-label">日程</p>
+                    <input type="date" id="reservation-date" name="booking_date_field" autocomplete="off" />
+                    <p class="field-message" id="date-status-message" aria-live="polite"></p>
+                  </div>
+                  <div>
+                    <p class="mini-label">時間</p>
+                    <select id="reservation-time" name="booking_time_field" disabled>
+                      <option value="">選択してください</option>
+                    </select>
+                    <p class="field-message" id="time-status-message" aria-live="polite"></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="people">参加人数<span class="required">必須</span></label>
+                <select id="people" name="booking_people_field">
                   <option value="">選択してください</option>
+                  <option value="1名">1名</option>
+                  <option value="2名">2名</option>
+                  <option value="3名">3名</option>
+                  <option value="4名">4名</option>
+                  <option value="5名">5名</option>
+                  <option value="6名">6名</option>
                 </select>
-                <p class="field-message" id="time-status-message" aria-live="polite"></p>
               </div>
-            </div>
+
+              <div class="field-group">
+                <label for="note">備考欄<span class="optional">任意</span></label>
+                <textarea id="note" name="booking_note_field" rows="5" autocomplete="off" spellcheck="false"></textarea>
+              </div>
+
+              <div class="policy-box">
+                <p class="policy-title">キャンセルポリシー</p>
+                <p class="policy-text">
+                  多くのお客様に体験いただくため、以下の規定を設けております。<br>
+                  ・前日キャンセル：50％<br>
+                  ・当日キャンセル：100％<br>
+                  ・無断キャンセル：100％<br>
+                  やむを得ない事情がある場合は、事前にご相談ください。
+                </p>
+
+                <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
+              </div>
+            </section>
           </div>
-
-          <div class="field-group">
-            <label for="people">参加人数<span class="required">必須</span></label>
-            <select id="people" name="booking_people_field">
-              <option value="">選択してください</option>
-              <option value="1名">1名</option>
-              <option value="2名">2名</option>
-              <option value="3名">3名</option>
-              <option value="4名">4名</option>
-              <option value="5名">5名</option>
-              <option value="6名">6名</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label for="note">備考欄<span class="optional">任意</span></label>
-            <textarea id="note" name="booking_note_field" rows="5" autocomplete="off" spellcheck="false"></textarea>
-          </div>
-
-          <p class="policy-text">
-            <strong>キャンセルポリシー</strong><br>
-            多くのお客様に体験いただくため、以下の規定を設けております。<br>
-            ・前日キャンセル：50％<br>
-            ・当日キャンセル：100％<br>
-            ・無断キャンセル：100％<br>
-            やむを得ない事情がある場合は、事前にご相談ください。
-          </p>
-
-          <label class="policy-agree"><input type="checkbox" id="policy-check" />キャンセルポリシーに同意します。</label>
 
           <div class="submit-wrap">
             <button class="next-btn" type="submit">次へ</button>
