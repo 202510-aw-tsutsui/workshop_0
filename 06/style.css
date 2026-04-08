@@ -204,7 +204,7 @@ a {
 .hero-image-placeholder {
   min-height: 620px;
   border-radius: 0;
-  background: url("hero-top.png") center 18% / cover no-repeat;
+  background: url("hero-top.png") center 0% / cover no-repeat;
   position: relative;
   overflow: hidden;
 }
@@ -681,7 +681,7 @@ textarea::placeholder {
     aspect-ratio: 16 / 9;
     background-size: 100% auto;
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: center 0%;
   }
 
   .contact-title {
