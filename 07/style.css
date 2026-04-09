@@ -70,7 +70,7 @@ a {
   justify-content: center;
   gap: 12px;
   justify-self: center;
-  padding: 6px 24px 6px 6px;
+  padding: 6px 24px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.85);
 }
@@ -91,7 +91,7 @@ a {
 }
 
 .logo {
-  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-family: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
   font-size: 48px;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -494,7 +494,7 @@ a {
 
 .footer-logo {
   text-align: center;
-  font-family: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
+  font-family: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
   font-size: 2.25rem;
   letter-spacing: 0.15em;
   color: #6e584c;
@@ -506,6 +506,14 @@ a {
     -0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
     0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
     0 5px 14px rgba(47, 42, 40, 0.2);
+}
+
+.footer-logo.logo-group {
+  padding: 6px 24px;
+}
+
+.footer-logo .logo-image-wrap {
+  transform: translateX(-15px);
 }
 
 .copyright {
@@ -694,13 +702,13 @@ a {
 
   .intro-lead {
     font-size: 1.05rem;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .intro-text {
     font-size: 0.72rem;
     line-height: 1.75;
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .block-title {
@@ -736,7 +744,7 @@ a {
   }
 
   .note-line {
-    white-space: nowrap;
+    white-space: normal;
   }
 
 

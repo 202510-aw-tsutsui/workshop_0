@@ -71,7 +71,7 @@ a {
   justify-content: center;
   gap: 12px;
   justify-self: center;
-  padding: 6px 24px 6px 6px;
+  padding: 6px 24px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.85);
 }
@@ -92,7 +92,7 @@ a {
 }
 
 .logo {
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
   font-size: 48px;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -497,7 +497,7 @@ textarea::placeholder {
 
 .footer-logo {
   text-align: center;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Josefin Sans", "Avenir Next", "Segoe UI", sans-serif;
   font-size: 2.25rem;
   letter-spacing: 0.15em;
   color: #6e584c;
@@ -509,6 +509,14 @@ textarea::placeholder {
     -0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
     0.25px 0.25px 0 rgba(255, 255, 255, 0.5),
     0 5px 14px rgba(47, 42, 40, 0.2);
+}
+
+.footer-logo.logo-group {
+  padding: 6px 24px;
+}
+
+.footer-logo .logo-image-wrap {
+  transform: translateX(-15px);
 }
 
 .copyright {
