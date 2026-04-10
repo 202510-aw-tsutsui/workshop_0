@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inori | ご予約キャンセル</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../shared/i18n.css" />
+  <script src="../shared/i18n.js" defer></script>
+  <script src="cancel.js" defer></script>
+</head>
+
+<body>
+  <header class="header" id="top">
+    <div class="header-top">
+      <div class="sns-icons">
+        <a href="#" class="sns-icon" aria-label="LINE">
+          <img src="https://cdn.simpleicons.org/line/06C755" alt="LINE" />
+        </a>
+        <a href="#" class="sns-icon" aria-label="Instagram">
+          <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" />
+        </a>
+      </div>
+      <div class="logo-group">
+        <div class="logo-image-wrap" aria-hidden="true">
+          <img src="inori-logo.png" alt="inori logo" class="logo-image" />
+        </div>
+        <h1 class="logo">inori</h1>
+      </div>
+      <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu-panel" aria-label="メニューを開く">=</button>
+      <div class="header-actions">
+        <a href="../03/index.html#reservation" class="pill-btn white">今すぐ予約する</a>
+        <a href="#schedule" class="pill-btn orange">じゃらんから予約する</a>
+      </div>
+    </div>
+    <nav class="gnav">
+      <ul>
+        <li><a href="../01/index.html">ワークショップ</a></li>
+        <li><a href="../02/index.html">アクセス</a></li>
+        <li><a href="../03/index.html">ご予約</a></li>
+        <li><a href="../05/index.html">よくあるご質問</a></li>
+        <li><a href="../06/index.html">お問い合わせ</a></li>
+        <li><a href="../07/index.html">inoriについて</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu-panel" id="mobile-menu-panel" hidden>
+      <nav class="mobile-menu-nav" aria-label="モバイルメニュー">
+        <a href="../01/index.html">ワークショップ</a>
+        <a href="../02/index.html">アクセス</a>
+        <a href="../03/index.html">ご予約</a>
+        <a href="../05/index.html">よくあるご質問</a>
+        <a href="../06/index.html">お問い合わせ</a>
+        <a href="../07/index.html">inoriについて</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-image-placeholder" aria-label="トップ画像プレースホルダー"></div>
+    </section>
+
+    <section class="reserve-title-wrap">
+      <div class="reserve-title">ご予約キャンセル</div>
+    </section>
+
+    <section class="section lookup-section">
+      <div class="heading-wrap">
+        <h2 class="reserve-heading">キャンセル確認</h2>
+      </div>
+
+      <div class="confirm-card hidden" id="cancel-detail-card">
+        <p class="panel-lead">以下のご予約をキャンセルします。内容をご確認ください。</p>
+        <dl class="confirm-list">
+          <div class="confirm-row">
+            <dt>予約番号</dt>
+            <dd id="cancel-reservation-code"></dd>
+          </div>
+          <div class="confirm-row">
+            <dt>お名前</dt>
+            <dd id="cancel-name"></dd>
+          </div>
+          <div class="confirm-row">
+            <dt>メールアドレス</dt>
+            <dd id="cancel-email"></dd>
+          </div>
+          <div class="confirm-row">
+            <dt>日時</dt>
+            <dd id="cancel-date"></dd>
+          </div>
+          <div class="confirm-row">
+            <dt>参加人数</dt>
+            <dd id="cancel-people"></dd>
+          </div>
+          <div class="confirm-row">
+            <dt>現在のステータス</dt>
+            <dd id="cancel-status"></dd>
+          </div>
+        </dl>
+
+        <div class="field-group">
+          <label for="cancel-reason">キャンセル理由<span class="optional">任意</span></label>
+          <textarea id="cancel-reason" rows="5" placeholder="例: 体調不良のため"></textarea>
+        </div>
+
+        <div class="button-row">
+          <a href="./check.html" class="back-btn">戻る</a>
+          <button type="button" class="next-btn" id="cancel-submit-btn">この内容でキャンセルする</button>
+        </div>
+      </div>
+
+      <div class="complete-card hidden" id="cancel-complete-card">
+        <div class="complete-badge">Reservation Cancelled</div>
+        <p class="complete-message">
+          <span class="complete-message-line">ご予約のキャンセルを受け付けました。</span>
+        </p>
+        <p class="complete-sub">キャンセル内容を反映しました。再予約が必要な場合は予約ページをご利用ください。</p>
+        <div class="submit-wrap">
+          <a href="./check.html" class="next-btn top-link-btn">ご予約確認へ戻る</a>
+        </div>
+      </div>
+
+      <p class="lookup-message" id="cancel-message" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+
+</html>

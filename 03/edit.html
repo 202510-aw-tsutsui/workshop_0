@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inori | ご予約変更</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Josefin+Sans:wght@500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../shared/i18n.css" />
+  <script src="../shared/i18n.js" defer></script>
+  <script src="edit.js" defer></script>
+</head>
+
+<body>
+  <header class="header" id="top">
+    <div class="header-top">
+      <div class="sns-icons">
+        <a href="#" class="sns-icon" aria-label="LINE">
+          <img src="https://cdn.simpleicons.org/line/06C755" alt="LINE" />
+        </a>
+        <a href="#" class="sns-icon" aria-label="Instagram">
+          <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram" />
+        </a>
+      </div>
+      <div class="logo-group">
+        <div class="logo-image-wrap" aria-hidden="true">
+          <img src="inori-logo.png" alt="inori logo" class="logo-image" />
+        </div>
+        <h1 class="logo">inori</h1>
+      </div>
+      <button type="button" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu-panel" aria-label="メニューを開く">=</button>
+      <div class="header-actions">
+        <a href="../03/index.html#reservation" class="pill-btn white">今すぐ予約する</a>
+        <a href="#schedule" class="pill-btn orange">じゃらんから予約する</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-image-placeholder" aria-label="トップ画像プレースホルダー"></div>
+    </section>
+
+    <section class="reserve-title-wrap">
+      <div class="reserve-title">ご予約変更</div>
+    </section>
+
+    <section class="section reserve-section">
+      <div class="heading-wrap">
+        <h2 class="reserve-heading">変更フォーム</h2>
+      </div>
+
+      <form class="reserve-form" id="edit-reservation-form" autocomplete="off">
+        <div class="reserve-layout">
+          <section class="form-card">
+            <div class="form-card-header">
+              <span class="form-step">1</span>
+              <div>
+                <h4>お客様情報</h4>
+                <p>変更したい内容を入力してください。</p>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>お名前（フリガナ）<span class="required">必須</span></label>
+              <div class="grid-2">
+                <div>
+                  <p class="mini-label">セイ</p>
+                  <input type="text" id="edit-last-name-kana" placeholder="ヤマダ" />
+                </div>
+                <div>
+                  <p class="mini-label">メイ</p>
+                  <input type="text" id="edit-first-name-kana" placeholder="タロウ" />
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>お名前<span class="required">必須</span></label>
+              <div class="grid-2">
+                <div>
+                  <p class="mini-label">姓</p>
+                  <input type="text" id="edit-last-name" placeholder="山田" />
+                </div>
+                <div>
+                  <p class="mini-label">名</p>
+                  <input type="text" id="edit-first-name" placeholder="太郎" />
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="edit-email">メールアドレス<span class="required">必須</span></label>
+              <input type="email" id="edit-email" placeholder="mail@example.com" />
+            </div>
+
+            <div class="field-group">
+              <label for="edit-tel">電話番号<span class="optional">任意</span></label>
+              <input type="tel" id="edit-tel" placeholder="000-0000-0000" />
+            </div>
+          </section>
+
+          <section class="form-card form-card-accent">
+            <div class="form-card-header">
+              <span class="form-step">2</span>
+              <div>
+                <h4>予約内容</h4>
+                <p>日時や人数、備考を更新できます。</p>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="edit-reservation-code">予約番号</label>
+              <input type="text" id="edit-reservation-code" readonly />
+            </div>
+
+            <div class="field-group">
+              <label>日程選択<span class="required">必須</span></label>
+              <div class="grid-2">
+                <div>
+                  <p class="mini-label">日程</p>
+                  <input type="date" id="edit-date" />
+                </div>
+                <div>
+                  <p class="mini-label">時間</p>
+                  <select id="edit-time">
+                    <option value="11:00">11:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="15:00">15:00</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="edit-people">参加人数<span class="required">必須</span></label>
+              <select id="edit-people">
+                <option value="">選択してください</option>
+                <option value="1名">1名</option>
+                <option value="2名">2名</option>
+                <option value="3名">3名</option>
+                <option value="4名">4名</option>
+                <option value="5名">5名</option>
+                <option value="6名">6名</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="edit-note">備考欄<span class="optional">任意</span></label>
+              <textarea id="edit-note" rows="5"></textarea>
+            </div>
+          </section>
+        </div>
+
+        <div class="button-row">
+          <a href="./check.html" class="back-btn">戻る</a>
+          <button type="submit" class="next-btn">変更を保存する</button>
+        </div>
+      </form>
+
+      <div class="complete-card hidden" id="edit-complete-card">
+        <div class="complete-badge">Reservation Updated</div>
+        <p class="complete-message">
+          <span class="complete-message-line">ご予約内容を更新しました。</span>
+        </p>
+        <p class="complete-sub">変更後の内容は予約確認画面からご確認いただけます。</p>
+        <div class="submit-wrap">
+          <a href="./check.html" class="next-btn top-link-btn">ご予約確認へ戻る</a>
+        </div>
+      </div>
+
+      <p class="lookup-message" id="edit-message" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+
+</html>

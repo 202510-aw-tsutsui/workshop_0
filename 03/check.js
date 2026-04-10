@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const lookupResult = document.querySelector("#lookup-result");
   const lookupResultLead = document.querySelector("#lookup-result-lead");
   const lookupMessage = document.querySelector("#lookup-message");
+  const lookupCancelButton = document.querySelector("#lookup-cancel-btn");
+  const lookupEditButton = document.querySelector("#lookup-edit-btn");
   const lookupResultFields = {
     id: document.querySelector("#lookup-result-id"),
     name: document.querySelector("#lookup-result-name"),
@@ -18,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const adminReservationStorageKey = "inoriAdminReservations";
+  const selectedReservationStorageKey = "inoriSelectedReservation";
   const reservationSeed = [
     { id: 1, reservationCode: "INR-260318-HN4K8P", name: "山田 花", email: "hana@example.com", phone: "090-1111-2222", date: "2026-03-18", time: "11:00", people: 2, status: "予約確定", note: "記念日利用。写真撮影希望。" },
     { id: 2, reservationCode: "INR-260318-KT7M2Q", name: "佐藤 健太", email: "kenta@example.com", phone: "080-4321-8765", date: "2026-03-18", time: "13:00", people: 3, status: "仮予約", note: "PayPay予定。" },
@@ -70,8 +73,23 @@ document.addEventListener("DOMContentLoaded", () => {
     lookupResultFields.status.textContent = item.status || "未入力";
     lookupResultFields.note.textContent = item.note || "なし";
     lookupResult?.classList.remove("hidden");
+    sessionStorage.setItem(selectedReservationStorageKey, JSON.stringify(item));
     if (lookupMessage) {
       lookupMessage.textContent = "";
+    }
+  }
+
+  function moveToReservationActionPage(path) {
+    const selectedRaw = sessionStorage.getItem(selectedReservationStorageKey);
+    if (!selectedRaw) return;
+
+    try {
+      const selected = JSON.parse(selectedRaw);
+      const reservationCode = String(selected.reservationCode || selected.id || "").trim();
+      const target = reservationCode ? `${path}?code=${encodeURIComponent(reservationCode)}` : path;
+      window.location.href = target;
+    } catch {
+      window.location.href = path;
     }
   }
 
@@ -105,5 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     showLookupResult(matched);
+  });
+
+  lookupCancelButton?.addEventListener("click", () => {
+    moveToReservationActionPage("./cancel.html");
+  });
+
+  lookupEditButton?.addEventListener("click", () => {
+    moveToReservationActionPage("./edit.html");
   });
 });
