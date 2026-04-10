@@ -23,6 +23,10 @@
     const emailLocal = document.querySelector("#email-local");
     const emailDomain = document.querySelector("#email-domain");
     const emailDomainCustom = document.querySelector("#email-domain-custom");
+    const lastNameKana = document.querySelector("#last-name-kana");
+    const firstNameKana = document.querySelector("#first-name-kana");
+    const lastName = document.querySelector("#last-name");
+    const firstName = document.querySelector("#first-name");
     const reservationSection = document.querySelector("#reservation");
     const bookingForm = document.querySelector("#reserve-form");
     const heroCta = document.querySelector(".hero-cta");
@@ -52,7 +56,7 @@
                 },
                 {
                     nickname: "mika",
-                    text: "たくさんの香りから好きなものを選べるのが魅力的でした。恋人と一緒に参加して、良い記念日になりました。",
+                    text: "一人で参加しましたが、スタッフの方がやさしく声をかけてくださって全然不安なく楽しめました。自分のペースで香りを選べたのもよかったです。",
                     rating: "★★★★★",
                     meta: "女性 / 10代"
                 }
@@ -60,13 +64,13 @@
             [
                 {
                     nickname: "hana",
-                    text: "店内の雰囲気が落ち着いていて、ゆっくり香りを選べました。初心者でも分かりやすかったです。",
+                    text: "彼と一緒に参加しましたが、ふたりで香りを相談しながら作る時間がとても楽しかったです。完成した香水も旅の思い出になりました。",
                     rating: "★★★★★",
                     meta: "女性 / 30代"
                 },
                 {
                     nickname: "kei",
-                    text: "友人と一緒に参加しましたが、それぞれ違う香りになって面白かったです。",
+                    text: "浅草観光の途中で立ち寄りました。短時間でも内容がしっかりしていて、旅行の思い出に残る体験でした。",
                     rating: "★★★★★",
                     meta: "男性 / 20代"
                 }
@@ -108,7 +112,7 @@
                 },
                 {
                     nickname: "aki",
-                    text: "親子で参加しましたが、日程も調整しやすく、説明も丁寧で安心して楽しめました。",
+                    text: "観光の合間に予約しましたが、アクセスもよくて立ち寄りやすかったです。浅草らしい思い出がひとつ増えました。",
                     rating: "★★★★★",
                     meta: "女性 / 30代"
                 }
@@ -124,7 +128,7 @@
                 },
                 {
                     nickname: "mika",
-                    text: "I loved being able to choose from so many scents. I joined with my partner and it turned into such a nice anniversary experience.",
+                    text: "I joined on my own, but the staff made me feel comfortable right away and I had a great time. I also liked being able to choose the scents at my own pace.",
                     rating: "★★★★★",
                     meta: "Female / Teens"
                 }
@@ -132,13 +136,13 @@
             [
                 {
                     nickname: "hana",
-                    text: "The atmosphere in the shop was calm, so I could take my time choosing scents. It was easy to understand even as a beginner.",
+                    text: "I joined with my partner, and creating our scents while talking through each choice was such a fun experience. The finished perfume became a special memory from our trip.",
                     rating: "★★★★★",
                     meta: "Female / 30s"
                 },
                 {
                     nickname: "kei",
-                    text: "I joined with a friend, and it was fun to see how different our final scents turned out.",
+                    text: "I stopped by during sightseeing in Asakusa. Even in a short time, the experience felt complete and became a memorable part of the trip.",
                     rating: "★★★★★",
                     meta: "Male / 20s"
                 }
@@ -180,7 +184,7 @@
                 },
                 {
                     nickname: "aki",
-                    text: "I joined with my child, and the schedule was easy to arrange. The explanations were kind and easy to follow, so we could enjoy it with confidence.",
+                    text: "I booked this between sightseeing plans, and the location made it very easy to visit. It added one more wonderful memory to my time in Asakusa.",
                     rating: "★★★★★",
                     meta: "Female / 30s"
                 }
@@ -363,6 +367,18 @@
         return local && domain ? `${local}@${domain}` : "";
     }
 
+    function composeFullName() {
+        const familyName = lastName?.value.trim() || "";
+        const givenName = firstName?.value.trim() || "";
+        return [familyName, givenName].filter(Boolean).join(" ");
+    }
+
+    function composeFullNameKana() {
+        const familyNameKana = lastNameKana?.value.trim() || "";
+        const givenNameKana = firstNameKana?.value.trim() || "";
+        return [familyNameKana, givenNameKana].filter(Boolean).join(" ");
+    }
+
     function syncEmailDomainInput() {
         if (!emailDomain || !emailDomainCustom) return;
         emailDomainCustom.hidden = emailDomain.value !== "other";
@@ -455,12 +471,14 @@
 
     function validateReservationStep() {
         const isEnglish = getLanguage() === "en";
-        const nameKana = document.querySelector("#name-kana")?.value.trim() ?? "";
-        const name = document.querySelector("#name")?.value.trim() ?? "";
+        const familyNameKana = lastNameKana?.value.trim() ?? "";
+        const givenNameKana = firstNameKana?.value.trim() ?? "";
+        const familyName = lastName?.value.trim() ?? "";
+        const givenName = firstName?.value.trim() ?? "";
         const email = getEmailValue();
         const people = document.querySelector("#people")?.value.trim() ?? "";
 
-        if (!nameKana || !name || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
+        if (!familyNameKana || !givenNameKana || !familyName || !givenName || !email || !reservationDate?.value.trim() || !reservationTime?.value.trim() || !people) {
             alert(isEnglish
                 ? "Please enter your name in katakana, name, email address, date, time, and number of guests."
                 : "お名前（フリガナ）、お名前、メールアドレス、日程、時間、参加人数を入力してください。");
@@ -727,8 +745,12 @@
         }
 
         const reservationDraft = {
-            nameKana: document.querySelector("#name-kana")?.value.trim() ?? "",
-            name: document.querySelector("#name")?.value.trim() ?? "",
+            lastNameKana: lastNameKana?.value.trim() ?? "",
+            firstNameKana: firstNameKana?.value.trim() ?? "",
+            lastName: lastName?.value.trim() ?? "",
+            firstName: firstName?.value.trim() ?? "",
+            nameKana: composeFullNameKana(),
+            name: composeFullName(),
             email: getEmailValue(),
             tel: document.querySelector("#tel")?.value.trim() ?? "",
             reservationDate: document.querySelector("#reservation-date")?.value.trim() ?? "",

@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const lookupForm = document.querySelector("#lookup-form");
   const lookupCode = document.querySelector("#lookup-code");
-  const lookupName = document.querySelector("#lookup-name");
+  const lookupLastName = document.querySelector("#lookup-last-name");
+  const lookupFirstName = document.querySelector("#lookup-first-name");
   const lookupResult = document.querySelector("#lookup-result");
   const lookupResultLead = document.querySelector("#lookup-result-lead");
   const lookupMessage = document.querySelector("#lookup-message");
@@ -27,6 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   if (!lookupForm) return;
+
+  function composeLookupName() {
+    const lastName = lookupLastName?.value.trim() || "";
+    const firstName = lookupFirstName?.value.trim() || "";
+    return [lastName, firstName].filter(Boolean).join(" ");
+  }
 
   function loadReservations() {
     try {
@@ -72,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
 
     const reservationCode = lookupCode?.value.trim().toUpperCase() || "";
-    const name = lookupName?.value.trim() || "";
+    const name = composeLookupName();
 
     if (!reservationCode || !name) {
       if (lookupMessage) {

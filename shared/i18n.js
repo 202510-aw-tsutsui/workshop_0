@@ -175,10 +175,11 @@
     setTextList(".legend-item", ["Available", "Few left", "Full"]);
     setHtml(".schedule-note", "Please arrive 10 minutes before your reservation.<br>The workshop starts on time even if all guests have not arrived yet.<br><br>Companions who do not join the workshop are not allowed due to limited seating.");
     setTextList(".reservation-section .field-group label", ["Name (Kana)", "Name", "Email Address", "Phone", "Reservation Date", "Guests", "Notes"]);
-    setTextList(".reservation-section .mini-label", ["Date", "Time"]);
-    setAttr("#name-kana", "placeholder", "YAMADA TARO");
-    setAttr("#name", "placeholder", "Taro Yamada");
-    setText(".reservation-section .name-spacing-note", "Use a single-byte space between family and given name.");
+    setTextList(".reservation-section .mini-label", ["Family Name", "Given Name", "Last Name", "First Name", "Date", "Time"]);
+    setAttr("#last-name-kana", "placeholder", "YAMADA");
+    setAttr("#first-name-kana", "placeholder", "TARO");
+    setAttr("#last-name", "placeholder", "Yamada");
+    setAttr("#first-name", "placeholder", "Taro");
     setAttr("#tel", "placeholder", "000-0000-0000");
     setAttr("#email-domain-custom", "placeholder", "example.com");
     setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
@@ -187,7 +188,6 @@
     setHtml(".policy-text", "<strong>Cancellation Policy</strong><br>To welcome as many guests as possible, the following policy applies.<br>Cancellation the day before: 50%<br>Same-day cancellation: 100%<br>No-show: 100%");
     setText(".policy-agree", "I agree to the cancellation policy.");
     setText(".submit-wrap .next-btn", "Next");
-    toggleClosest("#name-kana", ".field-group", false);
   }
 
   function apply02() {
@@ -210,9 +210,10 @@
       setText(".reserve-title", "Reservation Lookup");
       setText(".reserve-heading", "Reservation Lookup");
       setTextList(".lookup-form .field-group label", ["Reservation Code", "Name"]);
+      setTextList(".lookup-form .mini-label", ["Last Name", "First Name"]);
       setAttr("#lookup-code", "placeholder", "INR-260401-ABC123");
-      setAttr("#lookup-name", "placeholder", "Taro Yamada");
-      setText(".lookup-form .name-spacing-note", "Use a single-byte space between family and given name.");
+      setAttr("#lookup-last-name", "placeholder", "Yamada");
+      setAttr("#lookup-first-name", "placeholder", "Taro");
       setText(".lookup-form .next-btn", "Search");
       setText("#lookup-result-lead", "Matching reservation details are shown below.");
       setTextList(".lookup-result dt", ["Reservation Code", "Name", "Email", "Phone", "Date & Time", "Guests", "Status", "Notes"]);
@@ -225,11 +226,13 @@
     setTextList(".step", ["1. Details", "2. Payment", "3. Review", "4. Complete"]);
     setTextList(".reserve-heading", ["Reservation Form", "Payment Method", "Final Review", "Reservation Complete"]);
     setTextList(".reserve-form .field-group label", ["Name (Kana)", "Name", "Email", "Phone", "Select Date", "Guests", "Notes"]);
-    setAttr("#name-kana", "placeholder", "YAMADA TARO");
-    setAttr("#name", "placeholder", "Taro Yamada");
-    setText(".reserve-form .name-spacing-note", "Use a single-byte space between family and given name.");
+    setTextList(".reserve-form .mini-label", ["Family Name", "Given Name", "Last Name", "First Name", "Date", "Time"]);
+    setAttr("#last-name-kana", "placeholder", "YAMADA");
+    setAttr("#first-name-kana", "placeholder", "TARO");
+    setAttr("#last-name", "placeholder", "Yamada");
+    setAttr("#first-name", "placeholder", "Taro");
     setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
-    setTextList(".mini-label", ["Date", "Time"]);
+    setTextList('.form-card-accent .mini-label, .lookup-form .mini-label', ["Date", "Time"]);
     setOptionList("#reservation-time", ["Select", "11:00", "13:00", "15:00"]);
     setOptionList("#people", ["Select", "1 guest", "2 guests", "3 guests", "4 guests", "5 guests", "6 guests"]);
     setHtml(".policy-text", "<strong>Cancellation Policy</strong><br>To welcome as many guests as possible, the following policy applies.<br>Cancellation the day before: 50%<br>Same-day cancellation: 100%<br>No-show: 100%<br>If you have unavoidable circumstances, please contact us in advance.");
@@ -265,7 +268,6 @@
     setText(".complete-sub", "We will send your confirmation email shortly. Please wait a moment.");
     setTextList(".complete-summary span", ["Reservation Code", "Date & Time", "Guests", "Payment Method"]);
     setText(".top-link-btn", "Back to Top");
-    toggleClosest("#name-kana", ".field-group", false);
   }
   function apply04() {}
   function apply05() {
@@ -277,8 +279,11 @@
     setText(".contact-title", "Contact");
     setText(".section-heading", "Contact Form");
     setTextList(".contact-inputs .field-group label", ["Name (Kana)", "Name", "Email", "Phone", "Message"]);
-    setAttr("#name-kana", "placeholder", "YAMADA TARO");
-    setAttr("#name", "placeholder", "Taro Yamada");
+    setTextList(".contact-inputs .mini-label", ["Family Name", "Given Name", "Last Name", "First Name"]);
+    setAttr("#last-name-kana", "placeholder", "YAMADA");
+    setAttr("#first-name-kana", "placeholder", "TARO");
+    setAttr("#last-name", "placeholder", "Yamada");
+    setAttr("#first-name", "placeholder", "Taro");
     setOptionList("#email-domain", ["gmail.com", "yahoo.co.jp", "icloud.com", "outlook.com", "hotmail.com", "Other"]);
     setText(".confirm-lead", "Please review the details below before sending.");
     setTextList(".confirm-list dt", ["Name (Kana)", "Name", "Email", "Phone", "Message"]);

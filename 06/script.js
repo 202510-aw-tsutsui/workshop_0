@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.querySelector("#back-btn");
   const submitBtn = document.querySelector("#submit-btn");
   const inquiryStorageKey = "inoriAdminInquiries";
+  const nameFields = {
+    lastNameKana: document.querySelector("#last-name-kana"),
+    firstNameKana: document.querySelector("#first-name-kana"),
+    lastName: document.querySelector("#last-name"),
+    firstName: document.querySelector("#first-name")
+  };
 
   if (!form) return;
 
@@ -50,6 +56,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return local && domain ? `${local}@${domain}` : "";
   }
 
+  function composeFullName() {
+    const lastName = nameFields.lastName?.value.trim() || "";
+    const firstName = nameFields.firstName?.value.trim() || "";
+    return [lastName, firstName].filter(Boolean).join(" ");
+  }
+
+  function composeFullNameKana() {
+    const lastNameKana = nameFields.lastNameKana?.value.trim() || "";
+    const firstNameKana = nameFields.firstNameKana?.value.trim() || "";
+    return [lastNameKana, firstNameKana].filter(Boolean).join(" ");
+  }
+
   function syncEmailDomainInput() {
     if (!emailFields.domain || !emailFields.custom) return;
     emailFields.custom.classList.toggle("hidden", emailFields.domain.value !== "other");
@@ -57,8 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getPayload() {
     return {
-      nameKana: document.querySelector("#name-kana")?.value.trim() || "",
-      name: document.querySelector("#name")?.value.trim() || "",
+      nameKana: composeFullNameKana(),
+      name: composeFullName(),
       email: getEmailValue(),
       tel: document.querySelector("#tel")?.value.trim() || "",
       message: document.querySelector("#message")?.value.trim() || ""

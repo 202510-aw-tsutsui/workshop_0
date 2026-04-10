@@ -96,13 +96,31 @@
         <input type="password" name="fake-pass" autocomplete="current-password" tabindex="-1" hidden />
         <div class="contact-inputs" id="contact-inputs">
           <div class="field-group">
-            <label for="name-kana">お名前（フリガナ）<span class="optional">任意</span></label>
-            <input type="text" id="name-kana" name="contact_kana_field" placeholder="ヤマダ タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" />
+            <label>お名前（フリガナ）<span class="optional">任意</span></label>
+            <div class="grid-2">
+              <div>
+                <p class="mini-label">セイ</p>
+                <input type="text" id="last-name-kana" name="contact_last_kana_field" placeholder="ヤマダ" autocomplete="off" spellcheck="false" autocapitalize="off" />
+              </div>
+              <div>
+                <p class="mini-label">メイ</p>
+                <input type="text" id="first-name-kana" name="contact_first_kana_field" placeholder="タロウ" autocomplete="off" spellcheck="false" autocapitalize="off" />
+              </div>
+            </div>
           </div>
 
           <div class="field-group">
-            <label for="name">お名前<span class="required">必須</span></label>
-            <input type="text" id="name" name="contact_name_field" placeholder="山田 太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
+            <label>お名前<span class="required">必須</span></label>
+            <div class="grid-2">
+              <div>
+                <p class="mini-label">姓</p>
+                <input type="text" id="last-name" name="contact_last_name_field" placeholder="山田" autocomplete="off" spellcheck="false" autocapitalize="off" />
+              </div>
+              <div>
+                <p class="mini-label">名</p>
+                <input type="text" id="first-name" name="contact_first_name_field" placeholder="太郎" autocomplete="off" spellcheck="false" autocapitalize="off" />
+              </div>
+            </div>
           </div>
 
           <div class="field-group">

@@ -31,8 +31,10 @@
   };
 
   const fields = {
-    nameKana: document.querySelector("#name-kana"),
-    name: document.querySelector("#name"),
+    lastNameKana: document.querySelector("#last-name-kana"),
+    firstNameKana: document.querySelector("#first-name-kana"),
+    lastName: document.querySelector("#last-name"),
+    firstName: document.querySelector("#first-name"),
     emailLocal: document.querySelector("#email-local"),
     emailDomain: document.querySelector("#email-domain"),
     emailDomainCustom: document.querySelector("#email-domain-custom"),
@@ -112,6 +114,18 @@
       ? fields.emailDomainCustom?.value.trim() || ""
       : fields.emailDomain?.value.trim() || "";
     return local && domain ? `${local}@${domain}` : "";
+  }
+
+  function composeFullName() {
+    const lastName = fields.lastName?.value.trim() || "";
+    const firstName = fields.firstName?.value.trim() || "";
+    return [lastName, firstName].filter(Boolean).join(" ");
+  }
+
+  function composeFullNameKana() {
+    const lastNameKana = fields.lastNameKana?.value.trim() || "";
+    const firstNameKana = fields.firstNameKana?.value.trim() || "";
+    return [lastNameKana, firstNameKana].filter(Boolean).join(" ");
   }
 
   function syncEmailDomainInput() {
@@ -293,7 +307,7 @@
   }
 
   function validateStepOne() {
-    if (!fields.nameKana.value.trim() || !fields.name.value.trim() || !getEmailValue() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
+    if (!fields.lastNameKana.value.trim() || !fields.firstNameKana.value.trim() || !fields.lastName.value.trim() || !fields.firstName.value.trim() || !getEmailValue() || !fields.reservationDate.value.trim() || !fields.reservationTime.value.trim() || !fields.people.value.trim()) {
       alert("お名前（フリガナ）、お名前、メールアドレス、日程、時間、参加人数を入力してください。");
       return false;
     }
@@ -363,8 +377,8 @@
   function updateConfirmation() {
     const selected = paymentInputs.find((input) => input.checked);
 
-    confirmFields.nameKana.textContent = fields.nameKana.value.trim() || "なし";
-    confirmFields.name.textContent = fields.name.value.trim();
+    confirmFields.nameKana.textContent = composeFullNameKana() || "なし";
+    confirmFields.name.textContent = composeFullName();
     confirmFields.email.textContent = getEmailValue();
     confirmFields.tel.textContent = fields.tel.value.trim() || "なし";
     confirmFields.date.textContent = `${fields.reservationDate.value.trim()} ${fields.reservationTime.value.trim()}`;
@@ -447,8 +461,8 @@
     reservations.unshift({
       id: Date.now(),
       reservationCode,
-      nameKana: fields.nameKana.value.trim(),
-      name: fields.name.value.trim(),
+      nameKana: composeFullNameKana(),
+      name: composeFullName(),
       email: getEmailValue(),
       phone: fields.tel.value.trim(),
       date: fields.reservationDate.value,
@@ -477,6 +491,16 @@
           field.value = draft[key];
         }
       });
+      if (draft.nameKana && (!fields.lastNameKana.value || !fields.firstNameKana.value)) {
+        const [lastNameKana = "", firstNameKana = ""] = String(draft.nameKana).split(/\s+/, 2);
+        fields.lastNameKana.value = fields.lastNameKana.value || lastNameKana;
+        fields.firstNameKana.value = fields.firstNameKana.value || firstNameKana;
+      }
+      if (draft.name && (!fields.lastName.value || !fields.firstName.value)) {
+        const [lastName = "", firstName = ""] = String(draft.name).split(/\s+/, 2);
+        fields.lastName.value = fields.lastName.value || lastName;
+        fields.firstName.value = fields.firstName.value || firstName;
+      }
       if (typeof draft.email === "string") {
         applyEmailToFields(draft.email);
       }
